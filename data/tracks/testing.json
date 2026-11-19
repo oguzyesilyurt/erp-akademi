@@ -1,11 +1,220 @@
 {
   "id": "testing",
-  "version": 1,
+  "version": 2,
   "sections": {
-    "intro": null,
-    "concepts": null,
-    "simulation": null,
-    "scenarios": null,
+    "intro": {
+      "title": "Test Uzmanlığına giriş",
+      "lead": "Bir SAP/CRM sürümünü canlıya almadan önce nasıl test edileceğini, Ege Dağıtım'ın v1.1 sürümü üzerinde uygulayarak öğren.",
+      "duration": "12 dk",
+      "goals": [
+        "Birim, entegrasyon, regresyon ve UAT testlerini ayırt edebilmek",
+        "Gereksinime bağlı, tekrarlanabilir test case yazabilmek",
+        "Test koşumu yapıp hatayı doğru önemle raporlayabilmek",
+        "Defect yaşam döngüsünü ve izlenebilirlik matrisini yönetebilmek"
+      ],
+      "blocks": [
+        {
+          "type": "compare",
+          "title": "Test türleri",
+          "columns": ["Tür", "Ne doğrular?", "Kim yapar?"],
+          "rows": [
+            ["Birim testi", "Tek bir ayar, kural veya geliştirme doğru çalışıyor mu?", "Danışman / geliştirici"],
+            ["Entegrasyon testi (SIT)", "Süreç modüller ve sistemler arasında uçtan uca akıyor mu?", "Proje ekibi + key user"],
+            ["Regresyon testi", "Yeni sürüm, önceden çalışan işleyişi bozdu mu?", "Test ekibi (otomasyona uygun)"],
+            ["UAT", "Sistem gerçek iş süreçlerini karşılıyor mu? Kabul edilebilir mi?", "İş birimi, key user'lar"]
+          ]
+        },
+        {
+          "type": "text",
+          "title": "Test planı",
+          "paragraphs": [
+            "Test planı; kapsamı (hangi gereksinimler ve süreçler), ortamı (hangi sürüm, hangi veri), takvimi (test turları), rolleri (kim test eder, kim düzeltir, kim kapatır) ve kabul kriterlerini tek belgede toplar.",
+            "Ege Dağıtım'ın v1.1 sürümü için plan basittir: 10 gereksinim, her biri en az bir test case ile kapsanacak; key user testleri koşacak, teknik lider hataları düzeltecek, key user yeniden test edip kapatacak."
+          ]
+        },
+        {
+          "type": "compare",
+          "title": "Giriş ve çıkış kriterleri",
+          "columns": ["", "Giriş kriteri (teste başlamak için)", "Çıkış kriteri (bitirmek için)"],
+          "rows": [
+            ["Ortam", "Test sürümü (v1.1) kurulu, ana veri yüklü", "Tüm test case'ler en az bir kez koşuldu"],
+            ["Kapsam", "Her gereksinimin en az bir test case'i var", "Gereksinim kapsaması %100"],
+            ["Hatalar", "Bilinen engelleyici hata yok", "Açık Kritik/Yüksek hata yok"],
+            ["Onay", "Test case'ler süreç sahibince gözden geçirildi", "Süreç sahibi kabul (sign-off) verdi"]
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "title": "İyi bir test case",
+          "text": "Bir gereksinime bağlıdır, ön koşulu ve test verisi bellidir, her adımın ölçülebilir bir beklenen sonucu vardır ve başka biri tarafından aynı sonuçla tekrar koşulabilir. \"Sistem doğru çalışmalı\" beklenen sonuç değildir; \"Durum 'Onay bekliyor', ilk adım 'Müdür onayı'\" beklenen sonuçtur."
+        },
+        {
+          "type": "flow",
+          "title": "Bu yolda uygulayacağın akış",
+          "text": "Test Laboratuvarı (Simülasyon sekmesi) bu akışı uçtan uca yaşatır. Sürüm seçici v1.1'e alındığında simülasyonlar o sürümün kurallarıyla çalışır.",
+          "steps": [
+            { "label": "Gereksinim", "system": "Plan", "owner": "Süreç sahibi", "text": "REQ-01…REQ-10: sistemin ne yapması gerektiği." },
+            { "label": "Test case", "system": "Plan", "owner": "Key user", "text": "Gereksinime bağlı, adım ve beklenen sonuç içeren senaryo." },
+            { "label": "Koşum", "system": "Test", "owner": "Key user", "text": "Simülasyon açıkken adım adım Geçti / Kaldı / Bloke." },
+            { "label": "Defect", "system": "Test", "owner": "Key user → Teknik lider", "text": "Kalan adımdan hata kaydı; atama, düzeltme." },
+            { "label": "Yeniden test", "system": "Test", "owner": "Key user", "text": "Düzeltmeden sonra test tekrar koşulur, geçerse hata kapanır." }
+          ]
+        }
+      ]
+    },
+
+    "concepts": {
+      "intro": "Test yönetiminde her gün kullanılan 10 terim. Her kart sözlükteki tanıma bağlıdır.",
+      "items": [
+        { "id": "requirement", "term": "Gereksinim", "en": "Requirement", "definition": "Sistemin ne yapması gerektiğini ölçülebilir biçimde tanımlayan ifade. Testin dayanağıdır.", "example": "REQ-04: Net tutarı 50.000 ₺'yi aşan teklif müdür onayına düşmeli.", "glossary": "gereksinim" },
+        { "id": "test-case", "term": "Test case", "en": "Test case", "definition": "Bir gereksinimi doğrulamak için ön koşul, test verisi, adımlar ve her adımın beklenen sonucundan oluşan senaryo.", "example": "TC-01: Karşıyaka Gıda'ya 15 koli siyah çay teklifi; beklenen: durum \"Onay bekliyor\".", "glossary": "test-case" },
+        { "id": "test-plan", "term": "Test planı", "en": "Test plan", "definition": "Kapsam, ortam, takvim, roller ve kabul kriterlerini tanımlayan belge.", "example": "v1.1 UAT planı: 10 gereksinim, 2 test turu, key user koşar, teknik lider düzeltir.", "glossary": "test-plani" },
+        { "id": "entry-exit", "term": "Giriş / çıkış kriteri", "en": "Entry / exit criteria", "definition": "Teste başlamak ve testi bitirmek için sağlanması gereken koşullar.", "example": "Çıkış kriteri: açık Kritik veya Yüksek önemli defect yok.", "glossary": "cikis-kriteri" },
+        { "id": "test-run", "term": "Test koşumu", "en": "Test run / execution", "definition": "Bir test case'in belirli bir sürümde, belirli bir kişi tarafından adım adım çalıştırılması ve sonucun kaydı.", "example": "TC-02, v1.1 üzerinde Oğuz Öztürk tarafından koşuldu: adım 2 Kaldı.", "glossary": "test-kosumu" },
+        { "id": "defect", "term": "Defect (hata kaydı)", "en": "Defect / bug", "definition": "Beklenen ile gerçekleşen sonuç arasındaki farkın kaydı; önem, atanan kişi ve durum ile izlenir.", "example": "DEF-001: 6 kolilik kalemde kampanya iskontosu uygulanıyor (REQ-02, Orta).", "glossary": "defect" },
+        { "id": "defect-lifecycle", "term": "Defect yaşam döngüsü", "en": "Defect lifecycle", "definition": "Hata kaydının durumları: Yeni → Atandı → Düzeltiliyor → Yeniden teste hazır → Kapandı veya Yeniden açıldı.", "example": "Teknik lider düzeltir, key user yeniden test edip kapatır; aynı kişi hem düzeltip hem kapatamaz.", "glossary": "defect-yasam-dongusu" },
+        { "id": "traceability", "term": "İzlenebilirlik matrisi", "en": "Traceability matrix", "definition": "Gereksinim, test case, koşum sonucu ve defect arasındaki bağlantıyı gösteren tablo.", "example": "REQ-07'nin test case'i yoksa matriste \"Kapsanmadı\" görünür.", "glossary": "izlenebilirlik-matrisi" },
+        { "id": "regression", "term": "Regresyon testi", "en": "Regression test", "definition": "Yeni sürümün önceden çalışan işleyişi bozmadığını doğrulayan, tekrar tekrar koşulan test.", "example": "TC-03 (segment + kampanya onayı) her sürümde koşulur; v1.0'da da v1.1'de de geçmelidir.", "glossary": "regresyon-testi" },
+        { "id": "feature-flag", "term": "Feature flag", "en": "Feature flag / toggle", "definition": "Bir işlevi kod değiştirmeden açıp kapatmaya yarayan ayar. Bu yolda v1.1'deki hatalar bayraklarla temsil edilir.", "example": "Teknik lider REQ-04 hatasını düzeltince onay eşiği bayrağı kapanır, eşik yeniden 50.000 ₺ olur.", "glossary": "feature-flag" }
+      ]
+    },
+
+    "simulation": {
+      "type": "test-lab",
+      "title": "Test Laboratuvarı",
+      "description": "Sürüm seç, gereksinimlere bağlı test case yaz, simülasyon açıkken koş, hatayı raporla ve yaşam döngüsünü yönet.",
+      "completeHint": "İlk test koşumunu tamamladığında bu bölüm tamamlanır.",
+      "requirements": [
+        { "id": "REQ-01", "title": "Segment iskontosu müşteri segmentine göre uygulanmalı", "detail": "K007: A segmenti %8, B segmenti %5, C segmenti %2.", "area": "Fiyatlandırma", "priority": "Yüksek" },
+        { "id": "REQ-02", "title": "Kampanya iskontosu yalnızca minimum miktarda uygulanmalı", "detail": "ZKMP %10, kalem miktarı en az 10 birim olduğunda; daha az miktarda uygulanmamalı.", "area": "Fiyatlandırma", "priority": "Yüksek" },
+        { "id": "REQ-03", "title": "Toplam iskontosu %12'yi aşan teklif müdür onayına düşmeli", "detail": "Kampanya iskontosu toplam iskontoya dahildir.", "area": "Onay akışı", "priority": "Yüksek" },
+        { "id": "REQ-04", "title": "Net 50.000 ₺ üstü teklif müdür onayına düşmeli", "detail": "İskonto oranından bağımsız olarak net tutar eşiği 50.000 ₺'dir.", "area": "Onay akışı", "priority": "Kritik" },
+        { "id": "REQ-05", "title": "Kredi limitini aşan teklif kredi onayına düşmeli", "detail": "Açık bakiye + teklif (KDV dahil) > kredi limiti ise muhasebe onayı gerekir.", "area": "Kredi", "priority": "Yüksek" },
+        { "id": "REQ-06", "title": "Bloke müşteriye teklif kaydedilememeli", "detail": "Kaydet düğmesi pasif olmalı ve neden açıklanmalı.", "area": "Kredi", "priority": "Kritik" },
+        { "id": "REQ-07", "title": "Teslimatta stok teslim miktarı kadar düşmeli", "detail": "Teslimat deposunun stoğu mal çıkışıyla azalmalı; Şirket > Ürünler'de görülebilir.", "area": "Teslimat", "priority": "Kritik" },
+        { "id": "REQ-08", "title": "Fatura vadesi ödeme koşuluna göre hesaplanmalı", "detail": "Vade = fatura tarihi + ödeme koşulu gün sayısı (ör. Z030 → +30 gün).", "area": "Faturalama", "priority": "Yüksek" },
+        { "id": "REQ-09", "title": "ERP'de tanımlı olmayan müşterinin siparişi aktarımda hata vermeli", "detail": "Mesaj \"Hatalı\" durumuna düşmeli ve hata metni müşteriyi belirtmeli.", "area": "Entegrasyon", "priority": "Orta" },
+        { "id": "REQ-10", "title": "Teklifi oluşturan kişi kendi teklifini onaylayamamalı", "detail": "Görevler ayrılığı: onay düğmeleri oluşturan için kilitli olmalı.", "area": "Yetki", "priority": "Yüksek" }
+      ],
+      "sampleCases": [
+        {
+          "id": "TC-01",
+          "title": "Net 50.000 ₺ üstü teklif müdür onayına düşer",
+          "requirements": ["REQ-04"],
+          "priority": "Yüksek",
+          "precondition": "Satış Temsilcisi rolüyle oturum. Karşıyaka Gıda (A segmenti, bayi kanalı) kredi limiti yeterli.",
+          "data": "Müşteri 100001 Karşıyaka Gıda · GD-1008 Siyah Çay × 15 koli (iskonto %8, net 62.928 ₺)",
+          "preset": { "customer": "100001", "reference": "TC-01", "items": [{ "code": "GD-1008", "qty": 15 }] },
+          "steps": [
+            { "action": "Simülasyonda müşteriyi ve kalemi yükle.", "expected": "Fiyat özetinde net tutar 62.928,00 ₺, toplam iskonto %8." },
+            { "action": "Onay kontrolü kutusunu incele.", "expected": "\"Müdür onayı gerekli\" görünür; gerekçe: net tutar 50.000 ₺ eşiğini aşıyor." },
+            { "action": "\"Kaydet ve onaya gönder\"e bas, teklif listesinde durumu kontrol et.", "expected": "Teklif durumu \"Onay bekliyor\", aktif adım \"Müdür onayı\"." }
+          ]
+        },
+        {
+          "id": "TC-02",
+          "title": "Minimum miktarın altındaki kalemde kampanya uygulanmaz",
+          "requirements": ["REQ-02"],
+          "priority": "Orta",
+          "precondition": "Satış Temsilcisi rolüyle oturum. Kış Temizlik Kampanyası aktif (min. 10 birim).",
+          "data": "Müşteri 100001 Karşıyaka Gıda · TM-2002 Sıvı Bulaşık Deterjanı × 6 koli",
+          "preset": { "customer": "100001", "reference": "TC-02", "items": [{ "code": "TM-2002", "qty": 6 }] },
+          "steps": [
+            { "action": "Simülasyonda müşteriyi ve kalemi yükle.", "expected": "Kalem eklenir, liste fiyatı 840,00 ₺." },
+            { "action": "Kalemin fiyat adımlarını aç.", "expected": "ZKMP satırı \"uygulanmadı · En az 10 koli\"; net birim fiyat 772,80 ₺." },
+            { "action": "Miktarı 10 koli yap, fiyat adımlarını tekrar kontrol et.", "expected": "ZKMP %10 uygulanır; net birim fiyat 695,52 ₺." }
+          ]
+        },
+        {
+          "id": "TC-03",
+          "title": "Segment ve kampanya iskontosu %12'yi aşınca onay gerekir (regresyon)",
+          "requirements": ["REQ-01", "REQ-03"],
+          "priority": "Orta",
+          "precondition": "Satış Temsilcisi rolüyle oturum. Çeşme Kıyı Otel A segmenti, kurumsal kanal.",
+          "data": "Müşteri 100007 Çeşme Kıyı Otel · TM-2001 Toz Çamaşır Deterjanı × 20 adet",
+          "preset": { "customer": "100007", "reference": "TC-03", "items": [{ "code": "TM-2001", "qty": 20 }] },
+          "steps": [
+            { "action": "Simülasyonda müşteriyi ve kalemi yükle, fiyat adımlarını aç.", "expected": "K007 %8 (segment A), ZKMP %10; net birim 538,20 ₺." },
+            { "action": "Fiyat özetinde toplam iskontoyu oku.", "expected": "Toplam iskonto %17,2 ve \"Müdür onayı gerekli\" (iskonto eşiği %12)." }
+          ]
+        }
+      ]
+    },
+
+    "scenarios": {
+      "intro": "Ege Dağıtım'ın v1.1 sürümü UAT'ye geldi. Sürüm notları dört alanda değişiklik yapıldığını söylüyor. Görevin: hataları bulmak, raporlamak, düzelttirmek ve yeniden test edip kapatmak.",
+      "items": [
+        {
+          "id": "v11-uat",
+          "title": "v1.1 UAT turu",
+          "level": "İleri",
+          "duration": "40 dk",
+          "role": "key-user",
+          "summary": "Teknik lider kullanıcısını oluştur, v1.1'deki 4 hatayı test case'lerle bul, defect aç, düzelttir ve yeniden test ederek kapat.",
+          "goal": "v1.1 sürümünü UAT'den geçir: 10 gereksinimi kapsa, 4 hatayı defect olarak raporla, düzeltmeleri doğrula ve tüm defect'leri kapat.",
+          "steps": [
+            {
+              "title": "Key User rolüne geç ve sürümü seç",
+              "role": "key-user",
+              "what": "Key User rolüne geç. Test Uzmanlığı > Simülasyon (Test Laboratuvarı) sekmesinde sürüm seçiciyi v1.1 yap. Sürüm notlarını oku: kampanya, onay eşiği, teslimat ve fatura vadesi alanlarında değişiklik var.",
+              "why": "Değişen alanlar risk demektir; test önceliği buradan başlar. Simülasyonlar artık v1.1 kurallarıyla çalışır.",
+              "caution": "Hata Avı görevleri her zaman doğru sürümü kullanır; v1.1 yalnızca simülasyonları etkiler."
+            },
+            {
+              "title": "Teknik Lider kullanıcısını oluştur",
+              "role": "key-user",
+              "what": "Test Laboratuvarı'ndaki uyarı kutusundan \"Kullanıcı Yönetimi'nden oluştur\"a bas. Form Teknik Lider rolüyle hazır açılır; ad, soyad ve departman (Bilgi Teknolojileri) gir ve kaydet. Şu an bu roldeki kullanıcı: {{user:tech-lead}}.",
+              "why": "Hataları düzeltecek kişi (DEFECT_FIX) olmadan defect'ler atanamaz. Teknik Lider rolünün varsayılan kullanıcısı yoktur.",
+              "caution": "Teknik Lider rolüne DEFECT_CLOSE eklemeye çalışırsan SoD uyarısı alırsın: düzelten kişi kendi düzeltmesini kapatamamalı."
+            },
+            {
+              "title": "Hazır test case'leri koş",
+              "role": "key-user",
+              "what": "Koşum sekmesinde TC-01, TC-02 ve TC-03'ü sırayla koş. Sağdaki simülasyon test verisiyle açılır; her adımı Geçti/Kaldı/Bloke olarak işaretle, kalan adıma gözlemini not et.",
+              "why": "TC-03 regresyon testidir ve geçmelidir; TC-01 ve TC-02 v1.1'de değişen alanları sınar.",
+              "caution": "Teklifi kaydetmek gerekirse adımı Satış Temsilcisi rolüyle yap ({{user:sales-rep}}), sonra Key User'a dön; koşum kaldığı yerden devam eder."
+            },
+            {
+              "title": "Kalan adımlardan defect aç",
+              "role": "key-user",
+              "what": "Kaldı işaretlenen adımda \"Defect aç\"a bas. Başlık, gereksinim, adımlar, test verisi ve beklenen sonuç otomatik dolar; gerçekleşen sonucu ve önemi gir.",
+              "why": "Defect test case'e ve gereksinime bağlı olduğunda izlenebilirlik matrisinde görünür ve düzeltme doğrulanabilir.",
+              "caution": "Gereksinimi yanlış seçersen teknik lider hatayı tekrarlayamaz ve defect \"Tekrarlanamadı\" ile geri döner."
+            },
+            {
+              "title": "Eksik kapsamı tamamla",
+              "role": "key-user",
+              "what": "İzlenebilirlik matrisinde kapsanmayan gereksinimleri bul. En az REQ-07 (teslimatta stok) ve REQ-08 (fatura vadesi) için yeni test case yaz: ör. Karşıyaka Gıda'ya 10 koli ayçiçek yağı teklifi → sipariş → teslimat → fatura. Koşarken teslimat adımı için Depo Sorumlusu ({{user:warehouse}}), fatura adımı için Muhasebe ({{user:accounting}}) rolüne geç.",
+              "why": "Sürüm notlarındaki dört değişikliğin ikisi yalnızca sipariş sonrası süreçte görünür; tekliften öteye gitmeyen testler bu hataları kaçırır.",
+              "caution": "Stoğu teslimat belgesinden değil Şirket > Ürünler'den kontrol et: belge doğru görünse bile stok düşmemiş olabilir. Vade için Z030 → fatura + 30 gün."
+            },
+            {
+              "title": "Defect'leri teknik lidere ata",
+              "role": "key-user",
+              "what": "Defect'ler sekmesinde her kaydı aç ve teknik lidere ({{user:tech-lead}}) ata.",
+              "why": "Atama, sorumluluğu netleştirir ve hata kaydının yaşam döngüsünü başlatır.",
+              "caution": "Aynı hatayı iki kez raporladıysan ikincisini atamadan önce birleştir veya \"tekrarlanamadı\" olarak kapanmasını bekle."
+            },
+            {
+              "title": "Teknik Lider olarak düzelt",
+              "role": "tech-lead",
+              "what": "Teknik Lider rolüne geç. Her defect'te \"Düzeltmeye başla\", ardından \"Düzeltildi\"ye bas. Doğru tarif edilen hata için ilgili bayrak kapanır ve durum \"Yeniden teste hazır\" olur.",
+              "why": "Düzeltme, gereksinimle eşleşen gerçek bir hatayı ortadan kaldırır; yanlış tarif edilen kayıt \"Tekrarlanamadı\" olarak raporlayana döner.",
+              "caution": "Teknik lider defect'i kapatamaz (DEFECT_CLOSE yok): düzelten ve kapatan farklı kişiler olmalı."
+            },
+            {
+              "title": "Yeniden test et ve kapat",
+              "role": "key-user",
+              "what": "Key User rolüne dön. Her defect'in test case'ini yeniden koş; geçerse defect'te \"Kapat\"a bas. Test panelinde açık defect kalmadığını, izlenebilirlik matrisinde tüm gereksinimlerin \"Geçti\" olduğunu doğrula.",
+              "why": "Bir defect yalnızca düzeltme sonrası koşulan test geçtiğinde kapanır; aksi halde düzeltme kanıtlanmamış olur.",
+              "caution": "Yeniden test kalırsa \"Yeniden aç\" ile döngüyü tekrarla."
+            }
+          ],
+          "outcome": "v1.1'deki dört hata defect olarak raporlandı, teknik lider tarafından düzeltildi ve key user tarafından yeniden test edilip kapatıldı. İzlenebilirlik matrisi tüm gereksinimler için \"Geçti\" gösteriyor."
+        }
+      ]
+    },
     "tests": null,
     "quiz": null
   }

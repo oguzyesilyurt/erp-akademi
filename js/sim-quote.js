@@ -5,6 +5,7 @@ import { href, stripQuery } from './router.js';
 import { progress, quotes } from './store.js';
 import { create as createQuote, visible, openQuote, statusBadge, activeStep, get as getQuote } from './quotes.js';
 import { can, actionBtn, lockReason, currentRole, userLabel, openLogin, approverFor } from './auth.js';
+import { flag } from './release.js';
 import { visibleOrders, orderBadges, openDoc } from './erp.js';
 import {
   esc, money2 as money, num, date, pct1, round2, badge, progressBar, kv, dsec, alertBox,
@@ -23,7 +24,12 @@ let lastSaved = null;
 let ctx = null;
 
 const cfg = () => ctx.content;
-const rules = () => ({ maxDiscountPct: 12, maxNet: 50000, firstQuoteNo: 20000001, validityDays: 30, ...(cfg().rules || {}) });
+// v1.1 hatası (BUG_APPROVAL_THRESHOLD): net tutar onay eşiği 50.000 yerine 500.000
+const rules = () => {
+  const r = { maxDiscountPct: 12, maxNet: 50000, firstQuoteNo: 20000001, validityDays: 30, ...(cfg().rules || {}) };
+  if (flag('BUG_APPROVAL_THRESHOLD')) r.maxNet = 500000;
+  return r;
+};
 const sysDate = () => cfg().systemDate || company().asOf;
 const H = (key) => cfg().help?.[key] || '';
 
@@ -56,6 +62,25 @@ function addItem(code, qty) {
     draft.open = [draft.items.length - 1];
   }
   return true;
+}
+
+// Taslakta müşteri seçili mi? (sayfa yenilendikten sonra test verisini yeniden yüklemek için)
+export const hasDraft = () => !!draft.customer || draft.items.length > 0;
+
+// Test koşumu gibi dış modüllerin simülasyonu belirli veriyle başlatması için
+// preset: { customer, contact?, reference?, items: [{ code, qty }] }
+// simCtx: simülasyon henüz hiç çizilmediyse kurallar (sistem tarihi, geçerlilik) için gereken bağlam
+export function applyPreset(preset, simCtx = null) {
+  if (simCtx) ctx = simCtx;
+  if (!preset?.customer || !ctx) return;
+  resetDraft();
+  setCustomer(preset.customer);
+  const c = partnerOf(draft.customer);
+  if (preset.contact && c?.contacts.some((k) => k.name === preset.contact)) draft.contact = preset.contact;
+  draft.reference = preset.reference || '';
+  (preset.items || []).forEach((it) => addItem(it.code, it.qty));
+  draft.open = [];
+  mode = 'form';
 }
 
 function applyScenario(id) {

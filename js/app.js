@@ -10,6 +10,7 @@ import { viewRoles } from './roles-page.js';
 import { viewInterface } from './interface-page.js';
 import { viewDocs } from './docs.js';
 import { viewUsers } from './users-page.js';
+import { loadReleases, currentRelease, isDefaultRelease } from './release.js';
 import { errorCount, processPending, openDocRef } from './erp.js';
 
 // Yol sayfası sekmeleri (tüm yollar için sabit şablon)
@@ -166,6 +167,16 @@ function renderNav(route) {
 }
 
 function renderTopbar() {
+  // Varsayılan dışı sürüm seçiliyse üst barda uyarı etiketi
+  const rc = document.getElementById('release-chip');
+  if (rc) {
+    const rel = currentRelease();
+    rc.hidden = !rel || isDefaultRelease();
+    if (rel) {
+      rc.innerHTML = `${icon('flask')}<span>Sürüm ${esc(rel.name)}</span>`;
+      rc.title = `Simülasyonlar ${rel.name} (${rel.label}) kurallarıyla çalışıyor · değiştirmek için Test Laboratuvarı`;
+    }
+  }
   const u = currentUser();
   const r = currentRole();
   const chip = document.getElementById('session-chip');
@@ -262,7 +273,7 @@ async function viewTrack(route) {
   if (hasContent(content)) {
     try {
       rendered = await renderSection({ track: meta, section: section.id, content, data, route });
-      const auto = AUTO_COMPLETE[section.id];
+      const auto = (section.id === 'simulation' && content?.completeHint) || AUTO_COMPLETE[section.id];
       body = `${rendered.html}<footer class="section-foot">${
         auto
           ? `<span class="cell-sub">${done ? 'Bu bölümü tamamladın.' : esc(auto)}</span>${done ? badge('Tamamlandı', 'success') : ''}`
@@ -365,7 +376,7 @@ async function route(r) {
   else if (r.name === 'roles') await viewRoles(setView);
   else if (r.name === 'interface') await viewInterface(setView);
   else if (r.name === 'docs') await viewDocs(r, setView);
-  else if (r.name === 'users') await viewUsers(setView);
+  else if (r.name === 'users') await viewUsers(setView, r);
   else viewNotFound();
   if (currentRoute !== r) return; // bu sırada başka bir rotaya geçildi
   renderNav(r);
@@ -394,7 +405,7 @@ async function route(r) {
   updateThemeButtons();
 
   try {
-    await Promise.all([loadTracks(), loadRoles()]);
+    await Promise.all([loadTracks(), loadRoles(), loadReleases()]);
     processPending(); // önceki oturumda yarım kalan aktarımlar
   } catch (e) {
     console.error(e);

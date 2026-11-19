@@ -1,6 +1,7 @@
 // Kullanıcı Yönetimi (#/users): kullanıcılar, roller, departmanlar ve değişiklik günlüğü
 // Gerekli yetki: USER_ADMIN. Tüm değişiklikler tarayıcıda saklanır (auth.js → IAM).
 import { icon } from './icons.js';
+import { stripQuery } from './router.js';
 import { esc, norm, badge, emptyState, toast, openDrawer, closeDrawer, drawerHead, datetime, alertBox } from './ui.js';
 import {
   loadRoles, can, lockReason, iam, commitIam, resetIam, isIamCustomized, permissions, permOf, templates,
@@ -42,8 +43,22 @@ const ACTION_LABEL = {
 };
 
 // ---------- sayfa ----------
-export async function viewUsers(setView) {
+export async function viewUsers(setView, route = null) {
   await loadRoles();
+  // Derin bağlantı: #/users?new=<rolId> → yeni kullanıcı formu bu rolle hazır açılır
+  const want = route?.query?.new;
+  if (want) {
+    stripQuery();
+    if (can('USER_ADMIN') && roleById(want)) {
+      tab = 'users';
+      setTimeout(() => openUserForm(null, {
+        roles: [want],
+        department: iam().departments.includes('Bilgi Teknolojileri') ? 'Bilgi Teknolojileri' : iam().departments[0],
+        title: roleById(want).name,
+        note: `${roleById(want).name} rolünde aktif kullanıcı oluşturuluyor. Ad ve soyadı girip kaydet.`,
+      }), 80);
+    }
+  }
   if (!can('USER_ADMIN')) {
     setView(
       `<header class="page-head"><div><p class="eyebrow">Yönetim</p><h1>Kullanıcı Yönetimi</h1></div></header>

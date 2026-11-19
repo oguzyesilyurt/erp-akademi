@@ -29,6 +29,8 @@ js/interface-page.js  Aktarım Monitörü (#/interface)
 js/markdown.js        Güvenli, küçük Markdown oluşturucu
 js/docs.js            Dokümantasyon merkezi, arama, sözlük (#/docs)
 js/users-page.js      Kullanıcı Yönetimi: kullanıcı, rol, departman, günlük (#/users)
+js/release.js         Sistem sürümü ve feature flag'ler (data/releases.json)
+js/testlab.js         Test Laboratuvarı: gereksinim, test case, koşum, defect, izlenebilirlik
 data/docs/            Makaleler (.md), index.json, glossary.json
 data/roles.json       Roller, yetkiler ve görevler ayrılığı açıklaması
 data/company.json     Ortak sahte şirket verisi (Ege Dağıtım A.Ş.)
@@ -103,6 +105,12 @@ Varsayılan kullanıcılar `data/company.json`, roller, yetkiler, rol şablonlar
 | Mehmet Çınar | MCINAR | Depo Sorumlusu |
 
 `USER_ADMIN` yetkisine sahip kullanıcılar `#/users` sayfasından kullanıcı, rol ve departmanları yönetebilir. Değişiklikler tarayıcıda saklanır; "Varsayılana dön" ile sıfırlanır. Senaryolar kişiye değil role bağlıdır; adımlarda o roldeki güncel kullanıcı gösterilir. Gerçek SAP'de bu işler `SU01` (kullanıcı) ve `PFCG` (rol) ile yapılır.
+
+## Test Uzmanlığı ve sistem sürümleri
+
+`data/releases.json` iki sürüm tanımlar: **v1.0** (canlı, doğru kurallar) ve **v1.1** (UAT adayı). v1.1'de dört hata feature flag ile açıktır: kampanya minimum miktar kontrolü yok, onay eşiği 500.000 ₺, teslimatta stok düşmüyor, fatura vadesi ödeme koşulunu yok sayıyor. Sürüm, Test Uzmanlığı > Simülasyon (Test Laboratuvarı) sekmesinden seçilir; seçili sürüm tüm simülasyonları etkiler ve varsayılan dışındaysa üst barda görünür. Hata Avı her zaman doğru kuralları kullanır.
+
+Test Laboratuvarı'nda 10 gereksinim, 3 örnek test case, test koşumu (adımlar + gömülü simülasyon), defect yaşam döngüsü (Yeni → Atandı → Düzeltiliyor → Yeniden teste hazır → Kapandı / Yeniden açıldı / Tekrarlanamadı) ve izlenebilirlik matrisi bulunur. Defect düzeltme yetkisi (`DEFECT_FIX`) varsayılan kullanıcısı olmayan Teknik Lider rolündedir; önce Kullanıcı Yönetimi'nden bu rolde kullanıcı oluşturulmalıdır.
 
 ## Derin bağlantılar
 

@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "defaultUser": "U01",
   "permissions": [
     {
@@ -75,6 +75,24 @@
       "description": "Müşteri segmenti, ödeme koşulu ve teslimat deposu gibi alanları değiştirir."
     },
     {
+      "id": "DEFECT_CREATE",
+      "label": "Test ve defect yönetimi",
+      "group": "Test",
+      "description": "Test case yazar, koşum yapar, defect açar ve atar."
+    },
+    {
+      "id": "DEFECT_FIX",
+      "label": "Defect düzeltme",
+      "group": "Test",
+      "description": "Atanan defect üzerinde çalışır ve düzeltildi olarak işaretler."
+    },
+    {
+      "id": "DEFECT_CLOSE",
+      "label": "Defect kapatma",
+      "group": "Test",
+      "description": "Yeniden testten geçen defect'i kapatır veya yeniden açar."
+    },
+    {
       "id": "USER_ADMIN",
       "label": "Kullanıcı ve rol yönetimi",
       "group": "Yönetim",
@@ -132,14 +150,16 @@
       "users": [
         "U04"
       ],
-      "summary": "Her şeyi görür, ana veriyi ve kullanıcıları yönetir, aktarımı yeniden işler; onay veremez.",
+      "summary": "Her şeyi görür; ana veriyi, kullanıcıları ve testleri yönetir, defect kapatır; onay veremez.",
       "permissions": [
         "QUOTE_VIEW_ALL",
         "PRICE_VIEW",
         "MASTERDATA_VIEW",
         "MASTERDATA_EDIT",
         "INTERFACE_REPROCESS",
-        "USER_ADMIN"
+        "USER_ADMIN",
+        "DEFECT_CREATE",
+        "DEFECT_CLOSE"
       ]
     },
     {
@@ -153,6 +173,20 @@
         "QUOTE_VIEW_ALL",
         "MASTERDATA_VIEW",
         "DELIVERY_CREATE"
+      ]
+    },
+    {
+      "id": "tech-lead",
+      "name": "Teknik Lider",
+      "users": [],
+      "summary": "Ana veri ve arayüz hatalarını yönetir, defect düzeltir; defect kapatamaz.",
+      "permissions": [
+        "QUOTE_VIEW_ALL",
+        "PRICE_VIEW",
+        "MASTERDATA_VIEW",
+        "MASTERDATA_EDIT",
+        "INTERFACE_REPROCESS",
+        "DEFECT_FIX"
       ]
     },
     {
@@ -198,6 +232,11 @@
         "a": "Kullanıcı yönetimi",
         "b": "Onay yetkileri",
         "why": "Kullanıcıları yöneten kişi kendine onay yetkisi verip kendi işini onaylayabilir."
+      },
+      {
+        "a": "Defect düzeltme",
+        "b": "Defect kapatma",
+        "why": "Düzelten kişi kendi düzeltmesini kapatırsa bağımsız yeniden test yapılmamış olur."
       }
     ]
   },
@@ -241,6 +280,11 @@
       "a": "USER_ADMIN",
       "b": "CREDIT_RELEASE",
       "why": "Kullanıcı yöneticisi kendine kredi yetkisi verip riski kapatabilir."
+    },
+    {
+      "a": "DEFECT_FIX",
+      "b": "DEFECT_CLOSE",
+      "why": "Hatayı düzelten kişi kendi düzeltmesini kapatırsa bağımsız yeniden test yapılmamış olur."
     }
   ],
   "templates": [
@@ -256,13 +300,14 @@
     },
     {
       "name": "Teknik Lider",
-      "description": "Ana veriyi ve arayüz hatalarını yönetir; iş belgesi onaylamaz.",
+      "description": "Ana veriyi, arayüz hatalarını ve defect düzeltmelerini yönetir; iş belgesi onaylamaz, defect kapatmaz.",
       "permissions": [
         "QUOTE_VIEW_ALL",
         "PRICE_VIEW",
         "MASTERDATA_VIEW",
         "MASTERDATA_EDIT",
-        "INTERFACE_REPROCESS"
+        "INTERFACE_REPROCESS",
+        "DEFECT_FIX"
       ]
     },
     {

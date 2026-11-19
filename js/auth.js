@@ -25,7 +25,10 @@ export function loadRoles() {
     ])
       .then(([roles]) => {
         R = roles;
-        S = readIam() || defaults();
+        const stored = readIam();
+        S = stored || defaults();
+        // Kaydedilmiş durumu yeni sürümün rol/yetkileriyle güncelle (ör. yeni test yetkileri)
+        if (stored && migrate(S)) writeIam();
         return R;
       })
       .catch((e) => {
@@ -57,8 +60,42 @@ function defaults() {
     users,
     roles: R.roles.map((r) => ({ id: r.id, name: r.name, summary: r.summary, permissions: [...r.permissions], builtIn: true })),
     departments: depts,
+    knownPerms: R.permissions.map((p) => p.id),
     log: [],
   };
+}
+
+// Yeni eklenen yetkileri varsayılan rollere, yeni varsayılan rolleri duruma ekler.
+// Kullanıcının bilinçli olarak kaldırdığı eski yetkilere dokunmaz.
+function migrate(st) {
+  let changed = false;
+  const all = R.permissions.map((p) => p.id);
+  const known = new Set(st.knownPerms || st.roles.flatMap((r) => r.permissions));
+  const fresh = all.filter((p) => !known.has(p));
+  for (const rr of R.roles) {
+    const sr = st.roles.find((x) => x.id === rr.id);
+    if (!sr) {
+      st.roles.push({ id: rr.id, name: rr.name, summary: rr.summary, permissions: [...rr.permissions], builtIn: true });
+      changed = true;
+      continue;
+    }
+    const add = rr.permissions.filter((p) => fresh.includes(p) && !sr.permissions.includes(p));
+    if (add.length) {
+      sr.permissions.push(...add);
+      changed = true;
+    }
+  }
+  for (const d of R.departments || []) {
+    if (!st.departments.includes(d)) {
+      st.departments.push(d);
+      changed = true;
+    }
+  }
+  if (fresh.length || !st.knownPerms) {
+    st.knownPerms = all;
+    changed = true;
+  }
+  return changed;
 }
 
 function readIam() {

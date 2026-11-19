@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "default": "v1.0",
+  "releases": [
+    {
+      "id": "v1.0",
+      "name": "v1.0",
+      "label": "Canlı sürüm",
+      "date": "2026-10-01",
+      "status": "Canlı",
+      "notes": [
+        "Teklif, onay akışı, sipariş ve ERP aktarımı canlıda.",
+        "Bu sürüm Ege Dağıtım'ın onaylı iş kurallarıyla çalışır."
+      ],
+      "flags": []
+    },
+    {
+      "id": "v1.1",
+      "name": "v1.1",
+      "label": "UAT adayı",
+      "date": "2026-11-18",
+      "status": "Test",
+      "notes": [
+        "Kampanya motoru yeniden yazıldı (ZKMP koşulu).",
+        "Onay eşikleri parametrik hale getirildi.",
+        "Teslimat servisi yeni stok arayüzüne taşındı.",
+        "Fatura vade hesaplaması ödeme koşulu tablosuna bağlandı."
+      ],
+      "flags": ["BUG_CAMPAIGN_MINQTY", "BUG_APPROVAL_THRESHOLD", "BUG_DELIVERY_NO_STOCK", "BUG_INVOICE_DUE"]
+    }
+  ],
+  "bugs": [
+    { "flag": "BUG_CAMPAIGN_MINQTY", "requirement": "REQ-02", "area": "Fiyatlandırma", "fixNote": "ZKMP koşuluna minimum miktar kontrolü geri eklendi." },
+    { "flag": "BUG_APPROVAL_THRESHOLD", "requirement": "REQ-04", "area": "Onay akışı", "fixNote": "Net tutar onay eşiği 500.000 ₺ yerine 50.000 ₺ olarak düzeltildi." },
+    { "flag": "BUG_DELIVERY_NO_STOCK", "requirement": "REQ-07", "area": "Teslimat", "fixNote": "Mal çıkışı stok arayüzüne yeniden bağlandı; stok teslim miktarı kadar düşüyor." },
+    { "flag": "BUG_INVOICE_DUE", "requirement": "REQ-08", "area": "Faturalama", "fixNote": "Vade tarihi ödeme koşulunun gün sayısıyla hesaplanıyor." }
+  ]
+}

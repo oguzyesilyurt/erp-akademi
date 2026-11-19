@@ -10,6 +10,7 @@ import {
   company, partnerOf, productOf, erpNumberOf, termOf, termName, channelName, updateProduct, updateCustomer, openDetail,
 } from './company.js';
 import { can, currentUser, userLabel, actionBtn } from './auth.js';
+import { flag } from './release.js';
 import { get as getQuote, openQuote, statusBadge as quoteStatusBadge } from './quotes.js';
 
 const KEY = 'erp-akademi:erp';
@@ -263,7 +264,8 @@ export function createDelivery(orderNo) {
   const moves = o.lines.map((l) => {
     const p = productOf(l.code);
     const before = p.stock[o.plant] ?? 0;
-    updateProduct(l.code, { stock: { ...p.stock, [o.plant]: before - l.qty } }, { silent: true });
+    // v1.1 hatası (BUG_DELIVERY_NO_STOCK): belge doğru görünür ama stok güncellenmez
+    if (!flag('BUG_DELIVERY_NO_STOCK')) updateProduct(l.code, { stock: { ...p.stock, [o.plant]: before - l.qty } }, { silent: true });
     return { code: l.code, name: l.name, qty: l.qty, unit: l.unit, before, after: before - l.qty };
   });
   const d = { no: nextNo(s, 'delivery'), orderNo: o.no, customer: o.customer, customerName: o.customerName, date: sysDate(), plant: o.plant, lines: moves, createdBy: me.id, createdAt: at };
@@ -292,7 +294,8 @@ export function createInvoice(orderNo) {
   const term = termOf(o.paymentTerm);
   const inv = {
     no: nextNo(s, 'invoice'), orderNo: o.no, deliveryNo: o.deliveryNo, customer: o.customer, customerName: o.customerName,
-    erpCustomer: o.erpCustomer, date: sysDate(), dueDate: addDays(sysDate(), term?.days || 0), paymentTerm: o.paymentTerm,
+    erpCustomer: o.erpCustomer, date: sysDate(), // v1.1 hatası (BUG_INVOICE_DUE): vade ödeme koşulunu yok sayar
+    dueDate: flag('BUG_INVOICE_DUE') ? sysDate() : addDays(sysDate(), term?.days || 0), paymentTerm: o.paymentTerm,
     net: o.totals.net, vat: o.totals.vat, gross: o.totals.gross, balanceBefore: before, balanceAfter: after, createdBy: me.id, createdAt: at,
   };
   s.invoices.unshift(inv);

@@ -245,7 +245,8 @@
       "readingMinutes": 3,
       "related": [
         "uat-hata-yonetimi",
-        "sap-activate"
+        "sap-activate",
+        "test-case-defect"
       ]
     },
     {
@@ -262,7 +263,45 @@
       "readingMinutes": 3,
       "related": [
         "test-turleri",
-        "sap-activate"
+        "sap-activate",
+        "test-case-defect"
+      ]
+    },
+    {
+      "slug": "test-plani-izlenebilirlik",
+      "category": "test",
+      "title": "Test planı, giriş/çıkış kriterleri ve izlenebilirlik",
+      "summary": "Test planının bölümleri, giriş ve çıkış kriterleri, izlenebilirlik matrisiyle kapsamı kanıtlama.",
+      "tags": [
+        "Test planı",
+        "Giriş kriteri",
+        "Çıkış kriteri",
+        "İzlenebilirlik",
+        "Kapsam"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "test-case-defect",
+        "test-turleri",
+        "uat-hata-yonetimi"
+      ]
+    },
+    {
+      "slug": "test-case-defect",
+      "category": "test",
+      "title": "İyi test case, test koşumu ve defect yaşam döngüsü",
+      "summary": "Tekrarlanabilir test case, Geçti/Kaldı/Bloke koşum, defect durumları ve feature flag.",
+      "tags": [
+        "Test case",
+        "Test koşumu",
+        "Defect",
+        "Feature flag",
+        "Yaşam döngüsü"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "test-plani-izlenebilirlik",
+        "uat-hata-yonetimi"
       ]
     },
     {

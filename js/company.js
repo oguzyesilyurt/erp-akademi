@@ -6,6 +6,7 @@ import {
   kv, dsec, alertBox, openDrawer, drawerHead, toast,
 } from './ui.js';
 import { can, currentUser, userLabel, actionBtn, userById as iamUserById, usersOf as iamUsers, rolesOfUser, permsOfUser, permOf } from './auth.js';
+import { flag } from './release.js';
 
 export const COMPANY_TABS = [
   { id: 'org',       label: 'Organizasyon', icon: 'building' },
@@ -196,7 +197,8 @@ export function priceFor(code, segment, channel, qty = null) {
   const camp = activeCampaign(code, channel);
   let campApplied = false;
   if (camp) {
-    campApplied = qty == null || qty >= camp.minQty;
+    // v1.1 hatası (BUG_CAMPAIGN_MINQTY): minimum miktar kontrolü yok. Orijinal veri modunda (Hata Avı) bayrak yok sayılır.
+    campApplied = qty == null || qty >= camp.minQty || (!baseMode && flag('BUG_CAMPAIGN_MINQTY'));
     const cAmt = round2((net * camp.discount) / 100);
     steps.push({
       cond: camp.condition,
