@@ -119,35 +119,40 @@
           "link": {
             "label": "Müşterileri gör",
             "href": "#/company/customers"
-          }
+          },
+          "glossary": "hesap"
         },
         {
           "id": "contact",
           "term": "İlgili kişi",
           "en": "Contact",
           "definition": "Hesaba bağlı, şirket adına iletişim kurduğun kişi. B2B'de bir hesabın genellikle birden çok ilgili kişisi olur ve her birinin rolü farklıdır.",
-          "example": "Bornova Market Zinciri'nde Deniz Koç (Kategori Müdürü) ürün seçer, Gül Çelik (Finans Müdürü) ödemeleri yönetir. Fiyat görüşmesi Deniz Koç'la, vade görüşmesi Gül Çelik'le yapılır."
+          "example": "Bornova Market Zinciri'nde Deniz Koç (Kategori Müdürü) ürün seçer, Gül Çelik (Finans Müdürü) ödemeleri yönetir. Fiyat görüşmesi Deniz Koç'la, vade görüşmesi Gül Çelik'le yapılır.",
+          "glossary": "ilgili-kisi"
         },
         {
           "id": "lead",
           "term": "Lead (potansiyel müşteri)",
           "en": "Lead",
           "definition": "Henüz nitelendirilmemiş satış ilgisi. Bir firmanın ürünlerinle ilgilendiğini gösteren ilk işarettir; gerçek bir satış ihtimali olup olmadığı henüz bilinmez.",
-          "example": "Ekim 2026'daki bölge bayi toplantısında kartvizit bırakan \"Ödemiş Yöresel Gıda\", Selin Kaya tarafından lead olarak kaydedildi."
+          "example": "Ekim 2026'daki bölge bayi toplantısında kartvizit bırakan \"Ödemiş Yöresel Gıda\", Selin Kaya tarafından lead olarak kaydedildi.",
+          "glossary": "lead"
         },
         {
           "id": "opportunity",
           "term": "Fırsat",
           "en": "Opportunity",
           "definition": "Nitelendirilmiş, somut bir satış ihtimali. Tahmini tutar, kazanma olasılığı, aşama ve beklenen kapanış tarihi ile izlenir.",
-          "example": "Ödemiş Yöresel Gıda ile yapılan görüşmeden sonra yıllık 1,8 milyon ₺ tahmini hacimli, %20 olasılıklı bir \"Yeni bayi\" fırsatı açıldı."
+          "example": "Ödemiş Yöresel Gıda ile yapılan görüşmeden sonra yıllık 1,8 milyon ₺ tahmini hacimli, %20 olasılıklı bir \"Yeni bayi\" fırsatı açıldı.",
+          "glossary": "firsat"
         },
         {
           "id": "funnel",
           "term": "Satış hunisi",
           "en": "Sales funnel / pipeline",
           "definition": "Fırsatların aşamalara göre dağılımı. Üstte çok sayıda erken aşama fırsat, altta az sayıda kapanmaya yakın fırsat bulunur. Satış tahmini bu huniden yapılır.",
-          "example": "Satış müdürü Murat Demir her pazartesi huniyi inceler: \"Nitelendirme\" aşamasında 12, \"Teklif\" aşamasında 5, \"Pazarlık\" aşamasında 2 fırsat var."
+          "example": "Satış müdürü Murat Demir her pazartesi huniyi inceler: \"Nitelendirme\" aşamasında 12, \"Teklif\" aşamasında 5, \"Pazarlık\" aşamasında 2 fırsat var.",
+          "glossary": "satis-hunisi"
         },
         {
           "id": "quote",
@@ -158,7 +163,8 @@
           "link": {
             "label": "Simülasyonda teklif oluştur",
             "href": "#/track/b2b-crm/simulation"
-          }
+          },
+          "glossary": "teklif"
         },
         {
           "id": "credit-limit",
@@ -169,21 +175,24 @@
           "link": {
             "label": "Kredi durumlarını gör",
             "href": "#/company/customers"
-          }
+          },
+          "glossary": "kredi-limiti"
         },
         {
           "id": "payment-term",
           "term": "Vade (ödeme koşulu)",
           "en": "Payment terms",
           "definition": "Faturanın kaç gün içinde ödeneceğini belirleyen koşul. SAP'de kod ile tutulur (ör. Z030 = 30 gün). Vadesi geçen tutar \"vadesi geçmiş alacak\" olur.",
-          "example": "Çeşme Kıyı Otel Z060 (60 gün), TemizSepet E-Ticaret Z015 (15 gün) ile çalışır. Ödemiş Yöresel Gıda henüz aday olduğu için Z000 (peşin)."
+          "example": "Çeşme Kıyı Otel Z060 (60 gün), TemizSepet E-Ticaret Z015 (15 gün) ile çalışır. Ödemiş Yöresel Gıda henüz aday olduğu için Z000 (peşin).",
+          "glossary": "odeme-kosulu"
         },
         {
           "id": "segment",
           "term": "Segment",
           "en": "Customer segment",
           "definition": "Müşterilerin hacim, karlılık veya stratejik öneme göre gruplanması. Segment; iskonto oranını, ziyaret sıklığını ve hizmet seviyesini belirler.",
-          "example": "Ege Dağıtım'da A segmenti %8, B segmenti %5, C segmenti %2 iskonto alır. Karşıyaka Gıda A, Aydın Efe B, Pamukkale Ticaret C segmentindedir."
+          "example": "Ege Dağıtım'da A segmenti %8, B segmenti %5, C segmenti %2 iskonto alır. Karşıyaka Gıda A, Aydın Efe B, Pamukkale Ticaret C segmentindedir.",
+          "glossary": "segment"
         },
         {
           "id": "condition",
@@ -194,21 +203,24 @@
           "link": {
             "label": "Fiyat listesini gör",
             "href": "#/company/prices"
-          }
+          },
+          "glossary": "fiyat-kosulu"
         },
         {
           "id": "campaign",
           "term": "Kampanya",
           "en": "Campaign / promotion",
           "definition": "Belirli ürünlerde, belirli kanallarda ve tarih aralığında geçerli ek iskonto. Genellikle minimum miktar gibi koşulları vardır.",
-          "example": "\"Kış Temizlik Kampanyası\" (ZKMP): 1 Kasım – 31 Aralık 2026, Bayi ve Kurumsal kanalda, 3 temizlik ürününde, en az 10 birimlik kalemde %10 ek iskonto."
+          "example": "\"Kış Temizlik Kampanyası\" (ZKMP): 1 Kasım – 31 Aralık 2026, Bayi ve Kurumsal kanalda, 3 temizlik ürününde, en az 10 birimlik kalemde %10 ek iskonto.",
+          "glossary": "kampanya"
         },
         {
           "id": "approval",
           "term": "Onay akışı",
           "en": "Approval workflow",
           "definition": "Belirli kurallar aşıldığında belgenin bir yöneticiye onaya gitmesi. Onaylanmadan belge müşteriye gönderilemez veya siparişe dönüştürülemez.",
-          "example": "Ege Dağıtım'da teklifte toplam iskonto %12'yi veya net tutar 50.000 ₺'yi geçerse teklif satış müdürü Murat Demir'in onayına düşer."
+          "example": "Ege Dağıtım'da teklifte toplam iskonto %12'yi veya net tutar 50.000 ₺'yi geçerse teklif satış müdürü Murat Demir'in onayına düşer.",
+          "glossary": "onay-akisi"
         },
         {
           "id": "master-data",
@@ -219,21 +231,24 @@
           "link": {
             "label": "Şirket ana verisini gör",
             "href": "#/company/org"
-          }
+          },
+          "glossary": "ana-veri"
         },
         {
           "id": "key-user",
           "term": "Key user",
           "en": "Key user",
           "definition": "İş biriminden seçilen, sistemi en iyi bilen kullanıcı. Kullanıcılara destek olur, ana veriyi bakımını yapar, yeni geliştirmeleri test eder ve IT ile iş birimi arasında köprü kurar.",
-          "example": "Can Öztürk, Ege Dağıtım'ın SD/MM key user'ıdır. Yeni bayi açılış taleplerini o işler ve UAT senaryolarını o yürütür."
+          "example": "Can Öztürk, Ege Dağıtım'ın SD/MM key user'ıdır. Yeni bayi açılış taleplerini o işler ve UAT senaryolarını o yürütür.",
+          "glossary": "key-user"
         },
         {
           "id": "uat",
           "term": "UAT (kullanıcı kabul testi)",
           "en": "User Acceptance Testing",
           "definition": "Canlıya geçmeden önce iş biriminin, sistemin gerçek iş süreçlerini doğru yürüttüğünü kendi senaryolarıyla doğruladığı test aşaması.",
-          "example": "Yeni onay kuralı canlıya alınmadan önce Can Öztürk, \"%12 iskontolu teklif müdür onayına düşmeli\" senaryosunu test sisteminde çalıştırdı ve sonucu kayıt altına aldı."
+          "example": "Yeni onay kuralı canlıya alınmadan önce Can Öztürk, \"%12 iskontolu teklif müdür onayına düşmeli\" senaryosunu test sisteminde çalıştırdı ve sonucu kayıt altına aldı.",
+          "glossary": "uat"
         }
       ]
     },

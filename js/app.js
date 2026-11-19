@@ -8,6 +8,7 @@ import { loadRoles, currentUser, currentRole, initials, openLogin } from './auth
 import { viewInbox, inboxCount } from './inbox.js';
 import { viewRoles } from './roles-page.js';
 import { viewInterface } from './interface-page.js';
+import { viewDocs } from './docs.js';
 import { errorCount, processPending, openDocRef } from './erp.js';
 
 // Yol sayfası sekmeleri (tüm yollar için sabit şablon)
@@ -112,6 +113,7 @@ function renderNav(route) {
   const isInbox = route.name === 'inbox';
   const isRoles = route.name === 'roles';
   const isIface = route.name === 'interface';
+  const isDocs = route.name === 'docs';
   const inboxN = inboxCount();
   const nBadge = inboxN ? `<span class="nav-badge" aria-label="${inboxN} bekleyen onay">${inboxN}</span>` : '';
   const errN = errorCount();
@@ -128,6 +130,8 @@ function renderNav(route) {
       <span class="nav-icon">${icon('link')}</span><span class="nav-label">Aktarım Monitörü</span>${eBadge}</a>
     <a class="nav-item ${isRoles ? 'is-active' : ''}" href="#/roles">
       <span class="nav-icon">${icon('shield')}</span><span class="nav-label">Yetki Matrisi</span></a>
+    <a class="nav-item ${isDocs ? 'is-active' : ''}" href="#/docs">
+      <span class="nav-icon">${icon('book')}</span><span class="nav-label">Dokümantasyon</span></a>
     ${resume}
     <div class="nav-group">Yollar</div>
     ${tracks
@@ -146,6 +150,7 @@ function renderNav(route) {
     <a class="bn-item ${isCompany ? 'is-active' : ''}" href="#/company">${icon('building')}<span>Şirket</span></a>
     <a class="bn-item ${isInbox ? 'is-active' : ''}" href="#/inbox"><span class="bn-ico">${icon('stamp')}${nBadge}</span><span>Onaylar</span></a>
     <a class="bn-item ${isIface ? 'is-active' : ''}" href="#/interface"><span class="bn-ico">${icon('link')}${eBadge}</span><span>Aktarım</span></a>
+    <a class="bn-item ${isDocs ? 'is-active' : ''}" href="#/docs">${icon('book')}<span>Dokümanlar</span></a>
     ${
       last
         ? `<a class="bn-item ${activeTrack ? 'is-active' : ''}" href="${esc(last)}">${icon('play')}<span>Devam et</span></a>`
@@ -355,6 +360,7 @@ async function route(r) {
   else if (r.name === 'inbox') await viewInbox(setView);
   else if (r.name === 'roles') await viewRoles(setView);
   else if (r.name === 'interface') await viewInterface(setView);
+  else if (r.name === 'docs') await viewDocs(r, setView);
   else viewNotFound();
   if (currentRoute !== r) return; // bu sırada başka bir rotaya geçildi
   renderNav(r);

@@ -6,6 +6,7 @@
 //   #/inbox                       -> { name: 'inbox' }   (Onay Kutusu)
 //   #/roles                       -> { name: 'roles' }   (Yetki Matrisi)
 //   #/interface                   -> { name: 'interface' } (Aktarım Monitörü)
+//   #/docs[/<slug>|/glossary]     -> { name: 'docs', slug }   (Dokümantasyon)
 // Her rotada "?a=b" sorgu parametreleri route.query içinde gelir.
 
 export function parse(hash = location.hash) {
@@ -22,6 +23,7 @@ export function parse(hash = location.hash) {
   if (parts[0] === 'inbox') return { name: 'inbox', query };
   if (parts[0] === 'roles') return { name: 'roles', query };
   if (parts[0] === 'interface') return { name: 'interface', query };
+  if (parts[0] === 'docs') return { name: 'docs', slug: parts[1] || null, query };
   return { name: 'notfound', path, query };
 }
 

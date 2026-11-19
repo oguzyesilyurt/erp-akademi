@@ -155,7 +155,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 
 .bottom-nav {
   position: fixed; inset: auto 0 0 0; z-index: 20;
-  display: grid; grid-template-columns: repeat(5, 1fr);
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
   height: calc(var(--bottom-h) + var(--safe-b));
   padding-bottom: var(--safe-b);
   background: color-mix(in srgb, var(--surface) 86%, transparent);
@@ -165,12 +165,13 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .bn-item {
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
-  font-size: .72rem; font-weight: 550; color: var(--text-3);
+  font-size: .68rem; font-weight: 550; color: var(--text-3); min-width: 0;
   transition: color .15s var(--ease), transform .15s var(--ease);
 }
 .bn-item .ico { width: 22px; height: 22px; }
 .bn-item [data-theme-icon] { display: inline-flex; }
 .bn-item.is-active { color: var(--primary); }
+.bn-item > span:last-child { max-width: 100%; padding: 0 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bn-item:active { transform: scale(.94); }
 .bn-item.is-disabled { opacity: .4; }
 

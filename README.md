@@ -26,6 +26,9 @@ js/inbox.js           Onay Kutusu sayfası (#/inbox)
 js/roles-page.js      Yetki Matrisi sayfası (#/roles)
 js/erp.js             Sipariş → aktarım mesajı → teslimat → fatura ve belge akışı
 js/interface-page.js  Aktarım Monitörü (#/interface)
+js/markdown.js        Güvenli, küçük Markdown oluşturucu
+js/docs.js            Dokümantasyon merkezi, arama, sözlük (#/docs)
+data/docs/            Makaleler (.md), index.json, glossary.json
 data/roles.json       Roller, yetkiler ve görevler ayrılığı açıklaması
 data/company.json     Ortak sahte şirket verisi (Ege Dağıtım A.Ş.)
 data/tracks.json      Öğrenme yolları listesi
@@ -66,6 +69,25 @@ Ardından `http://localhost:8080` adresini açın.
 Tüm yollar görelidir; alt dizinde sorunsuz çalışır. Yayından sonra tarayıcıda **Uygulamayı yükle** (masaüstü) veya **Ana ekrana ekle** (mobil) ile kurulabilir.
 
 > Not: iOS ana ekran ikonu için SVG yerine 180×180 PNG gerekebilir; ileride `icons/` altına eklenebilir.
+
+## Dokümantasyon merkezi
+
+`#/docs` altında kategori ağacı, tam metin arama ve sözlük (`#/docs/glossary`) bulunur. İçerik `data/docs/` klasöründedir:
+
+- `index.json` – kategoriler ve makale listesi (kategori, başlık, slug, etiketler, okuma süresi, ilgili makaleler)
+- `<slug>.md` – makale metni (Markdown)
+- `glossary.json` – sözlük terimleri
+
+**Yeni makale eklemek:** `data/docs/<slug>.md` dosyasını oluşturun ve `index.json` içindeki `articles` dizisine bir satır ekleyin. Kod değişikliği gerekmez.
+
+Desteklenen Markdown: `##`/`###` başlıklar, listeler (iç içe), tablolar, `kod` ve kod blokları, bağlantılar (`#/…` veya `https://…`) ve bilgi kutuları:
+
+```
+> [!INFO] / [!UYARI] / [!IPUCU] / [!ORNEK] / [!DENE]
+> Kutu içeriği
+```
+
+Arama bağlantısı paylaşmak için: `#/docs?q=kredi`.
 
 ## Derin bağlantılar
 

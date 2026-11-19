@@ -1,0 +1,287 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "giris",
+      "name": "SAP'ye Giriş",
+      "icon": "book",
+      "description": "ERP kavramı, S/4HANA, modüller ve gezinme"
+    },
+    {
+      "id": "org",
+      "name": "Organizasyon Yapısı & Ana Veri",
+      "icon": "building",
+      "description": "Şirket kodu, satış alanı, Business Partner, malzeme"
+    },
+    {
+      "id": "crm",
+      "name": "CRM & C4C",
+      "icon": "users",
+      "description": "SAP Sales Cloud, lead, fırsat, teklif"
+    },
+    {
+      "id": "sd",
+      "name": "Satış (SD) / O2C",
+      "icon": "cart",
+      "description": "Order-to-Cash, fiyatlandırma, kredi yönetimi"
+    },
+    {
+      "id": "mm",
+      "name": "Satın Alma (MM) / P2P",
+      "icon": "box",
+      "description": "Procure-to-Pay, mal girişi, fatura doğrulama"
+    },
+    {
+      "id": "fico",
+      "name": "Finans & Maliyet (FI/CO)",
+      "icon": "chart",
+      "description": "Genel muhasebe, alacak/borç, maliyet merkezi"
+    },
+    {
+      "id": "int",
+      "name": "Entegrasyon",
+      "icon": "link",
+      "description": "IDoc, servisler, hata izleme ve yeniden işleme"
+    },
+    {
+      "id": "auth",
+      "name": "Yetkiler & SoD",
+      "icon": "shield",
+      "description": "Rol, yetki nesnesi, görevler ayrılığı"
+    },
+    {
+      "id": "test",
+      "name": "Test & UAT",
+      "icon": "flask",
+      "description": "Test türleri, UAT, hata raporu"
+    },
+    {
+      "id": "pm",
+      "name": "Proje Yönetimi",
+      "icon": "route",
+      "description": "SAP Activate, cutover, hypercare"
+    }
+  ],
+  "articles": [
+    {
+      "slug": "sap-giris",
+      "category": "giris",
+      "title": "SAP S/4HANA'ya giriş: ERP, modüller ve gezinme",
+      "summary": "ERP'nin ne olduğu, S/4HANA ile ECC farkı, temel modüller, SAP GUI ve Fiori ile gezinme.",
+      "tags": [
+        "ERP",
+        "S/4HANA",
+        "ECC",
+        "Fiori",
+        "SAP GUI",
+        "T-code"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "organizasyon-ana-veri",
+        "order-to-cash"
+      ]
+    },
+    {
+      "slug": "organizasyon-ana-veri",
+      "category": "org",
+      "title": "Organizasyon yapısı ve ana veri",
+      "summary": "Şirket kodu, satış alanı, tesis; Business Partner ve malzeme ana verisi.",
+      "tags": [
+        "Şirket kodu",
+        "Satış alanı",
+        "Business Partner",
+        "Ana veri",
+        "Customizing"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "sap-giris",
+        "crm-c4c"
+      ]
+    },
+    {
+      "slug": "crm-c4c",
+      "category": "crm",
+      "title": "SAP Sales Cloud (C4C) ile lead'den teklife",
+      "summary": "C4C nesneleri, lead–fırsat–teklif akışı ve ERP ile buluşma noktaları.",
+      "tags": [
+        "C4C",
+        "Sales Cloud",
+        "Lead",
+        "Fırsat",
+        "Teklif"
+      ],
+      "readingMinutes": 2,
+      "related": [
+        "entegrasyon",
+        "order-to-cash"
+      ]
+    },
+    {
+      "slug": "order-to-cash",
+      "category": "sd",
+      "title": "Order-to-Cash uçtan uca: tekliften tahsilata",
+      "summary": "Teklif, sipariş, teslimat, mal çıkışı, fatura ve tahsilat; belge akışını okuma.",
+      "tags": [
+        "O2C",
+        "SD",
+        "Satış siparişi",
+        "Teslimat",
+        "Fatura",
+        "Belge akışı"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "sd-fiyat-kredi",
+        "fico-temelleri",
+        "entegrasyon"
+      ]
+    },
+    {
+      "slug": "sd-fiyat-kredi",
+      "category": "sd",
+      "title": "SD fiyatlandırma ve kredi yönetimi",
+      "summary": "Koşul tekniği, fiyatlandırma şeması, iskonto zinciri ve SAP Credit Management.",
+      "tags": [
+        "Koşul tekniği",
+        "PR00",
+        "K007",
+        "Kredi limiti",
+        "Kredi blokajı"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "order-to-cash",
+        "yetki-sod"
+      ]
+    },
+    {
+      "slug": "procure-to-pay",
+      "category": "mm",
+      "title": "Procure-to-Pay: satın alma talebinden ödemeye",
+      "summary": "Satın alma talebi, sipariş, mal girişi, üç yönlü eşleştirme ve ödeme.",
+      "tags": [
+        "P2P",
+        "MM",
+        "Satın alma siparişi",
+        "MIGO",
+        "MIRO",
+        "GR/IR"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "fico-temelleri",
+        "organizasyon-ana-veri"
+      ]
+    },
+    {
+      "slug": "fico-temelleri",
+      "category": "fico",
+      "title": "FI/CO temelleri: muhasebe ve maliyet",
+      "summary": "FI ve CO farkı, alt defterler, süreçlerin muhasebe etkisi, açık kalem ve maliyet merkezi.",
+      "tags": [
+        "FI",
+        "CO",
+        "Universal Journal",
+        "Açık kalem",
+        "Maliyet merkezi"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "order-to-cash",
+        "procure-to-pay"
+      ]
+    },
+    {
+      "slug": "entegrasyon",
+      "category": "int",
+      "title": "CRM–ERP entegrasyonu: IDoc, servisler ve hata izleme",
+      "summary": "IDoc, mesaj türleri, durum kodları, middleware ve hatalı mesajın yeniden işlenmesi.",
+      "tags": [
+        "IDoc",
+        "ORDERS",
+        "BD87",
+        "Middleware",
+        "Yeniden işleme"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "crm-c4c",
+        "order-to-cash",
+        "test-turleri"
+      ]
+    },
+    {
+      "slug": "yetki-sod",
+      "category": "auth",
+      "title": "Yetki konsepti ve görevler ayrılığı (SoD)",
+      "summary": "Rol, yetki nesnesi, PFCG; SoD çakışmaları ve kontrol yöntemleri.",
+      "tags": [
+        "PFCG",
+        "Yetki nesnesi",
+        "SoD",
+        "GRC",
+        "SU53"
+      ],
+      "readingMinutes": 2,
+      "related": [
+        "sd-fiyat-kredi",
+        "uat-hata-yonetimi"
+      ]
+    },
+    {
+      "slug": "test-turleri",
+      "category": "test",
+      "title": "SAP projelerinde test türleri ve test senaryosu",
+      "summary": "Birim, entegrasyon, regresyon, UAT, performans ve yetki testi; iyi test senaryosu.",
+      "tags": [
+        "Test",
+        "SIT",
+        "Regresyon",
+        "UAT",
+        "eCATT"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "uat-hata-yonetimi",
+        "sap-activate"
+      ]
+    },
+    {
+      "slug": "uat-hata-yonetimi",
+      "category": "test",
+      "title": "UAT yönetimi ve iyi hata raporu",
+      "summary": "UAT planı, hata raporu alanları, önem ve öncelik, hata yaşam döngüsü, kabul kararı.",
+      "tags": [
+        "UAT",
+        "Hata raporu",
+        "Önem",
+        "Sign-off"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "test-turleri",
+        "sap-activate"
+      ]
+    },
+    {
+      "slug": "sap-activate",
+      "category": "pm",
+      "title": "SAP Activate, cutover ve hypercare",
+      "summary": "Activate fazları, fit-to-standard, cutover planı, veri taşıma ve hypercare.",
+      "tags": [
+        "SAP Activate",
+        "Fit-to-standard",
+        "Cutover",
+        "Hypercare",
+        "Migration Cockpit"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "test-turleri",
+        "uat-hata-yonetimi"
+      ]
+    }
+  ]
+}

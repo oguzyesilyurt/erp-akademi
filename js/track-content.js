@@ -81,7 +81,10 @@ function renderConcepts(c) {
       <header><h3>${esc(k.term)}</h3>${k.en ? `<span class="concept-en">${esc(k.en)}</span>` : ''}</header>
       <p>${esc(k.definition)}</p>
       ${k.example ? `<div class="example"><span class="example-label">${icon('building')} Ege Dağıtım'da</span><p>${esc(k.example)}</p></div>` : ''}
-      ${k.link ? `<a class="link small" href="${esc(k.link.href)}">${esc(k.link.label)} →</a>` : ''}
+      <div class="concept-links">
+        ${k.link ? `<a class="link small" href="${esc(k.link.href)}">${esc(k.link.label)} →</a>` : ''}
+        ${k.glossary ? `<a class="link small" href="#/docs/glossary?term=${encodeURIComponent(k.glossary)}">${icon('tag')} Sözlükte gör</a>` : ''}
+      </div>
     </article>`;
 
   return {

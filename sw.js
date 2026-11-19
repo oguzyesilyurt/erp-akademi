@@ -1,7 +1,7 @@
 // ERP Akademi service worker: uygulama kabuğunu ve veriyi önbelleğe alır.
 // Herhangi bir dosya değiştiğinde CACHE_VERSION artırılmalı; etkinleşme sırasında
 // "erp-akademi-" önekli eski önbellekler silinir.
-const CACHE_VERSION = 'v7';
+const CACHE_VERSION = 'v8';
 const CACHE_PREFIX = 'erp-akademi-';
 const CACHE = `${CACHE_PREFIX}${CACHE_VERSION}`;
 
@@ -13,6 +13,7 @@ const SHELL = [
   './css/company.css',
   './css/learn.css',
   './css/workflow.css',
+  './css/docs.css',
   './js/app.js',
   './js/router.js',
   './js/store.js',
@@ -30,11 +31,15 @@ const SHELL = [
   './js/roles-page.js',
   './js/erp.js',
   './js/interface-page.js',
+  './js/markdown.js',
+  './js/docs.js',
   './icons/icon.svg',
   './icons/icon-maskable.svg',
   './data/tracks.json',
   './data/company.json',
   './data/roles.json',
+  './data/docs/index.json',
+  './data/docs/glossary.json',
 ];
 
 self.addEventListener('install', (event) => {
@@ -49,6 +54,14 @@ self.addEventListener('install', (event) => {
         await cache.addAll(tracks.map((t) => `./data/tracks/${encodeURIComponent(t.id)}.json`));
       } catch (e) {
         /* yol dosyaları ilk kullanımda önbelleğe alınır */
+      }
+      // Dokümantasyon makaleleri (index.json'daki tüm .md dosyaları)
+      try {
+        const res = await cache.match('./data/docs/index.json');
+        const { articles = [] } = await res.json();
+        await cache.addAll(articles.map((a) => `./data/docs/${encodeURIComponent(a.slug)}.md`));
+      } catch (e) {
+        /* makaleler ilk açılışta önbelleğe alınır */
       }
       self.skipWaiting();
     })()
