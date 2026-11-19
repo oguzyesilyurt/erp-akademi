@@ -708,3 +708,10 @@ export async function renderQuoteSim(c) {
 
 // Test ve diğer modüller için
 export const _internals = { draft, compute: () => compute(), setCustomer, addItem, resetDraft, setCtx: (c) => (ctx = c) };
+
+// Merkezi demo sıfırlama için: bellekteki teklif taslağını temizler
+export function resetQuoteDraft() {
+  resetDraft();
+  mode = 'form';
+  lastSaved = null;
+}

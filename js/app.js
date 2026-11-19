@@ -10,6 +10,7 @@ import { viewRoles } from './roles-page.js';
 import { viewInterface } from './interface-page.js';
 import { viewDocs } from './docs.js';
 import { viewUsers } from './users-page.js';
+import { viewSettings } from './settings-page.js';
 import { loadReleases, currentRelease, isDefaultRelease } from './release.js';
 import { errorCount, processPending, openDocRef } from './erp.js';
 
@@ -117,6 +118,7 @@ function renderNav(route) {
   const isIface = route.name === 'interface';
   const isDocs = route.name === 'docs';
   const isUsers = route.name === 'users';
+  const isSettings = route.name === 'settings';
   const inboxN = inboxCount();
   const nBadge = inboxN ? `<span class="nav-badge" aria-label="${inboxN} bekleyen onay">${inboxN}</span>` : '';
   const errN = errorCount();
@@ -137,6 +139,8 @@ function renderNav(route) {
       <span class="nav-icon">${icon('users')}</span><span class="nav-label">Kullanıcı Yönetimi</span>${can('USER_ADMIN') ? '' : `<span class="nav-lock" title="Gerekli yetki: USER_ADMIN">${icon('lock')}</span>`}</a>
     <a class="nav-item ${isDocs ? 'is-active' : ''}" href="#/docs">
       <span class="nav-icon">${icon('book')}</span><span class="nav-label">Dokümantasyon</span></a>
+    <a class="nav-item ${isSettings ? 'is-active' : ''}" href="#/settings">
+      <span class="nav-icon">${icon('gear')}</span><span class="nav-label">Ayarlar</span></a>
     ${resume}
     <div class="nav-group">Yollar</div>
     ${tracks
@@ -377,6 +381,7 @@ async function route(r) {
   else if (r.name === 'interface') await viewInterface(setView);
   else if (r.name === 'docs') await viewDocs(r, setView);
   else if (r.name === 'users') await viewUsers(setView, r);
+  else if (r.name === 'settings') await viewSettings(setView);
   else viewNotFound();
   if (currentRoute !== r) return; // bu sırada başka bir rotaya geçildi
   renderNav(r);

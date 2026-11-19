@@ -8,7 +8,7 @@ Test planı, "neyi, nerede, ne zaman, kim ve hangi kurala göre test ediyoruz?" 
 
 | Bölüm | İçerik | Ege Dağıtım v1.1 örneği |
 |---|---|---|
-| Kapsam | Test edilecek gereksinimler ve süreçler | REQ-01…REQ-12: fiyat, onay, kredi, teslimat, fatura, entegrasyon, yetki, satın alma |
+| Kapsam | Test edilecek gereksinimler ve süreçler | REQ-01…REQ-13: fiyat, onay, kredi, teslimat, fatura, entegrasyon, yetki, satın alma, ödeme |
 | Kapsam dışı | Bu turda test edilmeyecekler | Satın alma (MM) süreçleri |
 | Ortam | Sürüm, mandant, test verisi | v1.1 UAT adayı, Ege Dağıtım ana verisi |
 | Takvim | Test turları | 1. tur (hata bulma), düzeltme, 2. tur (yeniden test + regresyon) |

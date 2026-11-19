@@ -315,6 +315,33 @@ export function resetErp() {
   refresh();
 }
 
+// ---------- muhasebe belgesi bağlantısı ----------
+// FI modülü kaynak belgeden (ör. 'RV:90000001', 'WA:80000001') muhasebe belgelerini bulan işlevi kaydeder.
+// Böylece ERP ve MM belge akışları FI'ya doğrudan bağımlı olmadan "Muhasebe belgesi" düğümü gösterir.
+let fiLookup = null;
+export function registerFiLookup(fn) {
+  fiLookup = fn;
+}
+export const fiDocsFor = (key) => (fiLookup ? fiLookup(key) || [] : []);
+
+// Belge akışı ağacında muhasebe belgesi düğümleri (anchor: { type: 'fidoc', no } ise vurgulanır)
+export function fiNodesHtml(key, lvl, anchor = {}) {
+  return fiDocsFor(key)
+    .map((d) => {
+      const isCur = anchor.type === 'fidoc' && anchor.no === d.no;
+      return `<li class="df-node${isCur ? ' is-current' : ''}" style="--lvl:${lvl}">
+      <button class="df-btn" type="button" data-act="doc" data-doc="fidoc:${esc(d.no)}" ${isCur ? 'aria-current="true"' : ''}>
+        <span class="df-ico">${icon('book')}</span>
+        <span class="df-body">
+          <span class="df-top"><span class="df-type">${esc(d.label || 'Muhasebe belgesi')}</span><span class="code">${esc(d.no)}</span><span class="flow-sys is-erp">FI</span></span>
+          <span class="df-meta">${badge(d.type, 'neutral')}<span class="cell-sub">${date(d.date)} · ${money(d.amount)}</span></span>
+        </span>
+      </button>
+    </li>`;
+    })
+    .join('');
+}
+
 // ---------- belge akışı ----------
 // anchor: { type: 'quote'|'order'|'delivery'|'invoice'|'message', no }
 export function flowHtml(anchor) {
@@ -324,7 +351,13 @@ export function flowHtml(anchor) {
     q = getQuote(anchor.no);
     o = orderForQuote(anchor.no);
   } else {
+    if (anchor.type === 'fidoc') {
+      const src = String(anchor.source || '');
+      const [k, n] = src.split(':');
+      anchor = { ...anchor, srcType: k === 'WA' ? 'delivery' : k === 'RV' || k === 'DZ' ? 'invoice' : null, srcNo: n };
+    }
     o = anchor.type === 'order' ? getOrder(anchor.no)
+      : anchor.type === 'fidoc' ? (anchor.srcType === 'delivery' ? getOrder(getDelivery(anchor.srcNo)?.orderNo) : getOrder(getInvoice(anchor.srcNo)?.orderNo))
       : anchor.type === 'delivery' ? getOrder(getDelivery(anchor.no)?.orderNo)
       : anchor.type === 'invoice' ? getOrder(getInvoice(anchor.no)?.orderNo)
       : getOrder(getMessage(anchor.no)?.orderNo);
@@ -355,7 +388,9 @@ export function flowHtml(anchor) {
     ${node('order', o?.no, 1, 'Satış siparişi', 'cart', o ? st(ERP_STATUS, o.erpStatus) : '', o ? `${date(o.date)} · ${money(o.totals.net)}` : '', 'CRM')}
     ${o ? node('message', m?.no, 2, 'Aktarım mesajı', 'link', m ? st(MSG_STATUS, m.status) : '', m ? `${esc(m.direction)} · ${m.attempts.length} deneme` : '', '') : ''}
     ${o ? node('delivery', d?.no, 2, 'Teslimat', 'truck', d ? badge('Çıkış yapıldı', 'success') : '', d ? `${date(d.date)} · ${esc(d.plant)} ${esc(whName(d.plant))}` : '', 'ERP') : ''}
+    ${d ? fiNodesHtml(`WA:${d.no}`, 3, anchor) : ''}
     ${o ? node('invoice', inv?.no, 3, 'Fatura', 'book', inv ? badge(`Vade ${date(inv.dueDate)}`, 'neutral') : '', inv ? `${date(inv.date)} · ${money(inv.gross)}` : '', 'ERP') : ''}
+    ${inv ? fiNodesHtml(`RV:${inv.no}`, 4, anchor) : ''}
   </ol>`;
 }
 

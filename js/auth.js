@@ -327,7 +327,7 @@ export async function openLogin(opts = {}) {
       `<div class="drawer-body">
         <p class="cell-sub login-note">${want ? `${esc(want.name)} rolündeki kullanıcılar üstte listelenir.` : `Ege Dağıtım'ın ${list.length} aktif kullanıcısından biriyle oturum aç.`} Her rolün yetkileri farklıdır; aynı ekran rolüne göre farklı düğmeler gösterir.</p>
         <div class="login-list">${cards}</div>
-        <a class="link small" href="#/roles" data-close>Yetki matrisini gör →</a>
+        <div class="login-links"><a class="link small" href="#/roles" data-close>Yetki matrisini gör →</a><a class="link small" href="#/settings" data-close>Ayarlar ve demo sıfırlama →</a></div>
       </div>`,
     (el) => {
       if (el.dataset.act === 'login') {

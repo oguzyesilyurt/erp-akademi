@@ -1,0 +1,27 @@
+/* ERP Akademi · Finans ve Maliyet (FI/CO) + Ayarlar */
+
+.fi-logo { background: linear-gradient(135deg, #e5577a, #8b5cf6); }
+.fi-lines td, .fi-items td { vertical-align: top; }
+.fi-aging tbody tr { cursor: pointer; }
+.fi-aging tr.is-sel { background: color-mix(in srgb, var(--primary) 7%, transparent); }
+.fi-alloc { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; font-size: .84rem; }
+.fi-alloc li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.fi-ex { cursor: default; flex-wrap: wrap; }
+.fi-tb td:first-child, .fi-copa td:first-child { min-width: 200px; }
+.fi-is td { padding: 8px 4px; }
+.fi-bs .cond-table { width: 100%; }
+.fc-bar.over span { background: var(--tone-danger); }
+.credit-now { display: flex; gap: 6px; align-items: flex-start; margin: 6px 0 0; padding: 8px 10px; border-radius: 10px; font-size: .8rem; }
+.credit-now .ico { width: 15px; height: 15px; flex: none; margin-top: 1px; }
+.credit-now.is-ok { color: var(--tone-success); background: color-mix(in srgb, var(--tone-success) 9%, transparent); }
+.credit-now.is-over { color: var(--tone-danger); background: color-mix(in srgb, var(--tone-danger) 8%, transparent); }
+
+/* Ayarlar */
+.settings-card { padding: 20px; display: grid; gap: 14px; max-width: 760px; box-shadow: none; }
+.settings-card h2 { display: flex; align-items: center; gap: 8px; font-size: 1.05rem; }
+.settings-card h2 .ico { color: var(--tone-danger); }
+.settings-opts { border: 0; margin: 0; padding: 0; display: grid; gap: 8px; }
+.settings-detail summary { cursor: pointer; font-size: .86rem; color: var(--text-2); }
+.danger-btn { background: var(--tone-danger); }
+.login-links { display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.mm .cond-table .code, .fi .cond-table .code { white-space: nowrap; }

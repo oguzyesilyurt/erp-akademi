@@ -10,7 +10,8 @@ import {
 } from './ui.js';
 import { loadRoles, can, actionBtn, currentUser, userLabel, holders, roleById, lockReason } from './auth.js';
 import { loadCompany, company, productOf, supplierOf, updateProduct, stockTotal, termOf, termName, unitName, openDetail } from './company.js';
-import { registerDocType, openDocRef, messages, getOrder, openDoc } from './erp.js';
+import { registerDocType, openDocRef, messages, getOrder, openDoc, fiNodesHtml } from './erp.js';
+import { resetAllDemo } from './demo-reset.js';
 
 const KEY = 'erp-akademi:mm';
 const START = { pr: 10000001, po: 4500000001, mdoc: 5000000001, sinv: 5105600001 };
@@ -167,7 +168,7 @@ function headHtml() {
         <span class="c4c-logo mm-logo">${icon('box')}</span>
         <div><strong>S/4HANA · Satın Alma ve Stok</strong><span class="cell-sub">${esc(me()?.name || '—')} · sistem tarihi ${date(today())}${nPend ? ` · onayını bekleyen ${nPend} belge` : ''}</span></div>
       </div>
-      <button class="link small" type="button" data-reset-mm>Demo verisini sıfırla</button>
+      <button class="link small" type="button" data-reset-mm title="Tüm modüllerin işlem verisini sıfırlar (Ayarlar)">Demo verisini sıfırla</button>
     </div>
     ${roleBox('purchaser', 'PR_CREATE', 'Satın alma talebi ve siparişi oluşturacak kimse yok')}
     ${roleBox('purchasing-manager', 'PR_RELEASE', 'Eşiği aşan talep ve siparişleri onaylayacak kimse yok')}
@@ -866,7 +867,14 @@ export function p2pFlowHtml(anchor) {
     pr = getPr(anchor.no, s);
     po = pr?.poNo ? getPo(pr.poNo, s) : null;
   } else {
-    po = anchor.type === 'po' ? getPo(anchor.no, s) : anchor.type === 'mdoc' ? getPo(getMdoc(anchor.no, s)?.poNo, s) : getPo(getInv(anchor.no, s)?.poNo, s);
+    if (anchor.type === 'fidoc') {
+      const [k, n] = String(anchor.source || '').split(':');
+      anchor = { ...anchor, mdocNo: k === 'WE' ? n : null, invNo: k === 'RE' ? n : null };
+    }
+    po = anchor.type === 'po' ? getPo(anchor.no, s)
+      : anchor.type === 'mdoc' ? getPo(getMdoc(anchor.no, s)?.poNo, s)
+      : anchor.type === 'fidoc' ? getPo(anchor.mdocNo ? getMdoc(anchor.mdocNo, s)?.poNo : getInv(anchor.invNo, s)?.poNo, s)
+      : getPo(getInv(anchor.no, s)?.poNo, s);
     pr = po?.prNo ? getPr(po.prNo, s) : null;
   }
   const node = (type, no, lvl, label, ic, status, meta) => {
@@ -879,8 +887,8 @@ export function p2pFlowHtml(anchor) {
   return `<ol class="docflow">
     ${node('pr', pr?.no, 0, 'Satın alma talebi', 'inbox', pr ? badge(PR_STATUS[pr.status].label, PR_STATUS[pr.status].tone) : '', pr ? `${num(pr.qty)} ${esc(productOf(pr.code)?.unit || '')} · ${money(pr.value ?? pr.price * pr.qty)}` : '')}
     ${node('po', po?.no, 1, 'Satın alma siparişi', 'cart', po ? badge(PO_STATUS[po.status].label, PO_STATUS[po.status].tone) : '', po ? `${date(po.date)} · ${money(poNet(po))}` : '')}
-    ${po ? (grs.length ? grs.map((d) => node('mdoc', d.no, 2, 'Mal girişi (101)', 'truck', badge(`${num(sum(d.lines, (l) => l.qty))}`, 'success'), `${date(d.date)} · ${esc(d.lines[0]?.plant || '')}`)).join('') : node('mdoc', null, 2, 'Mal girişi (101)', 'truck')) : ''}
-    ${po ? (invs.length ? invs.map((i) => node('sinv', i.no, 3, 'Tedarikçi faturası', 'book', badge(INV_STATUS[i.status].label, INV_STATUS[i.status].tone), `${esc(i.ref)} · ${money(i.gross)}`)).join('') : node('sinv', null, 3, 'Tedarikçi faturası', 'book')) : ''}
+    ${po ? (grs.length ? grs.map((d) => node('mdoc', d.no, 2, 'Mal girişi (101)', 'truck', badge(`${num(sum(d.lines, (l) => l.qty))}`, 'success'), `${date(d.date)} · ${esc(d.lines[0]?.plant || '')}`) + fiNodesHtml(`WE:${d.no}`, 3, anchor)).join('') : node('mdoc', null, 2, 'Mal girişi (101)', 'truck')) : ''}
+    ${po ? (invs.length ? invs.map((i) => node('sinv', i.no, 3, 'Tedarikçi faturası', 'book', badge(INV_STATUS[i.status].label, INV_STATUS[i.status].tone), `${esc(i.ref)} · ${money(i.gross)}`) + fiNodesHtml(`RE:${i.no}`, 4, anchor)).join('') : node('sinv', null, 3, 'Tedarikçi faturası', 'book')) : ''}
   </ol>`;
 }
 
@@ -931,6 +939,10 @@ function docAction(kind, no, el) {
   }
 }
 
+// FI modülü için salt okunur durum
+export const mmState = () => read();
+export const mmPoNet = (po) => poNet(po);
+
 // ---------- onay kutusu ----------
 export function mmInbox(user = currentUser()) {
   let s;
@@ -979,11 +991,11 @@ function bindRoot(root) {
     if ((el = qs('[data-reset-mm]'))) {
       if (!el.classList.contains('confirm')) {
         el.classList.add('confirm');
-        el.textContent = 'Emin misin? Talep, sipariş, mal girişi, fatura ve transferler geri alınır · tekrar dokun';
+        el.textContent = 'Emin misin? Tüm modüllerin işlem verisi (belgeler, stok, bakiye, onaylar, defect kayıtları) sıfırlanır · tekrar dokun';
         return;
       }
-      resetMM();
-      return toast('MM demo verisi başlangıç haline döndü');
+      resetAllDemo();
+      return toast('Tüm modüllerin demo verisi başlangıç haline döndü');
     }
     if ((el = qs('[data-suggest]'))) return openPrForm({ code: el.dataset.suggest });
     if (qs('[data-new-pr]')) return openPrForm({});

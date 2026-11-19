@@ -16,6 +16,7 @@ import {
 import { all as allQuotes, visible as visibleQuotes, statusBadge as quoteBadge, openQuote } from './quotes.js';
 import { orderForQuote, visibleOrders, orderBadges, openDoc, invoices as erpInvoices } from './erp.js';
 import { applyPreset } from './sim-quote.js';
+import { resetAllDemo } from './demo-reset.js';
 
 const KEY = 'erp-akademi:c4c';
 const SCORE = { hot: { label: 'Sıcak', tone: 'danger' }, warm: { label: 'Ilık', tone: 'warning' }, cold: { label: 'Soğuk', tone: 'info' } };
@@ -1439,14 +1440,11 @@ export function createCampaign(v) {
 }
 
 // ---------- sıfırlama ----------
+// Merkezi sıfırlamayı çağırır (tüm modüllerin işlem verisi tutarlı biçimde başlangıca döner)
 function resetDemo() {
-  removeProspects(crmProspectIds());
-  try {
-    localStorage.removeItem(KEY);
-  } catch {}
   accountId = null;
-  toast('C4C demo verisi başlangıç haline döndü');
-  document.dispatchEvent(new CustomEvent('erp:refresh'));
+  resetAllDemo();
+  toast('Tüm modüllerin demo verisi başlangıç haline döndü');
 }
 
 // ---------- olaylar ----------
@@ -1463,7 +1461,7 @@ function bindRoot(root) {
       const b = q('[data-reset-demo]');
       if (!b.classList.contains('confirm')) {
         b.classList.add('confirm');
-        b.textContent = 'Emin misin? Lead, fırsat, aktivite ve kampanyalar sıfırlanır · tekrar dokun';
+        b.textContent = 'Emin misin? Tüm modüllerin işlem verisi (belgeler, stok, bakiye, onaylar, defect kayıtları) sıfırlanır · tekrar dokun';
         return;
       }
       return resetDemo();

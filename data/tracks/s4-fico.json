@@ -1,11 +1,814 @@
 {
   "id": "s4-fico",
-  "version": 1,
+  "version": 2,
   "sections": {
-    "intro": null,
-    "concepts": null,
-    "simulation": null,
-    "scenarios": null,
+    "intro": {
+      "title": "Finans ve Maliyet (FI/CO): her işlemin muhasebe izi",
+      "lead": "Satış ve satın alma olaylarının nasıl otomatik yevmiye kaydına dönüştüğünü gör; alacak ve borçları yönet, mizan ve bilanço oku, hangi segmentin kâr ettirdiğini bul.",
+      "duration": "10 dk",
+      "goals": [
+        "Teslimat, satış faturası, mal girişi ve tedarikçi faturasının Tekdüzen Hesap Planı'ndaki kaydını okuyabilmek",
+        "Müşteri açık kalemlerini yaşlandırıp tahsilatı doğru kaleme denkleştirebilmek",
+        "Ödeme programında blokajlı faturanın neden ödenmediğini açıklayabilmek",
+        "Mizan, bilanço ve gelir tablosunu kayıtlardan izleyebilmek",
+        "Maliyet merkezi, kâr merkezi ve kârlılık analiziyle yönetim sorularını yanıtlayabilmek"
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "title": "FI ve CO ne yapar?",
+          "paragraphs": [
+            "FI (Financial Accounting) yasal muhasebedir: her ekonomik olay borç ve alacağı eşit bir muhasebe belgesiyle kaydedilir; bilanço ve gelir tablosu bu kayıtlardan çıkar. SD ve MM işlemleri FI'ya otomatik yansır. Satış temsilcisi veya depocu hesap kodu seçmez; sistem hesap belirleme kurallarıyla doğru hesabı bulur.",
+            "CO (Controlling) yönetim muhasebesidir: aynı kayıtları maliyet merkezi, kâr merkezi ve pazar kırılımı (segment, kanal, bölge, ürün) gibi şirket içi boyutlarla raporlar. S/4HANA'da FI ve CO kalemleri tek tabloda (Universal Journal) tutulur."
+          ]
+        },
+        {
+          "type": "compare",
+          "title": "Olaylar ve otomatik kayıtlar (Tekdüzen Hesap Planı)",
+          "columns": [
+            "Olay",
+            "Borç",
+            "Alacak"
+          ],
+          "rows": [
+            [
+              "Teslimat · mal çıkışı (WA)",
+              "621 Satılan Ticari Mallar Maliyeti",
+              "153 Ticari Mallar"
+            ],
+            [
+              "Satış faturası (RV)",
+              "120 Alıcılar · 611 Satış İskontoları",
+              "600 Yurt İçi Satışlar · 391 Hesaplanan KDV"
+            ],
+            [
+              "Mal girişi (WE)",
+              "153 Ticari Mallar",
+              "GR/IR ara hesabı (burada 329)"
+            ],
+            [
+              "Tedarikçi faturası (RE)",
+              "GR/IR ara hesabı · 191 İndirilecek KDV",
+              "320 Satıcılar"
+            ],
+            [
+              "Tahsilat (DZ)",
+              "102 Bankalar",
+              "120 Alıcılar"
+            ],
+            [
+              "Tedarikçi ödemesi (KZ)",
+              "320 Satıcılar",
+              "102 Bankalar"
+            ]
+          ]
+        },
+        {
+          "type": "flow",
+          "title": "Bu yolda uygulayacağın akış",
+          "text": "Simülasyon sekmesi bir FI/CO çalışma alanıdır: muhasebe belgeleri, alacaklar, borçlar, raporlar ve maliyet/kârlılık. Belge akışı ağaçlarındaki \"Muhasebe belgesi\" düğümü de buraya açılır.",
+          "steps": [
+            {
+              "label": "Otomatik kayıt",
+              "system": "FI",
+              "owner": "Sistem",
+              "text": "Teslimat, fatura, mal girişi ve tedarikçi faturası yevmiye kaydı üretir (1000000001…)."
+            },
+            {
+              "label": "Alacak takibi",
+              "system": "FBL5N / F-28",
+              "owner": "Muhasebe",
+              "text": "Açık kalemler yaşlandırılır; tahsilat en eski kalemden denkleştirilir, kredi durumu düzelir."
+            },
+            {
+              "label": "Borç ödemesi",
+              "system": "FBL1N / F110",
+              "owner": "Hazine Uzmanı",
+              "text": "Vadesi gelenler önerilir; ödeme blokajlı faturalar nedeniyle birlikte hariç tutulur."
+            },
+            {
+              "label": "Raporlama",
+              "system": "Mizan · bilanço",
+              "owner": "Muhasebe",
+              "text": "Borç = alacak; aktif = pasif + dönem kârı."
+            },
+            {
+              "label": "Kârlılık",
+              "system": "CO",
+              "owner": "Controller",
+              "text": "Gelir − iskonto − SMM; segment, kanal, bölge, ürün kırılımı."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "title": "Hesap kodları şirkete göre değişebilir",
+          "text": "Tekdüzen Hesap Planı ana hesapları (102, 120, 153, 320, 600…) yasal çerçevedir; alt hesaplar, GR/IR karşılığı ve gider hesaplarının (7/A, 7/B) kullanımı şirketin seçimine bağlıdır. Bu simülasyondaki eşleştirme eğitim amaçlıdır."
+        }
+      ]
+    },
+    "concepts": {
+      "intro": "Finans ve maliyet muhasebesinde her gün kullanılan 12 terim. Her kart sözlükteki tanıma bağlıdır.",
+      "items": [
+        {
+          "id": "tdhp",
+          "term": "Tekdüzen Hesap Planı",
+          "en": "Uniform Chart of Accounts (Turkey)",
+          "definition": "Türkiye'de bilanço esasına göre defter tutan şirketlerin kullandığı hesap planı çerçevesi. Ana hesap kodları (ör. 120 Alıcılar, 600 Yurt İçi Satışlar) standarttır; alt hesaplar şirkete göre açılır.",
+          "example": "Ege Dağıtım satış faturasında 120, 600, 611 ve 391 hesaplarını kullanır.",
+          "glossary": "tdhp"
+        },
+        {
+          "id": "fi-doc",
+          "term": "Muhasebe belgesi",
+          "en": "Journal entry / accounting document",
+          "definition": "Bir ekonomik olayın borç ve alacak satırlarından oluşan kaydı; borç toplamı alacak toplamına eşittir. Belge türü (ör. RV, WA, WE, RE, DZ, KZ) kaynağını gösterir.",
+          "example": "F-2611-001 faturası: 120 borç 111.504 ₺ · 611 borç 9.600 ₺ · 600 alacak 120.000 ₺ · 391 alacak 1.104 ₺.",
+          "glossary": "muhasebe-belgesi"
+        },
+        {
+          "id": "acct-det",
+          "term": "Otomatik hesap belirleme",
+          "en": "Automatic account determination",
+          "definition": "SD ve MM işlemlerinin hangi genel muhasebe hesaplarına gideceğini belirleyen yapılandırma. Kullanıcı hesap seçmez; işlem türüne göre sistem bulur (SD için VKOA, MM için OBYC).",
+          "example": "Depocu teslimatı kaydeder; sistem 621'e borç, 153'e alacak yazar.",
+          "glossary": "otomatik-hesap-belirleme"
+        },
+        {
+          "id": "grir",
+          "term": "GR/IR ara hesabı",
+          "en": "Goods receipt / invoice receipt clearing",
+          "definition": "Mal girişi ile tedarikçi faturası arasındaki zaman farkını karşılayan SAP ara hesabı. Mal girişi alacak, fatura borç yazar; ikisi eşleşince kapanır. Tekdüzen Hesap Planı'nda standart karşılığı yoktur.",
+          "example": "120 koli siyah çay girdi: 153 borç / GR-IR alacak 355.200 ₺; fatura gelene kadar ara hesap açık.",
+          "glossary": "gr-ir"
+        },
+        {
+          "id": "open-item",
+          "term": "Açık kalem ve yaşlandırma",
+          "en": "Open item / aging",
+          "definition": "Henüz tahsil veya ödeme yapılmamış fatura kalemi. Yaşlandırma açık kalemleri vadeden bu yana geçen güne göre gruplar (0–30, 31–60, 60+).",
+          "example": "Uşak Kardeşler'in 184.300 ₺'lik kalemi 60+ gün grubunda; bu yüzden müşteri bloke.",
+          "glossary": "acik-kalem"
+        },
+        {
+          "id": "clearing",
+          "term": "Tahsilat ve denkleştirme",
+          "en": "Incoming payment / clearing",
+          "definition": "Gelen ödemenin müşterinin açık kalemleriyle eşleştirilip kapatılması. Tutar yetmezse kalem kısmen kapanır, kalan açık kalır.",
+          "example": "Manisa Yıldız'dan 150.000 ₺: 96.000 ₺'lik vadesi geçmiş kalem kapandı, 54.000 ₺ sonraki kaleme kısmi yazıldı.",
+          "glossary": "denklestirme"
+        },
+        {
+          "id": "payment-run",
+          "term": "Ödeme programı",
+          "en": "Automatic payment program",
+          "definition": "Vadesi gelen tedarikçi kalemlerini seçip toplu ödeme kaydı oluşturan işlem (F110). Ödeme blokajlı kalemler hariç tutulur ve istisna listesinde nedeniyle görünür.",
+          "example": "Çalıştırma: Anadolu Yağ 186.000 ₺, Parlak Kimya 98.400 ₺ ödendi; Marmara'nın bloke faturası atlandı.",
+          "glossary": "odeme-programi"
+        },
+        {
+          "id": "tb",
+          "term": "Mizan",
+          "en": "Trial balance",
+          "definition": "Tüm hesapların borç ve alacak toplamları ile bakiyelerini gösteren liste. Çift taraflı kayıt nedeniyle toplam borç toplam alacağa eşittir; bilanço ve gelir tablosunun kaynağıdır.",
+          "example": "Mizanda 600 alacak bakiyesi Kasım brüt satışlarını, 621 borç bakiyesi satılan malın maliyetini verir.",
+          "glossary": "mizan"
+        },
+        {
+          "id": "cogs",
+          "term": "Satılan malın maliyeti (SMM)",
+          "en": "Cost of goods sold",
+          "definition": "Satılan ticari malların stoktaki maliyet değeri. Mal çıkışında stoktan düşer ve 621 hesabına gider yazılır; brüt kâr = net satış − SMM.",
+          "example": "F-2611-001 teslimatı: 40 koli yağ × 1.170 ₺ + 60 koli şeker × 520 ₺ = 78.000 ₺ SMM.",
+          "glossary": "smm"
+        },
+        {
+          "id": "cc",
+          "term": "Maliyet merkezi",
+          "en": "Cost center",
+          "definition": "Giderlerin toplandığı ve sorumlusuna raporlandığı birim. Plan ile fiili karşılaştırılır.",
+          "example": "4200 Depo ve Lojistik: plan 35.000 ₺, fiili 38.500 ₺ → %10 aşım.",
+          "glossary": "maliyet-merkezi"
+        },
+        {
+          "id": "pc",
+          "term": "Kâr merkezi",
+          "en": "Profit center",
+          "definition": "Gelir ve maliyetin birlikte izlendiği iç sorumluluk alanı; bölüm veya ürün grubu bazında kârlılığı gösterir.",
+          "example": "PC01 Gıda ve PC02 Temizlik: gelir ve SMM ürünün bölümüne göre yazılır.",
+          "glossary": "kar-merkezi"
+        },
+        {
+          "id": "copa",
+          "term": "Kârlılık analizi (CO-PA)",
+          "en": "Profitability analysis",
+          "definition": "Satış gelirinden iskonto ve satılan malın maliyetini düşerek katkı payını müşteri, segment, kanal, bölge ve ürün gibi pazar boyutlarında raporlama.",
+          "example": "A segmenti en yüksek cirosu olan segment ama iskontolar yüzünden marjı en düşük.",
+          "glossary": "co-pa"
+        }
+      ]
+    },
+    "simulation": {
+      "type": "fi",
+      "title": "FI/CO çalışma alanı",
+      "description": "Otomatik muhasebe kayıtları, alacak ve borç açık kalemleri, tahsilat, ödeme programı, mizan, bilanço, gelir tablosu ve kârlılık analizi.",
+      "completeHint": "İlk tahsilatı veya ödeme programını kaydettiğinde bu bölüm tamamlanır.",
+      "companyCode": "1000",
+      "accounts": [
+        {
+          "code": "102",
+          "name": "Bankalar",
+          "kind": "asset"
+        },
+        {
+          "code": "120",
+          "name": "Alıcılar",
+          "kind": "asset"
+        },
+        {
+          "code": "153",
+          "name": "Ticari Mallar",
+          "kind": "asset"
+        },
+        {
+          "code": "191",
+          "name": "İndirilecek KDV",
+          "kind": "asset"
+        },
+        {
+          "code": "320",
+          "name": "Satıcılar",
+          "kind": "liability"
+        },
+        {
+          "code": "329",
+          "name": "Diğer Ticari Borçlar (GR/IR ara hesabı)",
+          "kind": "liability"
+        },
+        {
+          "code": "391",
+          "name": "Hesaplanan KDV",
+          "kind": "liability"
+        },
+        {
+          "code": "500",
+          "name": "Sermaye",
+          "kind": "equity"
+        },
+        {
+          "code": "600",
+          "name": "Yurt İçi Satışlar",
+          "kind": "revenue"
+        },
+        {
+          "code": "611",
+          "name": "Satış İskontoları (-)",
+          "kind": "deduction"
+        },
+        {
+          "code": "621",
+          "name": "Satılan Ticari Mallar Maliyeti (-)",
+          "kind": "cogs"
+        },
+        {
+          "code": "631",
+          "name": "Pazarlama, Satış ve Dağıtım Giderleri (-)",
+          "kind": "expense"
+        },
+        {
+          "code": "632",
+          "name": "Genel Yönetim Giderleri (-)",
+          "kind": "expense"
+        }
+      ],
+      "costCenters": [
+        {
+          "id": "4100",
+          "name": "Satış",
+          "owner": "Satış Müdürü",
+          "plan": 50000
+        },
+        {
+          "id": "4200",
+          "name": "Depo ve Lojistik",
+          "owner": "Depo Sorumlusu",
+          "plan": 35000
+        },
+        {
+          "id": "4300",
+          "name": "Yönetim",
+          "owner": "Genel Müdürlük",
+          "plan": 32000
+        }
+      ],
+      "profitCenters": [
+        {
+          "id": "PC01",
+          "name": "Gıda",
+          "division": "01"
+        },
+        {
+          "id": "PC02",
+          "name": "Temizlik",
+          "division": "02"
+        }
+      ],
+      "seed": {
+        "openingDate": "2026-10-31",
+        "bank": 2500000,
+        "customerOpening": {
+          "100001": {
+            "overdue": [],
+            "restDue": "2026-11-28"
+          },
+          "100002": {
+            "overdue": [
+              {
+                "ref": "F-2609-118",
+                "docDate": "2026-09-15",
+                "dueDate": "2026-10-30",
+                "amount": 145000
+              }
+            ],
+            "restDue": "2026-11-25"
+          },
+          "100003": {
+            "overdue": [
+              {
+                "ref": "F-2609-077",
+                "docDate": "2026-09-05",
+                "dueDate": "2026-10-05",
+                "amount": 96000
+              }
+            ],
+            "restDue": "2026-12-01"
+          },
+          "100004": {
+            "overdue": [],
+            "restDue": "2026-11-30"
+          },
+          "100005": {
+            "overdue": [],
+            "restDue": "2026-11-30"
+          },
+          "100006": {
+            "overdue": [
+              {
+                "ref": "F-2607-041",
+                "docDate": "2026-07-01",
+                "dueDate": "2026-07-31",
+                "amount": 184300
+              }
+            ],
+            "restDue": "2026-11-25"
+          },
+          "100007": {
+            "overdue": [],
+            "restDue": "2026-12-20"
+          },
+          "100008": {
+            "overdue": [],
+            "restDue": "2026-11-24"
+          }
+        },
+        "apItems": [
+          {
+            "supplier": "200001",
+            "ref": "AY-2026-4410",
+            "docDate": "2026-10-01",
+            "dueDate": "2026-11-15",
+            "amount": 186000
+          },
+          {
+            "supplier": "200001",
+            "ref": "AY-2026-4521",
+            "docDate": "2026-10-20",
+            "dueDate": "2026-12-04",
+            "amount": 142500
+          },
+          {
+            "supplier": "200003",
+            "ref": "PK-2026-0930",
+            "docDate": "2026-09-22",
+            "dueDate": "2026-11-21",
+            "amount": 98400
+          },
+          {
+            "supplier": "200002",
+            "ref": "MB-2026-1102",
+            "docDate": "2026-10-12",
+            "dueDate": "2026-11-11",
+            "amount": 64800,
+            "block": "Miktar farkı: faturada 40 koli, teslim alınan 36 koli. Fatura doğrulamada ödemeye bloke edildi (R); tedarikçiden 4 koli için alacak dekontu bekleniyor."
+          },
+          {
+            "supplier": "200002",
+            "ref": "MB-2026-1130",
+            "docDate": "2026-10-28",
+            "dueDate": "2026-11-27",
+            "amount": 48300
+          }
+        ],
+        "salesInvoices": [
+          {
+            "id": "F-2611-001",
+            "date": "2026-11-03",
+            "customer": "100001",
+            "lines": [
+              {
+                "code": "GD-1001",
+                "qty": 40
+              },
+              {
+                "code": "GD-1007",
+                "qty": 60
+              }
+            ]
+          },
+          {
+            "id": "F-2611-002",
+            "date": "2026-11-04",
+            "customer": "100002",
+            "lines": [
+              {
+                "code": "GD-1008",
+                "qty": 20
+              },
+              {
+                "code": "TM-2005",
+                "qty": 120
+              }
+            ]
+          },
+          {
+            "id": "F-2611-003",
+            "date": "2026-11-05",
+            "customer": "100004",
+            "lines": [
+              {
+                "code": "GD-1003",
+                "qty": 50
+              },
+              {
+                "code": "GD-1005",
+                "qty": 80
+              }
+            ]
+          },
+          {
+            "id": "F-2611-004",
+            "date": "2026-11-06",
+            "customer": "100007",
+            "lines": [
+              {
+                "code": "TM-2001",
+                "qty": 60
+              },
+              {
+                "code": "TM-2003",
+                "qty": 40
+              }
+            ]
+          },
+          {
+            "id": "F-2611-005",
+            "date": "2026-11-10",
+            "customer": "100008",
+            "lines": [
+              {
+                "code": "TM-2002",
+                "qty": 30
+              },
+              {
+                "code": "TM-2006",
+                "qty": 40
+              }
+            ]
+          },
+          {
+            "id": "F-2611-006",
+            "date": "2026-11-11",
+            "customer": "100005",
+            "lines": [
+              {
+                "code": "GD-1004",
+                "qty": 30
+              },
+              {
+                "code": "GD-1006",
+                "qty": 25
+              }
+            ]
+          },
+          {
+            "id": "F-2611-007",
+            "date": "2026-11-12",
+            "customer": "100003",
+            "lines": [
+              {
+                "code": "GD-1001",
+                "qty": 15
+              },
+              {
+                "code": "GD-1007",
+                "qty": 20
+              }
+            ]
+          },
+          {
+            "id": "F-2611-008",
+            "date": "2026-11-13",
+            "customer": "100001",
+            "lines": [
+              {
+                "code": "TM-2002",
+                "qty": 25
+              },
+              {
+                "code": "TM-2004",
+                "qty": 20
+              }
+            ]
+          },
+          {
+            "id": "F-2611-009",
+            "date": "2026-11-17",
+            "customer": "100002",
+            "lines": [
+              {
+                "code": "GD-1002",
+                "qty": 10
+              },
+              {
+                "code": "TM-2007",
+                "qty": 30
+              }
+            ]
+          },
+          {
+            "id": "F-2611-010",
+            "date": "2026-11-18",
+            "customer": "100004",
+            "lines": [
+              {
+                "code": "TM-2005",
+                "qty": 50
+              }
+            ]
+          }
+        ],
+        "expenses": [
+          {
+            "id": "GID-2611-01",
+            "date": "2026-11-15",
+            "text": "Kasım personel giderleri (örnek kapsam)",
+            "lines": [
+              {
+                "account": "631",
+                "cc": "4100",
+                "amount": 48000
+              },
+              {
+                "account": "631",
+                "cc": "4200",
+                "amount": 26000
+              },
+              {
+                "account": "632",
+                "cc": "4300",
+                "amount": 22000
+              }
+            ]
+          },
+          {
+            "id": "GID-2611-02",
+            "date": "2026-11-17",
+            "text": "Kasım kira, enerji ve yakıt (örnek kapsam)",
+            "lines": [
+              {
+                "account": "631",
+                "cc": "4200",
+                "amount": 12500
+              },
+              {
+                "account": "632",
+                "cc": "4300",
+                "amount": 8500
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "scenarios": {
+      "intro": "Dört senaryo FI/CO'yu dört rolle yaşatır: satış, muhasebe, hazine ve controlling. Her adımda hangi rolle oturum açman gerektiği yazar.",
+      "items": [
+        {
+          "id": "faturadan-mizana",
+          "title": "Satış faturasından mizana iz sür",
+          "level": "Orta",
+          "duration": "25 dk",
+          "role": "sales-rep",
+          "customer": "100001",
+          "simulation": {
+            "tab": "journal"
+          },
+          "summary": "Küçük bir satışı tekliften faturaya götür; teslimat ve faturanın yevmiye kayıtlarını aç, mizanda ve gelir tablosunda nereye düştüğünü bul.",
+          "goal": "Karşıyaka Gıda'ya 10 koli ayçiçek yağı sat ve bu satışın 621/153, 120/600/611/391 kayıtlarını, mizan bakiyelerini ve müşteri açık kalemini izle.",
+          "steps": [
+            {
+              "title": "Teklif ve sipariş",
+              "role": "sales-rep",
+              "what": "Satış Temsilcisi ({{user:sales-rep}}) olarak B2B CRM teklif simülasyonunda Karşıyaka Gıda'ya GD-1001 Ayçiçek Yağı × 10 koli teklif kaydet (onay gerekmez) ve siparişe dönüştür.",
+              "why": "Net 16.560 ₺ ve iskonto %8; eşiklerin altında olduğu için teklif doğrudan onaylanır.",
+              "caution": "Sipariş ERP'ye aktarılınca teslimat açılabilir; birkaç saniye bekle."
+            },
+            {
+              "title": "Teslimat",
+              "role": "warehouse",
+              "what": "Depo Sorumlusu ({{user:warehouse}}) olarak siparişi aç ve teslimat oluştur.",
+              "why": "Mal çıkışı stoğu düşürür ve otomatik bir WA muhasebe belgesi üretir: 621 borç / 153 alacak, 10 × 1.170 = 11.700 ₺.",
+              "caution": "Depocu hesap kodu seçmez; hesap belirleme kuralları bulur."
+            },
+            {
+              "title": "Fatura",
+              "role": "accounting",
+              "what": "Muhasebe ({{user:accounting}}) olarak fatura oluştur. Fatura panelindeki belge akışında yeni \"Muhasebe belgesi\" düğümüne tıkla.",
+              "why": "RV belgesi: 120 borç 16.725,60 ₺ · 611 borç 1.440 ₺ · 600 alacak 18.000 ₺ · 391 alacak 165,60 ₺. Borç = alacak.",
+              "caution": "İskonto ayrı hesapta (611) izlenir; bazı şirketler net tutarı doğrudan 600'e yazar."
+            },
+            {
+              "title": "Mizanda bul",
+              "role": "accounting",
+              "what": "FI/CO > Simülasyon > Raporlar > Mizan'da 600, 611, 621 ve 120 satırlarına bak; borç ve alacak toplamlarının eşit olduğunu doğrula.",
+              "why": "Mizan tüm belgelerden üretilir; az önceki satış dört hesabın bakiyesini değiştirdi.",
+              "caution": "Mizan dengesi tek başına doğruluk kanıtı değildir: yanlış hesaba yapılan kayıt da dengededir."
+            },
+            {
+              "title": "Gelir tablosu ve açık kalem",
+              "role": "accounting",
+              "what": "Gelir tablosunda brüt kârın 4.860 ₺ arttığını (16.560 − 11.700) gör. Alacaklar sekmesinde Karşıyaka Gıda'nın yeni açık kalemini ve 30 gün sonraki vadesini bul.",
+              "why": "Satış hem kârı hem alacağı doğurur; tahsil edilene kadar müşteri riskindedir.",
+              "caution": "Vade, siparişteki ödeme koşulundan (Z030) gelir."
+            }
+          ],
+          "outcome": "Tek bir satışın iki muhasebe belgesi (WA ve RV), mizan bakiyeleri, gelir tablosundaki brüt kârı ve müşteri açık kalemi izlendi."
+        },
+        {
+          "id": "manisa-tahsilat",
+          "title": "Limit aşımındaki Manisa Yıldız'dan tahsilat",
+          "level": "Orta",
+          "duration": "20 dk",
+          "role": "sales-rep",
+          "customer": "100003",
+          "simulation": {
+            "tab": "ar",
+            "customer": "100003"
+          },
+          "summary": "Kredi limitini aşan müşterinin teklifi kredi onayında bekler; tahsilat kaydedilince kredi durumu düzelir ve teklif onaylanır.",
+          "goal": "Manisa Yıldız'ın vadesi geçmiş kalemini tahsil et, kredi durumunu \"Limit aşımı\"ndan \"Riskli\"ye indir ve bekleyen teklifi kredi onayından geçir.",
+          "steps": [
+            {
+              "title": "Teklif kredi onayına düşer",
+              "role": "sales-rep",
+              "what": "Satış Temsilcisi olarak Manisa Yıldız Dağıtım'a GD-1001 Ayçiçek Yağı × 15 koli teklif ver ve onaya gönder.",
+              "why": "Açık bakiye 812.400 ₺ zaten 750.000 ₺ limitin üstünde; teklif (25.906,50 ₺) kredi onayı ister.",
+              "caution": "Temsilci kredi kararı veremez (görevler ayrılığı)."
+            },
+            {
+              "title": "Onay kutusunda güncel durumu oku",
+              "role": "accounting",
+              "what": "Muhasebe ({{user:accounting}}) olarak Onay Kutusu'nda teklifi aç. Kredi adımındaki \"Güncel\" satırında açık bakiye + teklif tutarının limiti aştığını gör; henüz onaylama.",
+              "why": "Kredi kararı güncel bakiyeye göre verilir.",
+              "caution": "Limit aşımında gerekçesiz onay riski şirkete yükler."
+            },
+            {
+              "title": "Yaşlandırmayı incele",
+              "role": "accounting",
+              "what": "FI/CO > Alacaklar'da Manisa Yıldız satırını aç: 96.000 ₺ \"31–60 gün\" grubunda (vade 5 Ekim), toplam 812.400 ₺.",
+              "why": "Vadesi geçmiş kalem tahsil edilmeden yeni risk alınmamalı.",
+              "caution": "Yaşlandırma vadeden itibaren hesaplanır, fatura tarihinden değil."
+            },
+            {
+              "title": "Tahsilatı kaydet (F-28)",
+              "role": "accounting",
+              "what": "Tahsilat formunda Manisa Yıldız, 150.000 ₺, açıklama \"EFT\" gir. Önizlemede 96.000 ₺'lik kalemin denkleştiğini, 54.000 ₺'nin sonraki kaleme kısmi yazıldığını ve kredi durumunun \"Limit aşımı\" → \"Riskli\" olduğunu gör; kaydet.",
+              "why": "Tahsilat 102 borç / 120 alacak kaydı üretir; açık bakiye 662.400 ₺'ye iner.",
+              "caution": "Açık kalem toplamından fazla tutar bu simülasyonda kaydedilmez (avans yok)."
+            },
+            {
+              "title": "Kredi onayını ver",
+              "role": "accounting",
+              "what": "Onay Kutusu'na dön: \"Güncel\" satırı artık 688.306,50 ₺ ile limit içinde. Gerekçe yazarak (\"Vadesi geçmiş bakiye tahsil edildi\") onayla.",
+              "why": "Kredi kararı tahsilatla değişen riske göre verildi ve gerekçesi kayda geçti.",
+              "caution": "Müşteri hâlâ %88 kullanımla \"Riskli\"; büyük siparişler yeniden onaya düşer."
+            }
+          ],
+          "outcome": "Manisa Yıldız'ın vadesi geçmiş kalemi tahsil edildi, kredi durumu düzeldi ve bekleyen teklif kredi onayından geçti."
+        },
+        {
+          "id": "odeme-programi",
+          "title": "Ödeme programı: blokajlı fatura neden ödenmedi?",
+          "level": "Orta",
+          "duration": "20 dk",
+          "role": "key-user",
+          "simulation": {
+            "tab": "ap"
+          },
+          "summary": "Hazine uzmanı ödeme programını çalıştırır; vadesi geçmiş olmasına rağmen Marmara Bakliyat faturası ödenmez. Neden?",
+          "goal": "Ödeme önerisini oku, blokajlı kalemin nedenini bul, ödemeyi çalıştır ve muhasebe kayıtlarını doğrula.",
+          "steps": [
+            {
+              "title": "Hazine Uzmanı kullanıcısını oluştur",
+              "role": "key-user",
+              "what": "Key User olarak FI/CO > Borçlar'daki uyarı kutusundan Hazine Uzmanı rolünde kullanıcı oluştur. Şu an: {{user:treasury}}.",
+              "why": "Ödeme programı yetkisi (PAYMENT_RUN) yalnızca bu roldedir ve varsayılan kullanıcısı yoktur.",
+              "caution": "Bu role INVOICE_VERIFY eklemeye çalışırsan SoD uyarısı alırsın: faturayı doğrulayan ödemeyi yapmamalı."
+            },
+            {
+              "title": "Öneriyi oku",
+              "role": "treasury",
+              "what": "Hazine Uzmanı olarak Borçlar sekmesinde sonraki çalıştırma tarihini 26 Kasım bırak. Öneride Anadolu Yağ (186.000 ₺, vadesi 4 gün geçmiş) ve Parlak Kimya (98.400 ₺, vade 21 Kasım) var.",
+              "why": "Sonraki çalıştırmadan önce vadesi gelecek kalemler bugün ödenir; aksi halde gecikir.",
+              "caution": "Vadesi 27 Kasım (MB-2026-1130) ve 4 Aralık (AY-2026-4521) olan kalemler bir sonraki çalıştırmaya kalır."
+            },
+            {
+              "title": "Hariç tutulanı incele",
+              "role": "treasury",
+              "what": "\"Hariç tutulanlar\"da Marmara Bakliyat MB-2026-1102'yi bul: vadesi 8 gün geçmiş ama \"Ödeme blokajı\". Nedeni oku: faturada 40 koli, teslim alınan 36 koli.",
+              "why": "Fatura doğrulamada miktar farkı olan fatura ödemeye bloke edilir; ödeme programı blokajlı kalemi atlar.",
+              "caution": "Hazine blokajı kaldıramaz; karar fatura doğrulamanındır."
+            },
+            {
+              "title": "Ödemeyi çalıştır",
+              "role": "treasury",
+              "what": "\"Ödemeyi çalıştır\"a bas. Ödeme çalıştırmaları listesinde iki ödeme belgesi (KZ) oluştuğunu, FBL1N'de kalemlerin \"Ödendi\" olduğunu gör; muhasebe belgesini aç: 320 borç / 102 alacak.",
+              "why": "Ödeme, tedarikçi borcunu kapatır ve bankadan çıkar.",
+              "caution": "Ödenen kalem ikinci çalıştırmada yeniden önerilmez."
+            },
+            {
+              "title": "Muhasebe gözüyle kontrol",
+              "role": "accounting",
+              "what": "Muhasebe ({{user:accounting}}) olarak Borçlar sekmesinde blokajlı faturanın hâlâ açık olduğunu, Raporlar > Mizan'da 320 bakiyesinin azaldığını gör. \"Ödemeyi çalıştır\" düğmesinin kilitli olduğunu fark et.",
+              "why": "Faturayı doğrulayan (INVOICE_VERIFY) ödemeyi yapamaz; iki anahtar ilkesi.",
+              "caution": "Tedarikçiden alacak dekontu gelince fark kapanır, blokaj kaldırılır ve sonraki çalıştırmada ödenir."
+            }
+          ],
+          "outcome": "Vadesi gelen iki fatura ödendi; miktar farkı nedeniyle bloke olan fatura gerekçesiyle hariç tutuldu ve muhasebe kayıtları doğrulandı."
+        },
+        {
+          "id": "ay-sonu-karlilik",
+          "title": "Ay sonu kârlılık: hangi segment ve ürün kâr ettiriyor?",
+          "level": "İleri",
+          "duration": "20 dk",
+          "role": "key-user",
+          "simulation": {
+            "tab": "co"
+          },
+          "summary": "Controller Kasım kârlılığını segment, ürün ve kâr merkezine göre inceler, maliyet merkezi sapmasını bulur.",
+          "goal": "Ciro ile kârlılığın aynı şey olmadığını göster: en çok satan segmentin marjı neden en düşük, hangi ürünler kampanya yüzünden düşük marjlı, hangi maliyet merkezi planı aştı?",
+          "steps": [
+            {
+              "title": "Controller kullanıcısını oluştur",
+              "role": "key-user",
+              "what": "Key User olarak FI/CO > Maliyet ve kârlılık sekmesindeki kutudan Controller rolünde kullanıcı oluştur. Şu an: {{user:controller}}.",
+              "why": "CO raporları (CO_VIEW) Controller rolündedir; varsayılan kullanıcısı yoktur.",
+              "caution": "Controller kayıt yapmaz; yalnızca raporlar."
+            },
+            {
+              "title": "Segmente göre kârlılık",
+              "role": "controller",
+              "what": "Controller olarak Kârlılık analizi > Segment kırılımını aç. A segmenti net gelirde açık ara önde ama marjı en düşük (~%28); C segmenti en yüksek marjlı (~%34).",
+              "why": "A segmenti %8 segment iskontosu alır ve kampanyalı ürünleri çok alır; ciro büyür, marj düşer.",
+              "caution": "Marj karşılaştırması katkı payı düzeyindedir; satış ve lojistik giderleri dağıtılmamıştır."
+            },
+            {
+              "title": "Ürüne göre kârlılık",
+              "role": "controller",
+              "what": "Ürün kırılımına geç: TM-2001 Toz Çamaşır Deterjanı ve TM-2003 Çamaşır Suyu %22 marjla en altta.",
+              "why": "Bu ürünler hem A segmenti (%8) hem Kış Temizlik Kampanyası (%10) iskontosu aldı.",
+              "caution": "Kampanya hacim kazandırdıysa düşük marj bilinçli bir tercih olabilir; karar satış ve pazarlamayla birlikte verilir."
+            },
+            {
+              "title": "Kâr merkezleri",
+              "role": "controller",
+              "what": "Kâr merkezleri görünümünde Gıda (PC01) ve Temizlik (PC02) brüt kâr marjlarını karşılaştır.",
+              "why": "Temizlik bölümünün marjı kampanya nedeniyle Gıda'nın altında.",
+              "caution": "Kâr merkezine genel gider dağıtımı yapılmadı; sonuç brüt kâr düzeyindedir."
+            },
+            {
+              "title": "Maliyet merkezi sapması",
+              "role": "controller",
+              "what": "Maliyet merkezleri görünümünde 4200 Depo ve Lojistik'in planı %10 aştığını (35.000 → 38.500 ₺) gör. Ardından Raporlar > Gelir tablosunda faaliyet kârını oku.",
+              "why": "Gider sapması plan sahibine (Depo Sorumlusu) raporlanır; faaliyet kârı brüt kârdan genel giderler düşülerek bulunur.",
+              "caution": "Plan aylıktır; ay ortasında sapma yorumu dikkatli yapılmalı."
+            }
+          ],
+          "outcome": "Ciro ile kârlılık ayrıştırıldı: A segmenti ve kampanyalı temizlik ürünleri düşük marjlı, Depo maliyet merkezi planın üstünde. Bulgular satış, pazarlama ve depo yönetimine raporlanabilir."
+        }
+      ]
+    },
     "tests": null,
     "quiz": null
   }

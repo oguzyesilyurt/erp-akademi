@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 7,
   "defaultUser": "U01",
   "permissions": [
     {
@@ -91,6 +91,30 @@
       "label": "Kredi onayı / blok kaldırma",
       "group": "Finans",
       "description": "Kredi limitini aşan teklifleri onaylar, bloke müşterinin blokajını kaldırır."
+    },
+    {
+      "id": "CASH_RECEIPT",
+      "label": "Tahsilat girişi (F-28)",
+      "group": "Finans",
+      "description": "Müşteri tahsilatını kaydeder ve açık kalemleri denkleştirir; açık bakiye ve kredi durumu güncellenir."
+    },
+    {
+      "id": "FI_REPORTS",
+      "label": "Finansal raporlar",
+      "group": "Finans",
+      "description": "Mizan, bilanço ve gelir tablosunu görür."
+    },
+    {
+      "id": "PAYMENT_RUN",
+      "label": "Ödeme programı (F110)",
+      "group": "Finans",
+      "description": "Vadesi gelen tedarikçi kalemleri için ödeme önerisi oluşturur ve ödemeyi çalıştırır."
+    },
+    {
+      "id": "CO_VIEW",
+      "label": "Maliyet ve kârlılık (CO)",
+      "group": "Finans",
+      "description": "Maliyet merkezi, kâr merkezi ve kârlılık analizi raporlarını görür."
     },
     {
       "id": "PRICE_VIEW",
@@ -206,14 +230,16 @@
       "users": [
         "U03"
       ],
-      "summary": "Kredi onayı verir, blok kaldırır, satış faturası keser ve tedarikçi faturasını doğrular; teklif oluşturamaz.",
+      "summary": "Kredi onayı verir, blok kaldırır, satış faturası keser, tahsilat girer, tedarikçi faturasını doğrular ve finansal raporları görür; teklif oluşturamaz.",
       "permissions": [
         "QUOTE_VIEW_ALL",
         "CREDIT_RELEASE",
         "PRICE_VIEW",
         "MASTERDATA_VIEW",
         "INVOICE_CREATE",
-        "INVOICE_VERIFY"
+        "INVOICE_VERIFY",
+        "CASH_RECEIPT",
+        "FI_REPORTS"
       ]
     },
     {
@@ -281,6 +307,28 @@
       "permissions": [
         "PR_RELEASE",
         "PO_RELEASE",
+        "MASTERDATA_VIEW",
+        "PRICE_VIEW"
+      ]
+    },
+    {
+      "id": "treasury",
+      "name": "Hazine Uzmanı",
+      "users": [],
+      "summary": "Ödeme programını çalıştırır; tedarikçi faturası doğrulayamaz.",
+      "permissions": [
+        "PAYMENT_RUN",
+        "MASTERDATA_VIEW"
+      ]
+    },
+    {
+      "id": "controller",
+      "name": "Controller",
+      "users": [],
+      "summary": "Maliyet merkezi, kâr merkezi ve kârlılık analizini izler; finansal raporları görür, kayıt yapmaz.",
+      "permissions": [
+        "CO_VIEW",
+        "FI_REPORTS",
         "MASTERDATA_VIEW",
         "PRICE_VIEW"
       ]
@@ -367,6 +415,11 @@
         "a": "Satın alma talebi",
         "b": "Talep onayı",
         "why": "Talebi açan kendi talebini onaylarsa harcama kontrolü işlemez."
+      },
+      {
+        "a": "Fatura doğrulama",
+        "b": "Ödeme programı",
+        "why": "Faturayı doğrulayan ödemeyi de yaparsa hatalı fatura kontrolsüz ödenir."
       }
     ]
   },
@@ -435,6 +488,11 @@
       "a": "PR_CREATE",
       "b": "PR_RELEASE",
       "why": "Talebi açan kişi kendi talebini onaylarsa harcama kontrolü işlemez."
+    },
+    {
+      "a": "INVOICE_VERIFY",
+      "b": "PAYMENT_RUN",
+      "why": "Faturayı doğrulayan (ve blokajını kaldırabilen) kişi ödemeyi de çalıştırırsa fiktif veya hatalı fatura kendi kontrolüyle ödenir."
     }
   ],
   "templates": [
@@ -501,6 +559,24 @@
         "MASTERDATA_VIEW",
         "DELIVERY_CREATE",
         "GR_POST"
+      ]
+    },
+    {
+      "name": "Hazine Uzmanı",
+      "description": "Ödeme programını (F110) çalıştırır.",
+      "permissions": [
+        "PAYMENT_RUN",
+        "MASTERDATA_VIEW"
+      ]
+    },
+    {
+      "name": "Controller",
+      "description": "Maliyet ve kârlılık raporlarını izler.",
+      "permissions": [
+        "CO_VIEW",
+        "FI_REPORTS",
+        "MASTERDATA_VIEW",
+        "PRICE_VIEW"
       ]
     },
     {

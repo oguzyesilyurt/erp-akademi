@@ -58,7 +58,7 @@ function applyOverrides() {
 
 // İşlem verisi (fatura → açık bakiye, teslimat → stok) ve CRM'den eklenen ilgili kişiler
 // ana veri değişikliği sayılmaz
-const TX_FIELDS = ['openBalance', 'contacts'];
+const TX_FIELDS = ['openBalance', 'overdue', 'contacts'];
 
 // CRM'de (lead dönüşümü) yeni aday hesap açar; ERP'de açılana kadar müşteri numarası yoktur
 export function addProspect(rec) {

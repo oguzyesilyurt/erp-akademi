@@ -6,7 +6,7 @@ import {
   esc, money2 as money, num, date, datetime, pct1, badge, kv, dsec, alertBox, toast,
   openDrawer, closeDrawer, drawerHead,
 } from './ui.js';
-import { channelName, termName, company } from './company.js';
+import { channelName, termName, company, partnerOf } from './company.js';
 import { can, currentUser, userLabel, actionBtn, lockReason } from './auth.js';
 import { flowHtml, orderForQuote, openOrderForm, openDocRef } from './erp.js';
 
@@ -173,12 +173,22 @@ function stepper(q) {
         <div>
           <div class="ap-title"><strong>${esc(a.label || STEP_LABEL[a.key])}</strong>${badge(l, tone)}</div>
           <ul class="ap-reasons">${(a.reasons || []).map((r) => `<li>${esc(r)}</li>`).join('')}</ul>
+          ${a.key === 'credit' && a.status === 'pending' ? creditNow(q) : ''}
           <span class="cell-sub">${a.by ? `${esc(userLabel(a.by))} · ${datetime(a.at)}` : `Yetki: <span class="code">${esc(a.perm)}</span> · ${esc(a.approver || '')}`}</span>
           ${a.note ? `<p class="ap-note">“${esc(a.note)}”</p>` : ''}
         </div>
       </li>`;
     })
     .join('')}</ol>`;
+}
+
+// Kredi adımı beklerken güncel durum: teklif kaydedildikten sonra tahsilat gelmiş olabilir
+function creditNow(q) {
+  const c = partnerOf(q.customer);
+  if (!c || !c.creditLimit) return '';
+  const exp = Math.round((c.openBalance + q.totals.gross) * 100) / 100;
+  const ok = exp <= c.creditLimit;
+  return `<p class="credit-now ${ok ? 'is-ok' : 'is-over'}">${icon(ok ? 'check' : 'alert')}<span>Güncel: açık bakiye ${money(c.openBalance)} + teklif ${money(q.totals.gross)} = <strong>${money(exp)}</strong> · limit ${money(c.creditLimit)} → ${ok ? 'limit içinde' : 'limiti aşıyor'}</span></p>`;
 }
 
 export function timeline(q) {

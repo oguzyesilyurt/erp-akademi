@@ -33,12 +33,27 @@ Müşteri ve tedarikçi kayıtları G/L'ye **mutabakat hesabı** (reconciliation
 
 ### Açık kalem ve vade
 
-Fatura kaydedildiğinde müşteri hesabında bir **açık kalem** oluşur. Vade tarihi ödeme koşulundan hesaplanır (Z030 → 30 gün). Vadesi geçmiş kalemler için **ihtar** (dunning) çalıştırılır; tahsil edilmeyen alacak kredi riskini büyütür.
+Fatura kaydedildiğinde müşteri hesabında bir **açık kalem** oluşur. Vade tarihi ödeme koşulundan hesaplanır (Z030 → 30 gün). Vadesi geçmiş kalemler için **ihtar** (dunning) çalıştırılır; tahsil edilmeyen alacak kredi riskini büyütür. Açık kalemler vadeden bu yana geçen güne göre **yaşlandırılır** (ör. 0–30, 31–60, 60+ gün).
+
+### Tahsilat ve ödeme
+
+- **Tahsilat (`F-28`):** Gelen ödeme müşterinin açık kalemleriyle **denkleştirilir**. Tutar yetmezse kalem kısmen kapanır. Açık bakiye düşer, kredi kullanımı iyileşir.
+- **Ödeme programı (`F110`):** Vadesi bir sonraki çalıştırmadan önce gelen tedarikçi kalemleri önerilir. **Ödeme blokajlı** (ör. fatura doğrulamada R blokajı) kalemler hariç tutulur ve istisna listesinde nedeniyle görünür.
+
+### Raporlar
+
+**Mizan** tüm hesapların borç/alacak toplamlarını verir; toplam borç toplam alacağa eşittir. **Bilanço** varlıkları kaynaklarla (yabancı kaynak + özkaynak + dönem kârı) karşılaştırır; **gelir tablosu** net satıştan satışların maliyetini ve faaliyet giderlerini düşer.
 
 ## Maliyet ve kâr merkezi
 
 - **Maliyet merkezi:** Gider topladığı yer (ör. Kemalpaşa depo maliyetleri, satış ekibi giderleri).
 - **Kâr merkezi:** Gelir ve gideri birlikte izlenen sorumluluk alanı (ör. Gıda bölümü, Temizlik bölümü).
+- **Kârlılık analizi (CO-PA):** Gelir − iskonto − satılan malın maliyeti = katkı payı; müşteri, segment, kanal, bölge ve ürün kırılımında raporlanır.
+
+Ege Dağıtım'da maliyet merkezleri 4100 Satış, 4200 Depo ve Lojistik, 4300 Yönetim; kâr merkezleri PC01 Gıda ve PC02 Temizlik'tir.
+
+> [!UYARI]
+> Hesap kodları Tekdüzen Hesap Planı'na göre verilmiştir (102, 120, 153, 191, 320, 391, 600, 611, 621, 631, 632). Alt hesaplar, GR/IR karşılığı ve giderlerin 7/A veya 7/B seçeneğiyle izlenmesi şirkete göre değişebilir. Ayrıntılar: [Bir satışın muhasebe izi](#/docs/satisin-muhasebe-izi).
 
 ## Ege Dağıtım'dan örnek
 
@@ -52,6 +67,10 @@ Fatura kaydedildiğinde müşteri hesabında bir **açık kalem** oluşur. Vade 
 | T-code | `FB50` | Genel muhasebe kaydı girişi |
 | T-code | `FB70` / `FB60` | Müşteri / tedarikçi faturası girişi (FI) |
 | T-code | `F-28` | Gelen ödeme kaydı |
+| T-code | `F110` | Otomatik ödeme programı |
+| T-code | `FS10N` | Genel muhasebe hesabı bakiyeleri |
+| T-code | `KSB1` | Maliyet merkezi fiili kalemleri |
+| T-code | `KE30` | Kârlılık analizi raporu (CO-PA) |
 | T-code | `F150` | İhtar (dunning) çalıştırma |
 | T-code | `FBL5N` / `FBL1N` / `FBL3N` | Müşteri / tedarikçi / G/L kalemleri |
 | T-code | `KS01` | Maliyet merkezi oluşturma |
@@ -70,4 +89,4 @@ Fatura kaydedildiğinde müşteri hesabında bir **açık kalem** oluşur. Vade 
 - **CO nesnesi olmadan gider kaydetmek:** Maliyet merkezi raporları eksik kalır.
 
 > [!DENE]
-> [Müşteri listesinde](#/company/customers) açık bakiye ve vadesi geçmiş tutarları incele; [Aktarım Monitörü](#/interface) üzerinden bir siparişi faturalayıp açık bakiyenin nasıl değiştiğini gör.
+> [FI/CO çalışma alanında](#/track/s4-fico/simulation?tab=ar) müşteri açık kalemlerini yaşlandır ve tahsilat gir; ardından [Manisa Yıldız tahsilat senaryosunu](#/track/s4-fico/scenarios/manisa-tahsilat) uygula.

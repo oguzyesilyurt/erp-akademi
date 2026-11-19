@@ -1206,6 +1206,114 @@
         "tesis",
         "depo-yeri"
       ]
+    },
+    {
+      "id": "tdhp",
+      "term": "Tekdüzen Hesap Planı",
+      "en": "Uniform Chart of Accounts",
+      "cat": "ERP",
+      "def": "Türkiye'de bilanço esasına göre defter tutan şirketlerin kullandığı hesap planı çerçevesi. Ana hesap kodları standarttır (ör. 102 Bankalar, 120 Alıcılar, 600 Yurt İçi Satışlar); alt hesaplar ve bazı kullanımlar şirkete göre değişir.",
+      "article": "satisin-muhasebe-izi",
+      "see": [
+        "muhasebe-belgesi",
+        "mizan"
+      ]
+    },
+    {
+      "id": "muhasebe-belgesi",
+      "term": "Muhasebe belgesi",
+      "en": "Journal entry / accounting document",
+      "cat": "SAP",
+      "def": "Bir ekonomik olayın borç ve alacak satırlarından oluşan kaydı; borç toplamı alacak toplamına eşittir. SAP'de belge türü kaynağı gösterir (ör. RV satış faturası, WA mal çıkışı, WE mal girişi, RE tedarikçi faturası, DZ tahsilat, KZ ödeme).",
+      "article": "satisin-muhasebe-izi",
+      "see": [
+        "otomatik-hesap-belirleme",
+        "mizan"
+      ]
+    },
+    {
+      "id": "otomatik-hesap-belirleme",
+      "term": "Otomatik hesap belirleme",
+      "en": "Automatic account determination",
+      "cat": "SAP",
+      "def": "SD ve MM işlemlerinin hangi genel muhasebe hesaplarına kaydedileceğini belirleyen yapılandırma. Satış gelir hesapları VKOA, stok hareketleri OBYC ile tanımlanır; kullanıcı işlem sırasında hesap seçmez.",
+      "article": "satisin-muhasebe-izi",
+      "see": [
+        "muhasebe-belgesi",
+        "hareket-turu"
+      ]
+    },
+    {
+      "id": "yaslandirma",
+      "term": "Yaşlandırma",
+      "en": "Aging",
+      "cat": "ERP",
+      "def": "Açık kalemlerin vadeden bu yana geçen gün sayısına göre gruplanması (ör. 0–30, 31–60, 60+). Tahsilat önceliği ve kredi kararları için kullanılır.",
+      "article": "fico-temelleri",
+      "see": [
+        "acik-kalem",
+        "kredi-limiti"
+      ]
+    },
+    {
+      "id": "denklestirme",
+      "term": "Denkleştirme",
+      "en": "Clearing",
+      "cat": "SAP",
+      "def": "Bir ödemenin veya karşı kaydın açık kalemle eşleştirilip kapatılması. Tutar yetmezse kalem kısmi ödemeyle açık kalır. Gelen ödeme kaydı: F-28.",
+      "article": "fico-temelleri",
+      "see": [
+        "acik-kalem",
+        "yaslandirma"
+      ]
+    },
+    {
+      "id": "odeme-programi",
+      "term": "Ödeme programı",
+      "en": "Automatic payment program",
+      "cat": "SAP",
+      "def": "Vadesi gelen tedarikçi kalemlerini seçip toplu ödeme kaydı oluşturan işlem (F110). Ödeme blokajlı kalemler hariç tutulur ve istisna listesinde gösterilir.",
+      "article": "fico-temelleri",
+      "see": [
+        "odeme-blokaji",
+        "borc-hesaplari"
+      ]
+    },
+    {
+      "id": "mizan",
+      "term": "Mizan",
+      "en": "Trial balance",
+      "cat": "ERP",
+      "def": "Tüm hesapların borç ve alacak toplamlarını ve bakiyelerini gösteren liste; toplam borç toplam alacağa eşittir. Bilanço ve gelir tablosu mizandan hazırlanır.",
+      "article": "satisin-muhasebe-izi",
+      "see": [
+        "muhasebe-belgesi",
+        "tdhp"
+      ]
+    },
+    {
+      "id": "smm",
+      "term": "Satılan malın maliyeti (SMM)",
+      "en": "Cost of goods sold",
+      "cat": "ERP",
+      "def": "Satılan ticari malların stoktaki maliyet değeri. Mal çıkışında stoktan düşülür ve 621 Satılan Ticari Mallar Maliyeti hesabına yazılır; brüt kâr = net satış − SMM.",
+      "article": "satisin-muhasebe-izi",
+      "see": [
+        "mal-cikisi",
+        "co-pa"
+      ]
+    },
+    {
+      "id": "co-pa",
+      "term": "Kârlılık analizi (CO-PA)",
+      "en": "Profitability analysis",
+      "cat": "SAP",
+      "def": "Satış gelirinden iskonto ve maliyetleri düşerek kârlılığı müşteri, segment, kanal, bölge, ürün gibi pazar boyutlarında raporlayan CO bileşeni. Rapor işlemi: KE30.",
+      "article": "fico-temelleri",
+      "see": [
+        "kar-merkezi",
+        "smm"
+      ]
     }
   ]
 }

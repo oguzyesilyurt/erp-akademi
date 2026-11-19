@@ -1,9 +1,10 @@
 // Aktarım Monitörü (#/interface): CRM → ERP mesajları
 import { icon } from './icons.js';
 import { esc, money2 as money, datetime, badge, emptyState, toast } from './ui.js';
-import { loadCompany, resetMasterData } from './company.js';
+import { loadCompany } from './company.js';
 import { loadRoles, can } from './auth.js';
-import { messages, getOrder, MSG_STATUS, openDoc, processPending, resetErp } from './erp.js';
+import { messages, getOrder, MSG_STATUS, openDoc, processPending } from './erp.js';
+import { resetAllDemo } from './demo-reset.js';
 
 let filter = 'all';
 
@@ -61,8 +62,8 @@ export async function viewInterface(setView) {
           : `<div class="card">${emptyState('link', filter === 'all' ? 'Henüz aktarım mesajı yok' : 'Bu durumda mesaj yok', 'Onaylanmış bir teklifi siparişe dönüştürdüğünde mesaj burada görünür.')}</div>`
       }
       <div class="iface-foot">
-        <button class="btn btn-ghost" type="button" data-reset-erp>${icon('close')}<span>Tüm sipariş/ERP belgelerini sıfırla</span></button>
-        <span class="cell-sub">Siparişler, mesajlar, teslimatlar, faturalar, stok/bakiye etkileri ve ana veri değişiklikleri (ör. ERP'de açılan müşteri) geri alınır; teklifler korunur.</span>
+        <button class="btn btn-ghost" type="button" data-reset-erp>${icon('close')}<span>Tüm demo verisini sıfırla</span></button>
+        <span class="cell-sub">Tüm modüllerin işlem verisi (teklif, sipariş, satın alma, muhasebe, CRM, test koşumları), stok/bakiye etkileri ve ana veri değişiklikleri başlangıca döner. Kullanıcı ve roller korunur; ayrıntılı seçenekler <a class="link" href="#/settings">Ayarlar</a>'da.</span>
       </div>
     </div>`,
     'Aktarım Monitörü'
@@ -84,9 +85,8 @@ export async function viewInterface(setView) {
         reset.querySelector('span').textContent = 'Emin misin? Tekrar dokun';
         return;
       }
-      resetErp();
-      resetMasterData();
-      toast('Sipariş ve ERP belgeleri sıfırlandı');
+      resetAllDemo();
+      toast('Tüm modüllerin demo verisi sıfırlandı');
     }
   });
   root.addEventListener('keydown', (e) => {

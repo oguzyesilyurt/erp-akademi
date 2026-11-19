@@ -245,8 +245,27 @@
       ],
       "readingMinutes": 3,
       "related": [
+        "satisin-muhasebe-izi",
         "order-to-cash",
         "procure-to-pay"
+      ]
+    },
+    {
+      "slug": "satisin-muhasebe-izi",
+      "category": "fico",
+      "title": "Bir satışın muhasebe izi",
+      "summary": "Teslimat ve faturanın Tekdüzen Hesap Planı kayıtları, GR/IR, tahsilat, mizan ve gelir tablosuna uzanan iz.",
+      "tags": [
+        "Muhasebe belgesi",
+        "Tekdüzen Hesap Planı",
+        "SMM",
+        "Mizan",
+        "GR/IR"
+      ],
+      "readingMinutes": 4,
+      "related": [
+        "fico-temelleri",
+        "order-to-cash"
       ]
     },
     {
