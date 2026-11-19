@@ -1,5 +1,5 @@
 {
-  "version": 5,
+  "version": 6,
   "defaultUser": "U01",
   "permissions": [
     {
@@ -49,6 +49,42 @@
       "label": "Fatura oluşturma",
       "group": "Sipariş ve ERP",
       "description": "Teslim edilen sipariş için fatura keser; tutar müşterinin açık bakiyesine eklenir."
+    },
+    {
+      "id": "PR_CREATE",
+      "label": "Satın alma talebi",
+      "group": "Satın Alma",
+      "description": "Satın alma talebi (PR) oluşturur; stok genel bakıştan talep önerisini kullanır."
+    },
+    {
+      "id": "PR_RELEASE",
+      "label": "Talep onayı (release)",
+      "group": "Satın Alma",
+      "description": "Tutar eşiğini aşan satın alma taleplerini onaylar (serbest bırakır) veya reddeder."
+    },
+    {
+      "id": "PO_CREATE",
+      "label": "Satın alma siparişi",
+      "group": "Satın Alma",
+      "description": "Onaylı talepten satın alma siparişi (PO) oluşturur ve tedarikçiye gönderir."
+    },
+    {
+      "id": "PO_RELEASE",
+      "label": "Sipariş onayı (release)",
+      "group": "Satın Alma",
+      "description": "20.000 ₺ üstü satın alma siparişlerini onaylar veya reddeder."
+    },
+    {
+      "id": "GR_POST",
+      "label": "Mal hareketi kaydı (MIGO)",
+      "group": "Satın Alma",
+      "description": "Siparişe referanslı mal girişi (101) ve tesisler arası transfer (301) kaydeder."
+    },
+    {
+      "id": "INVOICE_VERIFY",
+      "label": "Fatura doğrulama (MIRO)",
+      "group": "Finans",
+      "description": "Tedarikçi faturasını üç yönlü eşleştirmeyle kaydeder; tolerans dışı faturanın ödeme blokajını gerekçeyle kaldırır."
     },
     {
       "id": "CREDIT_RELEASE",
@@ -170,13 +206,14 @@
       "users": [
         "U03"
       ],
-      "summary": "Kredi onayı verir, blok kaldırır, fatura keser; teklif oluşturamaz.",
+      "summary": "Kredi onayı verir, blok kaldırır, satış faturası keser ve tedarikçi faturasını doğrular; teklif oluşturamaz.",
       "permissions": [
         "QUOTE_VIEW_ALL",
         "CREDIT_RELEASE",
         "PRICE_VIEW",
         "MASTERDATA_VIEW",
-        "INVOICE_CREATE"
+        "INVOICE_CREATE",
+        "INVOICE_VERIFY"
       ]
     },
     {
@@ -203,11 +240,12 @@
       "users": [
         "U05"
       ],
-      "summary": "ERP siparişlerinden teslimat oluşturur; fatura kesemez.",
+      "summary": "Teslimat, mal girişi (101) ve tesisler arası transfer (301) kaydeder; fatura kesemez.",
       "permissions": [
         "QUOTE_VIEW_ALL",
         "MASTERDATA_VIEW",
-        "DELIVERY_CREATE"
+        "DELIVERY_CREATE",
+        "GR_POST"
       ]
     },
     {
@@ -221,6 +259,30 @@
         "LEAD_QUALIFY",
         "PRICE_VIEW",
         "MASTERDATA_VIEW"
+      ]
+    },
+    {
+      "id": "purchaser",
+      "name": "Satın Alma Uzmanı",
+      "users": [],
+      "summary": "Satın alma talebi ve siparişi oluşturur, siparişi tedarikçiye gönderir; mal girişi ve fatura doğrulama yapamaz.",
+      "permissions": [
+        "PR_CREATE",
+        "PO_CREATE",
+        "MASTERDATA_VIEW",
+        "PRICE_VIEW"
+      ]
+    },
+    {
+      "id": "purchasing-manager",
+      "name": "Satın Alma Müdürü",
+      "users": [],
+      "summary": "Eşiği aşan talep ve siparişleri onaylar (release); belge oluşturmaz.",
+      "permissions": [
+        "PR_RELEASE",
+        "PO_RELEASE",
+        "MASTERDATA_VIEW",
+        "PRICE_VIEW"
       ]
     },
     {
@@ -290,6 +352,21 @@
         "a": "Kampanya yönetimi",
         "b": "Müdür onayı",
         "why": "Kampanyanın sahibi, kampanyadan gelen teklifin iskontosunu da onaylarsa performans tarafsız ölçülmez."
+      },
+      {
+        "a": "Satın alma siparişi",
+        "b": "Mal girişi",
+        "why": "Sipariş veren malı da teslim alırsa gelmeyen mal girilmiş gibi gösterilebilir."
+      },
+      {
+        "a": "Satın alma siparişi",
+        "b": "Fatura doğrulama",
+        "why": "Sipariş veren faturayı da doğrularsa fiyat farkı kendi onayıyla ödenir."
+      },
+      {
+        "a": "Satın alma talebi",
+        "b": "Talep onayı",
+        "why": "Talebi açan kendi talebini onaylarsa harcama kontrolü işlemez."
       }
     ]
   },
@@ -343,6 +420,21 @@
       "a": "CAMPAIGN_MANAGE",
       "b": "QUOTE_APPROVE",
       "why": "Kampanya bütçesini yöneten kişi kampanyadan gelen iskontolu teklifleri onaylarsa kampanya başarısı kendi onayıyla şişirilebilir."
+    },
+    {
+      "a": "PO_CREATE",
+      "b": "GR_POST",
+      "why": "Siparişi veren kişi malı da teslim alırsa gelmeyen mal teslim alınmış gibi gösterilebilir."
+    },
+    {
+      "a": "PO_CREATE",
+      "b": "INVOICE_VERIFY",
+      "why": "Siparişi veren kişi tedarikçi faturasını da doğrularsa fiyat farkları kendi onayıyla ödenir."
+    },
+    {
+      "a": "PR_CREATE",
+      "b": "PR_RELEASE",
+      "why": "Talebi açan kişi kendi talebini onaylarsa harcama kontrolü işlemez."
     }
   ],
   "templates": [
@@ -382,12 +474,33 @@
       ]
     },
     {
+      "name": "Satın Alma Uzmanı",
+      "description": "Satın alma talebi ve siparişi oluşturur, tedarikçiye gönderir.",
+      "permissions": [
+        "PR_CREATE",
+        "PO_CREATE",
+        "MASTERDATA_VIEW",
+        "PRICE_VIEW"
+      ]
+    },
+    {
+      "name": "Satın Alma Müdürü",
+      "description": "Eşiği aşan talep ve siparişleri onaylar.",
+      "permissions": [
+        "PR_RELEASE",
+        "PO_RELEASE",
+        "MASTERDATA_VIEW",
+        "PRICE_VIEW"
+      ]
+    },
+    {
       "name": "Depo Sorumlusu",
       "description": "ERP siparişlerinden teslimat oluşturur.",
       "permissions": [
         "QUOTE_VIEW_ALL",
         "MASTERDATA_VIEW",
-        "DELIVERY_CREATE"
+        "DELIVERY_CREATE",
+        "GR_POST"
       ]
     },
     {

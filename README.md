@@ -32,6 +32,7 @@ js/users-page.js      Kullanıcı Yönetimi: kullanıcı, rol, departman, günl�
 js/release.js         Sistem sürümü ve feature flag'ler (data/releases.json)
 js/testlab.js         Test Laboratuvarı: gereksinim, test case, koşum, defect, izlenebilirlik
 js/c4c.js             SAP C4C çalışma alanı: huni, tahmin, lead/BANT, Hesap 360, aktivite, kampanya
+js/mm.js              MM çalışma alanı: stok (MMBE), talep, sipariş, mal girişi (101), fatura doğrulama, transfer (301)
 data/docs/            Makaleler (.md), index.json, glossary.json
 data/roles.json       Roller, yetkiler ve görevler ayrılığı açıklaması
 data/company.json     Ortak sahte şirket verisi (Ege Dağıtım A.Ş.)
@@ -105,7 +106,7 @@ Varsayılan kullanıcılar `data/company.json`, roller, yetkiler, rol şablonlar
 | Oğuz | OGUZ | Key User (kullanıcı yönetimi dahil) |
 | Mehmet | MEHMET | Depo Sorumlusu |
 
-Varsayılan kullanıcısı olmayan roller: **Teknik Lider** (DEFECT_FIX) ve **Pazarlama Uzmanı** (CAMPAIGN_MANAGE, LEAD_CREATE, LEAD_QUALIFY). İlgili ekrandaki uyarı kutusundan Kullanıcı Yönetimi'nde oluşturulur.
+Varsayılan kullanıcısı olmayan roller: **Teknik Lider** (DEFECT_FIX), **Pazarlama Uzmanı** (CAMPAIGN_MANAGE, LEAD_CREATE, LEAD_QUALIFY), **Satın Alma Uzmanı** (PR_CREATE, PO_CREATE) ve **Satın Alma Müdürü** (PR_RELEASE, PO_RELEASE). İlgili ekrandaki uyarı kutusundan Kullanıcı Yönetimi'nde oluşturulur.
 
 Varsayılan kullanıcılar yalnızca adla tanımlıdır; kullanıcı adı addan (Türkçe karakterler ASCII'ye çevrilerek) türetilir. Yeni oluşturulan kullanıcılarda soyad zorunludur ve kullanıcı adı ad baş harfi + soyaddan üretilir (ör. Çağrı Şahin → `CSAHIN`). Eski sürümden kalan, düzenlenmemiş varsayılan kullanıcı kayıtları açılışta yeni adlara taşınır.
 
@@ -115,14 +116,27 @@ Varsayılan kullanıcılar yalnızca adla tanımlıdır; kullanıcı adı addan 
 
 `data/releases.json` iki sürüm tanımlar: **v1.0** (canlı, doğru kurallar) ve **v1.1** (UAT adayı). v1.1'de dört hata feature flag ile açıktır: kampanya minimum miktar kontrolü yok, onay eşiği 500.000 ₺, teslimatta stok düşmüyor, fatura vadesi ödeme koşulunu yok sayıyor. Sürüm, Test Uzmanlığı > Simülasyon (Test Laboratuvarı) sekmesinden seçilir; seçili sürüm tüm simülasyonları etkiler ve varsayılan dışındaysa üst barda görünür. Hata Avı her zaman doğru kuralları kullanır.
 
-Test Laboratuvarı'nda 10 gereksinim, 3 örnek test case, test koşumu (adımlar + gömülü simülasyon), defect yaşam döngüsü (Yeni → Atandı → Düzeltiliyor → Yeniden teste hazır → Kapandı / Yeniden açıldı / Tekrarlanamadı) ve izlenebilirlik matrisi bulunur. Defect düzeltme yetkisi (`DEFECT_FIX`) varsayılan kullanıcısı olmayan Teknik Lider rolündedir; önce Kullanıcı Yönetimi'nden bu rolde kullanıcı oluşturulmalıdır.
+Test Laboratuvarı'nda 12 gereksinim (2'si satın alma), 4 örnek test case (TC-04 MM çalışma alanını gömer), test koşumu (adımlar + gömülü simülasyon), defect yaşam döngüsü (Yeni → Atandı → Düzeltiliyor → Yeniden teste hazır → Kapandı / Yeniden açıldı / Tekrarlanamadı) ve izlenebilirlik matrisi bulunur. Defect düzeltme yetkisi (`DEFECT_FIX`) varsayılan kullanıcısı olmayan Teknik Lider rolündedir; önce Kullanıcı Yönetimi'nden bu rolde kullanıcı oluşturulmalıdır.
 
 ## SAP C4C (Sales Cloud)
 
 SAP C4C > Simülasyon bir C4C çalışma alanıdır. Huni sekmesinde Kanban (PC'de sürükle-bırak, mobilde yatay kaydırma ve aşama menüsü) ve tahmin (ağırlıklı tutar, kapanış ayı, riskli fırsatlar, kayıp nedenleri) bulunur. Leadler sekmesinde BANT ile nitelendirilen lead tek tıkla hesap + ilgili kişi + fırsata dönüşür. Hesaplar sekmesi Hesap 360 görünümünü verir. Aktiviteler haftalık takvimde, gecikmiş görevler vurgulu gösterilir. Kampanyalar sekmesinde hedef grup önizlenir, lead üretilir ve performans izlenir. Fırsat Teklif aşamasında teklif simülasyonunu açar; teklif onayı fırsatı Pazarlık'a taşır ve tutarı günceller, sipariş fırsatı Kazanıldı yapar. Başlangıç verisi `data/tracks/sap-c4c.json` içinde `simulation.seed` altındadır; "Demo verisini sıfırla" ile geri yüklenir. Yetkiler: LEAD_CREATE, LEAD_QUALIFY, OPP_MANAGE (temsilci, müdür), FORECAST_VIEW_TEAM (müdür), CAMPAIGN_MANAGE (Pazarlama Uzmanı).
 
+## Satın Alma ve Stok (MM)
+
+Satın Alma (MM) > Simülasyon bir P2P çalışma alanıdır:
+
+- **Stok (MMBE benzeri):** ürün × tesis serbest, bloke ve yoldaki stok; yeniden sipariş noktasının altındakiler vurgulanır ve "Talep oluştur" önerilir.
+- **Talepler (0010000001…):** 50.000 ₺ üstü talep onay (PR_RELEASE) ister.
+- **Siparişler (4500000001…):** onaylı talepten dönüştürülür; fiyat ve teslim süresi tedarikçinin bilgi kaydından (`company.json > suppliers[].prices`) gelir. 20.000 ₺ üstü sipariş onay (PO_RELEASE) ister. Yazdır/gönder görünümü vardır.
+- **Mal girişi (101, 5000000001…):** kısmi teslimatı destekler.
+- **Fatura doğrulama (5105600001…):** üç yönlü eşleştirme yapar; %2 fiyat toleransını veya teslim alınmamış miktarı aşan fatura ödemeye bloke edilir, muhasebe gerekçeyle kaldırır.
+- **Transfer:** tesisler arası 301; stok hatası alan satış siparişleri listelenir.
+
+Belge akışı PR → PO → GR → fatura zincirini gösterir; talep ve sipariş onayları Onay Kutusu'na düşer. Görevler ayrılığı kuralları: PO_CREATE + GR_POST, PO_CREATE + INVOICE_VERIFY, PR_CREATE + PR_RELEASE. Başlangıç verisi `data/tracks/s4-mm.json` içinde `simulation.seed` altındadır.
+
 ## Derin bağlantılar
 
-Herhangi bir sayfaya `?open=<tür>:<no>` eklenirse ilgili belge paneli açılır. Türler: `quote`, `order`, `message`, `delivery`, `invoice`. Örnek: `#/interface?open=order:10000001`.
+Herhangi bir sayfaya `?open=<tür>:<no>` eklenirse ilgili belge paneli açılır. Türler: `quote`, `order`, `message`, `delivery`, `invoice`; satın alma için `pr`, `po`, `mdoc` (malzeme belgesi), `sinv` (tedarikçi faturası). Örnek: `#/interface?open=order:10000001`.
 
 C4C: `#/track/sap-c4c/simulation?account=100002` (Hesap 360), `?opp=OPP-0002`, `?lead=LEAD-0007`, `?tab=campaigns`.

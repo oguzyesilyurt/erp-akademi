@@ -10,6 +10,7 @@ import {
 import { progress } from './store.js';
 import { loadCompany, company, partnerOf, productOf } from './company.js';
 import { renderQuoteSim, applyPreset, hasDraft } from './sim-quote.js';
+import { loadMM, renderMM, embedContext as mmEmbed } from './mm.js';
 
 const KEY = 'erp-akademi:testlab';
 const LEVELS = ['Kritik', 'Yüksek', 'Orta', 'Düşük'];
@@ -429,6 +430,15 @@ async function mountSim(root) {
   const s = read();
   const run = s.runs.find((r) => r.id === s.activeRun);
   const c = run && caseById(run.caseId, s);
+  // Satın alma (MM) test case'leri MM çalışma alanını gömer
+  if (c?.sim === 'mm') {
+    await loadMM();
+    const mm = await renderMM(mmEmbed());
+    if (!host.isConnected) return;
+    host.innerHTML = mm.html;
+    mm.bind(host);
+    return;
+  }
   if (c?.preset && !hasDraft()) applyPreset(c.preset, simCtx);
   const sim = await renderQuoteSim(simCtx);
   if (!host.isConnected) return;

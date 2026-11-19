@@ -208,8 +208,27 @@
       ],
       "readingMinutes": 3,
       "related": [
+        "hareket-turleri",
         "fico-temelleri",
         "organizasyon-ana-veri"
+      ]
+    },
+    {
+      "slug": "hareket-turleri",
+      "category": "mm",
+      "title": "Hareket türleri, malzeme belgesi ve stok transferi",
+      "summary": "101, 102, 122, 201, 261, 301, 303/305, 311, 551, 601 ve ters kayıt mantığı; malzeme belgesi ve stok türleri.",
+      "tags": [
+        "Hareket türü",
+        "MIGO",
+        "Malzeme belgesi",
+        "Transfer",
+        "Stok türleri"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "procure-to-pay",
+        "order-to-cash"
       ]
     },
     {

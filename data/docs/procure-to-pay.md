@@ -17,9 +17,13 @@ Procure-to-Pay, bir şirketin ihtiyacını tedarikçiden satın alıp ödemesini
 | 5. Fatura doğrulama | Tedarikçi faturası | Fatura PO ve GR ile karşılaştırılır |
 | 6. Ödeme | Ödeme belgesi | Vadesi gelen faturalar ödenir |
 
+### Talep ve sipariş onayı
+
+Satın alma talebi ve siparişi tutar eşiğini aşınca **serbest bırakma** (release) gerekir. Ege Dağıtım'da talep 50.000 ₺, sipariş 20.000 ₺ üstündeyse Satın Alma Müdürü onaylar. Belgeyi oluşturan kişi kendi belgesini onaylayamaz. Sipariş fiyatı ve teslim süresi tedarikçinin **satın alma bilgi kaydından** gelir.
+
 ### Mal girişi ve hareket türü
 
-Satın alma siparişine referanslı mal girişi standart olarak **101 hareket türü** ile kaydedilir. Bu kayıt stoğu artırır ve muhasebede stok hesabına borç, **GR/IR** (mal girişi / fatura girişi) ara hesabına alacak yazar.
+Satın alma siparişine referanslı mal girişi standart olarak **101 hareket türü** ile kaydedilir. Bu kayıt stoğu artırır ve muhasebede stok hesabına borç, **GR/IR** (mal girişi / fatura girişi) ara hesabına alacak yazar. Mal parça parça gelebilir (kısmi teslimat); kalan miktar siparişte açık kalır. Diğer hareket türleri için [Hareket türleri](#/docs/hareket-turleri) makalesine bak.
 
 ### Üç yönlü eşleştirme
 
@@ -29,7 +33,7 @@ Fatura doğrulamada üç belge karşılaştırılır:
 2. **Mal girişi** – ne teslim alındı?
 3. **Tedarikçi faturası** – ne faturalandı?
 
-Miktar veya fiyat toleransı aşılırsa fatura **ödeme blokajına** düşer. Böylece teslim alınmayan mal veya anlaşılmayan fiyat ödenmez. Fatura kaydı GR/IR hesabını kapatır ve tedarikçiye borç oluşturur.
+Miktar veya fiyat toleransı aşılırsa fatura **ödeme blokajına** düşer. Ege Dağıtım'da fiyat toleransı %2'dir; faturalanan miktar teslim alınıp henüz faturalanmamış miktarı aşamaz. Blokajı muhasebe, farkın nedenini öğrendikten sonra gerekçeyle kaldırır (`MRBR`). Böylece teslim alınmayan mal veya anlaşılmayan fiyat ödenmez. Fatura kaydı GR/IR hesabını kapatır ve tedarikçiye borç oluşturur.
 
 ## Ege Dağıtım'dan örnek
 
@@ -41,10 +45,13 @@ Kağıt havlu (TM-2006) toplam stoğu 370 pakete düştü; yeniden sipariş nokt
 |---|---|---|
 | T-code | `ME51N` | Satın alma talebi oluşturma |
 | T-code | `ME21N` / `ME22N` / `ME23N` | Satın alma siparişi oluşturma / değiştirme / görüntüleme |
+| T-code | `ME54N` | Satın alma talebini onaylama (tekil serbest bırakma) |
 | T-code | `ME29N` | Satın alma siparişini onaylama (tekil serbest bırakma) |
 | T-code | `ME2N` | Satın alma siparişleri listesi |
 | T-code | `MIGO` | Mal hareketi (mal girişi) |
 | T-code | `MIRO` | Tedarikçi faturası girişi (fatura doğrulama) |
+| T-code | `MRBR` | Ödemeye bloke faturaların serbest bırakılması |
+| T-code | `ME11` / `ME12` | Satın alma bilgi kaydı oluşturma / değiştirme |
 | T-code | `MMBE` | Stok genel görünümü |
 | T-code | `F110` | Otomatik ödeme programı |
 | Fiori | Manage Purchase Orders | Satın alma siparişlerini yönetir |
@@ -59,7 +66,9 @@ Kağıt havlu (TM-2006) toplam stoğu 370 pakete düştü; yeniden sipariş nokt
 
 - **Siparişsiz alım:** PO olmadan mal kabul etmek üç yönlü eşleştirmeyi imkânsız kılar.
 - **Mal girişini geciktirmek:** Fatura önce gelir, GR olmadığı için ödeme blokajına düşer; tedarikçi ilişkisi zarar görür.
+- **Kendi talebini onaylamak:** Talep açan ile onaylayan aynı kişiyse harcama kontrolü çalışmaz (görevler ayrılığı).
+- **Blokajı gerekçesiz kaldırmak:** Fiyat farkı satın almayla netleşmeden ödenirse fazla ödeme geri alınamaz.
 - **GR/IR hesabını izlememek:** Kapanmayan GR/IR bakiyeleri ay sonunda açıklanamayan farklar olarak çıkar.
 
 > [!DENE]
-> Bu yolda henüz satın alma simülasyonu yok. [Tedarikçi listesinde](#/company/suppliers) tedarik sürelerini ve [ürün stoklarında](#/company/products) kritik seviyedeki ürünleri incele.
+> [Kağıt havlu için uçtan uca P2P senaryosunu](#/track/s4-mm/scenarios/kagit-havlu-p2p) uygula: [MM çalışma alanında](#/track/s4-mm/simulation?tab=stock) kritik stoktan talep aç, onaylat, siparişe dönüştür, malı teslim al ve faturayı eşleştir.

@@ -1,0 +1,58 @@
+/* ERP Akademi · Satın Alma & Stok (MM) çalışma alanı */
+
+.mm { display: grid; grid-template-columns: minmax(0, 1fr); min-width: 0; }
+.mm .role-banner { margin-bottom: 10px; }
+.mm-logo { background: linear-gradient(135deg, #f2a33a, #e5577a); }
+.btn-sm { padding: 6px 10px; font-size: .78rem; border-radius: 9px; }
+.btn-sm .ico { width: 15px; height: 15px; }
+.ok-text { display: inline-flex; align-items: center; gap: 4px; color: var(--tone-success); font-weight: 600; font-size: .82rem; }
+.ok-text .ico { width: 15px; height: 15px; }
+.mm .toolbar .chip-check span { display: inline-block; }
+
+/* stok genel bakış */
+.mm-stock tbody tr { cursor: pointer; }
+.mm-stock tr.is-crit td:first-child { box-shadow: inset 3px 0 0 var(--tone-danger); }
+.mm-stock tr.is-crit { background: color-mix(in srgb, var(--tone-danger) 5%, transparent); }
+.mm-sug { display: grid; gap: 6px; justify-items: start; }
+
+/* iki sütunlu çalışma alanları */
+.mm-grid { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 1500px) { .mm-grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); } }
+.mm-grid .card-title .ico { width: 17px; height: 17px; vertical-align: -3px; color: var(--primary); }
+.mm-qty { width: 92px; height: 34px; padding: 0 8px; text-align: right; font-variant-numeric: tabular-nums; }
+.mm-price { width: 110px; }
+.mm-match td { vertical-align: middle; }
+.mm-match [data-mres] { min-width: 150px; font-size: .8rem; }
+.mm-wait { cursor: default; flex-wrap: wrap; }
+.mm-wait-btns { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* sipariş çıktısı */
+.po-doc { position: relative; display: grid; gap: 16px; padding: 22px; border-radius: 12px; background: #fff; color: #1b1f2a; border: 1px solid #e4e7ef; box-shadow: var(--shadow-sm); font-size: .86rem; overflow: hidden; }
+.po-doc.is-draft::after { content: "TASLAK"; position: absolute; inset: 40% 0 auto; text-align: center; font-size: 4rem; font-weight: 800; color: rgba(224, 71, 95, .12); transform: rotate(-18deg); pointer-events: none; }
+.po-doc-head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 2px solid #1b1f2a; }
+.po-doc-head > div { display: grid; gap: 2px; }
+.po-doc-head span { color: #5b6275; font-size: .78rem; }
+.po-doc-title { text-align: right; }
+.po-doc-title span:first-child { font-weight: 800; letter-spacing: .06em; color: #1b1f2a; font-size: .8rem; }
+.po-doc-title strong { font-size: 1.2rem; font-variant-numeric: tabular-nums; }
+.po-doc-parties { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.po-doc-parties > div { display: grid; gap: 2px; padding: 10px 12px; border-radius: 8px; background: #f4f6fa; }
+.po-doc-parties span { color: #5b6275; font-size: .78rem; }
+.po-lbl { text-transform: uppercase; letter-spacing: .06em; font-size: .68rem !important; font-weight: 700; }
+.po-doc-lines { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.po-doc-lines th { text-align: left; font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: #5b6275; border-bottom: 1px solid #d6dae4; padding: 6px 4px; }
+.po-doc-lines td { padding: 8px 4px; border-bottom: 1px solid #eef0f5; vertical-align: top; }
+.po-doc-lines .num { text-align: right; }
+.po-doc-lines small { color: #5b6275; }
+.po-doc-lines tfoot td { border: 0; padding: 4px; text-align: right; color: #5b6275; }
+.po-doc-lines tfoot .num { color: #1b1f2a; }
+.po-doc-lines .po-total td { font-weight: 800; color: #1b1f2a; border-top: 2px solid #1b1f2a; }
+.po-doc-terms { color: #5b6275; font-size: .78rem; }
+.po-doc-sign { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 10px; border-top: 1px dashed #d6dae4; color: #5b6275; font-size: .78rem; }
+
+@media print {
+  body > *:not(.drawer-root) { display: none !important; }
+  .drawer-root, .drawer-root .drawer { position: static !important; inset: auto !important; transform: none !important; width: auto !important; max-width: none !important; height: auto !important; box-shadow: none !important; background: #fff !important; }
+  .drawer-backdrop, .drawer-head, .drawer-actions, .drawer-body > :not(.po-doc) { display: none !important; }
+  .po-doc { border: 0; box-shadow: none; }
+}

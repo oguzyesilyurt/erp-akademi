@@ -4,14 +4,16 @@ import { esc, money2 as money, datetime, badge, emptyState } from './ui.js';
 import { loadCompany } from './company.js';
 import { loadRoles, currentUser, currentRole, can, userLabel, lockReason, openLogin } from './auth.js';
 import { inbox, handledBy, activeStep, statusBadge, openQuote } from './quotes.js';
+import { loadMM, mmInbox } from './mm.js';
+import { openDocRef } from './erp.js';
 
 let tab = 'pending';
 
-const APPROVE_PERMS = ['QUOTE_APPROVE', 'CREDIT_RELEASE'];
+const APPROVE_PERMS = ['QUOTE_APPROVE', 'CREDIT_RELEASE', 'PR_RELEASE', 'PO_RELEASE'];
 
 export function inboxCount() {
   try {
-    return inbox().length;
+    return inbox().length + mmInbox().length;
   } catch {
     return 0;
   }
@@ -36,13 +38,28 @@ function row(q, mode) {
   </button>`;
 }
 
+// Satın alma talebi / siparişi serbest bırakma satırı
+function mmRow(x) {
+  return `<button class="inbox-row card" type="button" data-mmdoc="${esc(x.kind)}:${esc(x.no)}">
+    <span class="inbox-icon tone-warning">${icon(x.kind === 'pr' ? 'inbox' : 'cart')}</span>
+    <span class="inbox-main">
+      <span class="inbox-title"><span class="code">${esc(x.no)}</span> <strong>${x.kind === 'pr' ? 'Satın alma talebi' : 'Satın alma siparişi'} · ${esc(x.title)}</strong></span>
+      <span class="cell-sub">${esc(userLabel(x.by))} · ${datetime(x.at)}</span>
+      <span class="inbox-reasons"><span>${esc(x.reason)}</span></span>
+    </span>
+    <span class="inbox-side"><strong>${money(x.value)}</strong>${badge(x.kind === 'pr' ? 'Talep onayı' : 'Sipariş onayı', 'warning')}</span>
+  </button>`;
+}
+
 export async function viewInbox(setView) {
   await loadRoles();
   await loadCompany();
+  await loadMM();
   const me = currentUser();
   const role = currentRole();
   const hasPerm = APPROVE_PERMS.some((p) => can(p));
   const pending = inbox();
+  const mmPending = mmInbox();
   const done = handledBy();
 
   let body;
@@ -57,12 +74,12 @@ export async function viewInbox(setView) {
     const list = tab === 'pending' ? pending : done;
     body = `
       <div class="seg-ctrl" role="tablist" aria-label="Onay kutusu">
-        <button type="button" role="tab" data-tab="pending" aria-selected="${tab === 'pending'}" class="${tab === 'pending' ? 'is-active' : ''}">Bekleyen${pending.length ? ` <span class="count">${pending.length}</span>` : ''}</button>
+        <button type="button" role="tab" data-tab="pending" aria-selected="${tab === 'pending'}" class="${tab === 'pending' ? 'is-active' : ''}">Bekleyen${pending.length + mmPending.length ? ` <span class="count">${pending.length + mmPending.length}</span>` : ''}</button>
         <button type="button" role="tab" data-tab="done" aria-selected="${tab === 'done'}" class="${tab === 'done' ? 'is-active' : ''}">İşlem yaptıklarım${done.length ? ` <span class="count muted-count">${done.length}</span>` : ''}</button>
       </div>
       <div class="inbox-list">${
-        list.length
-          ? list.map((q) => row(q, tab)).join('')
+        list.length || (tab === 'pending' && mmPending.length)
+          ? (tab === 'pending' ? mmPending.map(mmRow).join('') : '') + list.map((q) => row(q, tab)).join('')
           : `<div class="card">${emptyState('inbox', tab === 'pending' ? 'Onay bekleyen teklif yok' : 'Henüz karar vermedin', tab === 'pending' ? 'Yetkine düşen bir onay adımı olduğunda burada görünür. Teklifi oluşturan kişi kendi teklifini onaylayamaz.' : 'Onayladığın veya reddettiğin teklifler burada listelenir.')}</div>`
       }</div>`;
   }
@@ -73,7 +90,7 @@ export async function viewInbox(setView) {
         <div>
           <p class="eyebrow">Onay akışı</p>
           <h1>Onay Kutusu</h1>
-          <p class="lead">${esc(me?.name || '')} · ${esc(role?.name || '')}. ${can('QUOTE_APPROVE') ? 'İskonto ve tutar eşiğini aşan teklifler (müdür onayı) burada.' : can('CREDIT_RELEASE') ? 'Kredi limitini aşan teklifler (kredi onayı) burada; müdür onayından sonra sıraya girer.' : ''}</p>
+          <p class="lead">${esc(me?.name || '')} · ${esc(role?.name || '')}. ${can('QUOTE_APPROVE') ? 'İskonto ve tutar eşiğini aşan teklifler (müdür onayı) burada.' : can('CREDIT_RELEASE') ? 'Kredi limitini aşan teklifler (kredi onayı) burada; müdür onayından sonra sıraya girer.' : can('PR_RELEASE') || can('PO_RELEASE') ? 'Tutar eşiğini aşan satın alma talepleri ve siparişleri (serbest bırakma) burada.' : ''}</p>
         </div>
       </header>
       ${body}
@@ -89,6 +106,8 @@ export async function viewInbox(setView) {
       return viewInbox(setView);
     }
     if (e.target.closest('[data-login]')) return openLogin();
+    const mm = e.target.closest('[data-mmdoc]');
+    if (mm) return openDocRef(mm.dataset.mmdoc);
     const q = e.target.closest('[data-quote]');
     if (q) openQuote(q.dataset.quote);
   });

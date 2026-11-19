@@ -310,10 +310,11 @@
       "term": "Hareket türü",
       "en": "Movement type",
       "cat": "SAP",
-      "def": "Stok hareketinin türünü ve muhasebe etkisini belirleyen üç haneli kod; örneğin siparişe referanslı mal girişi 101.",
-      "article": "procure-to-pay",
+      "def": "Stok hareketinin türünü ve muhasebe etkisini belirleyen üç haneli kod; örneğin siparişe referanslı mal girişi 101, tesisler arası transfer 301, teslimat için mal çıkışı 601.",
+      "article": "hareket-turleri",
       "see": [
-        "mal-girisi"
+        "mal-girisi",
+        "malzeme-belgesi"
       ]
     },
     {
@@ -1120,6 +1121,90 @@
         "hedef-grup",
         "lead",
         "kampanya"
+      ]
+    },
+    {
+      "id": "serbest-birakma",
+      "term": "Serbest bırakma (onay)",
+      "en": "Release strategy",
+      "cat": "SAP",
+      "def": "Satın alma talebi veya siparişinin tutar, malzeme grubu gibi kriterlere göre onaydan geçmesi. Serbest bırakılmamış belge sonraki adıma geçemez. İşlem kodları ME54N (talep), ME29N (sipariş).",
+      "article": "procure-to-pay",
+      "see": [
+        "satinalma-talebi",
+        "satinalma-siparisi"
+      ]
+    },
+    {
+      "id": "bilgi-kaydi",
+      "term": "Satın alma bilgi kaydı",
+      "en": "Purchasing info record",
+      "cat": "SAP",
+      "def": "Bir malzemenin belirli bir tedarikçiden alım koşullarını (net fiyat, teslim süresi) tutan ana veri. Sipariş fiyatı buradan önerilir. İşlem kodu ME11 / ME12.",
+      "article": "procure-to-pay",
+      "see": [
+        "satinalma-siparisi"
+      ]
+    },
+    {
+      "id": "yeniden-siparis-noktasi",
+      "term": "Yeniden sipariş noktası",
+      "en": "Reorder point",
+      "cat": "SAP",
+      "def": "Stok bu seviyeye inince yeniden tedarik başlatılması gereken miktar; tedarik süresi boyunca beklenen tüketim ve emniyet stoğundan hesaplanır.",
+      "article": "procure-to-pay",
+      "see": [
+        "satinalma-talebi",
+        "stok-turleri"
+      ]
+    },
+    {
+      "id": "stok-turleri",
+      "term": "Stok türleri",
+      "en": "Stock types",
+      "cat": "SAP",
+      "def": "Serbest kullanılabilir stok satış ve tüketime açıktır; bloke stok kullanılamaz; kalite kontroldeki stok onay bekler. Sipariş edilmiş ama teslim alınmamış miktar ayrıca izlenir. Görünüm: MMBE.",
+      "article": "hareket-turleri",
+      "see": [
+        "hareket-turu",
+        "mal-girisi"
+      ]
+    },
+    {
+      "id": "malzeme-belgesi",
+      "term": "Malzeme belgesi",
+      "en": "Material document",
+      "cat": "SAP",
+      "def": "Her stok hareketinin kaydı: tarih, hareket türü, malzeme, miktar, tesis. Değer etkisi varsa ayrıca muhasebe belgesi oluşur.",
+      "article": "hareket-turleri",
+      "see": [
+        "hareket-turu",
+        "mal-girisi"
+      ]
+    },
+    {
+      "id": "odeme-blokaji",
+      "term": "Tolerans ve ödeme blokajı",
+      "en": "Tolerance / payment block",
+      "cat": "SAP",
+      "def": "Fatura doğrulamada fiyat veya miktar farkı tolerans sınırını aşarsa fatura kaydedilir ama ödemeye bloke edilir; yetkili kişi farkı inceleyip blokajı kaldırana kadar ödenmez (S/4HANA: MRBR).",
+      "article": "procure-to-pay",
+      "see": [
+        "uc-yonlu-eslestirme",
+        "fatura-dogrulama"
+      ]
+    },
+    {
+      "id": "stok-transferi",
+      "term": "Tesisler arası transfer",
+      "en": "Stock transfer (plant to plant)",
+      "cat": "SAP",
+      "def": "Stoğun bir tesisten diğerine taşınması. Tek adımlı transfer 301, iki adımlı (yolda stoklu) transfer 303/305 hareket türleriyle yapılır; tesis içinde depo yerleri arası transfer 311'dir.",
+      "article": "hareket-turleri",
+      "see": [
+        "hareket-turu",
+        "tesis",
+        "depo-yeri"
       ]
     }
   ]

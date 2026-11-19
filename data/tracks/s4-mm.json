@@ -1,11 +1,284 @@
 {
   "id": "s4-mm",
-  "version": 1,
+  "version": 2,
   "sections": {
-    "intro": null,
-    "concepts": null,
-    "simulation": null,
-    "scenarios": null,
+    "intro": {
+      "title": "Satın Alma ve Stok (MM): talepten ödemeye",
+      "lead": "Kritik stoğu gör, talep aç, onaylat, siparişe dönüştür, malı teslim al, faturayı üç yönlü eşleştir. Ege Dağıtım'ın tedarikçileri ve depolarıyla P2P sürecini uçtan uca uygula.",
+      "duration": "10 dk",
+      "goals": [
+        "Stok genel bakışta serbest, bloke ve yoldaki stoğu yeniden sipariş noktasıyla birlikte okuyabilmek",
+        "Satın alma talebini ve siparişini tutar eşiğine göre onay (release) akışından geçirebilmek",
+        "Siparişe referanslı mal girişini (101) kısmi teslimatla kaydedebilmek",
+        "Tedarikçi faturasını üç yönlü eşleştirip tolerans dışı farkı yönetebilmek",
+        "Tesisler arası transferle (301) bekleyen satış siparişinin stoğunu sağlayabilmek"
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "title": "MM ne yapar?",
+          "paragraphs": [
+            "SAP S/4HANA'da Materials Management (MM), şirketin ne satın aldığını, nereden ve hangi fiyata aldığını, depoda ne kadar stok tuttuğunu yönetir. Satış (SD) stoğu tüketir; MM stoğu yeniden doldurur. İki modül aynı malzeme ve tesis verisini kullanır.",
+            "P2P (Procure-to-Pay) zinciri bir ihtiyaçla başlar ve tedarikçi ödemesiyle biter. Her adım bir belge üretir ve bir sonraki adım bir öncekine referans verir. Bu sayede fatura, sipariş edilen ve teslim alınan malla karşılaştırılabilir."
+          ]
+        },
+        {
+          "type": "compare",
+          "title": "Belgeler ve sorumlular",
+          "columns": ["Adım", "Belge (numara aralığı)", "Kim yapar?"],
+          "rows": [
+            ["İhtiyaç", "Satın alma talebi · 0010000001…", "Satın Alma Uzmanı"],
+            ["Talep onayı", "Talep serbest bırakma (50.000 ₺ üstü)", "Satın Alma Müdürü"],
+            ["Sipariş", "Satın alma siparişi · 4500000001…", "Satın Alma Uzmanı"],
+            ["Sipariş onayı", "Sipariş serbest bırakma (20.000 ₺ üstü)", "Satın Alma Müdürü"],
+            ["Mal girişi", "Malzeme belgesi · 5000000001… (101)", "Depo Sorumlusu"],
+            ["Fatura doğrulama", "Tedarikçi faturası · 5105600001…", "Muhasebe"]
+          ]
+        },
+        {
+          "type": "flow",
+          "title": "Bu yolda uygulayacağın akış",
+          "text": "Simülasyon sekmesi bir MM çalışma alanıdır: Stok, Talepler, Siparişler, Mal girişi, Fatura ve Transfer. Belge akışı ağacı her belgeden PR → PO → GR → fatura zincirini gösterir.",
+          "steps": [
+            { "label": "Stok kontrolü", "system": "MMBE", "owner": "Satın Alma Uzmanı", "text": "Yeniden sipariş noktasının altındaki ürün vurgulanır; talep önerilir." },
+            { "label": "Talep ve onay", "system": "ME51N / ME54N", "owner": "Uzman → Müdür", "text": "Talep tutarı eşiği aşarsa serbest bırakma gerekir." },
+            { "label": "Sipariş ve onay", "system": "ME21N / ME29N", "owner": "Uzman → Müdür", "text": "Tedarikçi fiyatı ve teslim süresi siparişe gelir; 20.000 ₺ üstü onaya düşer." },
+            { "label": "Mal girişi", "system": "MIGO · 101", "owner": "Depo Sorumlusu", "text": "Kısmi teslimat desteklenir; stok artar, malzeme belgesi oluşur." },
+            { "label": "Fatura doğrulama", "system": "MIRO", "owner": "Muhasebe", "text": "PO fiyatı × GR miktarı × fatura karşılaştırılır; %2'yi aşan fark ödemeye bloke edilir." }
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "title": "Görevler ayrılığı P2P'nin omurgasıdır",
+          "text": "Siparişi veren malı teslim alamaz ve faturayı doğrulayamaz; talebi açan kendi talebini onaylayamaz. Bu yüzden zincirde dört farklı rol vardır ve simülasyonda rol değiştirerek ilerlersin."
+        }
+      ]
+    },
+
+    "concepts": {
+      "intro": "Satın alma ve stok yönetiminde her gün kullanılan 12 terim. Her kart sözlükteki tanıma bağlıdır.",
+      "items": [
+        { "id": "pr", "term": "Satın alma talebi (PR)", "en": "Purchase requisition", "definition": "Şirket içi satın alma ihtiyacı. Henüz tedarikçiye gönderilmez; onaylandıktan sonra siparişe dönüşür.", "example": "0010000002: Kağıt havlu 450 paket, Kemalpaşa, önerilen tedarikçi Parlak Kimya.", "glossary": "satinalma-talebi" },
+        { "id": "release", "term": "Serbest bırakma (onay)", "en": "Release strategy", "definition": "Tutar veya malzeme grubuna göre talep ve siparişin onaydan geçmesi. Onaylanmamış belge bir sonraki adıma geçemez.", "example": "Ege Dağıtım'da talep 50.000 ₺, sipariş 20.000 ₺ üstündeyse Satın Alma Müdürü onaylar.", "glossary": "serbest-birakma" },
+        { "id": "po", "term": "Satın alma siparişi (PO)", "en": "Purchase order", "definition": "Tedarikçiye verilen resmi sipariş: malzeme, miktar, fiyat, teslim tarihi ve teslimat tesisi içerir.", "example": "4500000002: Parlak Kimya'dan 450 paket kağıt havlu, birim 185 ₺, teslim 10 gün.", "glossary": "satinalma-siparisi" },
+        { "id": "info-record", "term": "Satın alma bilgi kaydı", "en": "Purchasing info record", "definition": "Bir malzemenin belirli bir tedarikçiden alım koşulları: net fiyat, teslim süresi. Sipariş fiyatı buradan önerilir.", "example": "Parlak Kimya · TM-2006: 185 ₺/paket, 10 gün teslim süresi.", "glossary": "bilgi-kaydi" },
+        { "id": "rop", "term": "Yeniden sipariş noktası", "en": "Reorder point", "definition": "Stok bu seviyeye inince yeniden sipariş verilmesi gereken miktar; tedarik süresi boyunca tüketimi ve emniyet stoğunu karşılar.", "example": "Kağıt havlu: yeniden sipariş noktası 400, toplam serbest stok 370 → talep önerisi.", "glossary": "yeniden-siparis-noktasi" },
+        { "id": "stock-types", "term": "Stok türleri", "en": "Stock types", "definition": "Serbest kullanılabilir stok satılabilir; bloke stok kullanılamaz (ör. hasarlı); yoldaki stok sipariş edilmiş ama henüz teslim alınmamıştır.", "example": "Domates salçası Kemalpaşa: 740 serbest, 30 bloke (ezik kutu).", "glossary": "stok-turleri" },
+        { "id": "gr", "term": "Mal girişi", "en": "Goods receipt", "definition": "Tedarikçiden gelen malın siparişe referansla depoya alınması. Kısmi teslimatta kalan miktar siparişte açık kalır.", "example": "450 paketin önce 300'ü geldi; sipariş 150 paket açık kaldı.", "glossary": "mal-girisi" },
+        { "id": "movement-type", "term": "Hareket türü", "en": "Movement type", "definition": "Stok hareketinin türünü ve muhasebe etkisini belirleyen üç haneli kod.", "example": "101 siparişe referanslı mal girişi, 301 tesisler arası transfer, 601 teslimat için mal çıkışı.", "glossary": "hareket-turu" },
+        { "id": "material-doc", "term": "Malzeme belgesi", "en": "Material document", "definition": "Her stok hareketinin kaydı: tarih, hareket türü, malzeme, miktar, tesis. Stok geçmişi bu belgelerden okunur.", "example": "5000000002 · 101 · TM-2006 300 PKT · 1100 Kemalpaşa.", "glossary": "malzeme-belgesi" },
+        { "id": "three-way", "term": "Üç yönlü eşleştirme", "en": "Three-way match", "definition": "Fatura miktarı ve fiyatının sipariş fiyatı ve teslim alınan miktarla karşılaştırılması.", "example": "PO 2.960 ₺ × GR 120 koli; fatura 3.080 ₺ × 120 → fiyat farkı %4,1.", "glossary": "uc-yonlu-eslestirme" },
+        { "id": "payment-block", "term": "Tolerans ve ödeme blokajı", "en": "Tolerance / payment block", "definition": "Fatura farkı tolerans sınırını aşarsa fatura kaydedilir ama ödemeye bloke edilir; yetkili kişi gerekçeyle blokajı kaldırana kadar ödenmez.", "example": "Tolerans %2. Siyah çay faturası %4,1 farkla bloke oldu; Gökhan gerekçe yazarak kaldırdı.", "glossary": "odeme-blokaji" },
+        { "id": "transfer", "term": "Tesisler arası transfer", "en": "Plant-to-plant transfer", "definition": "Stoğun bir tesisten diğerine taşınması. Tek adımlı transfer hareket türü 301 ile yapılır; tesis içi depo yeri transferi 311'dir.", "example": "Manisa'da zeytinyağı yok: Kemalpaşa'dan 20 koli 301 ile Manisa'ya aktarıldı.", "glossary": "stok-transferi" }
+      ]
+    },
+
+    "simulation": {
+      "type": "mm",
+      "title": "MM çalışma alanı",
+      "description": "Stok genel bakış, satın alma talebi ve siparişi, mal girişi, fatura doğrulama ve tesisler arası transfer.",
+      "completeHint": "İlk mal girişini veya tedarikçi faturasını kaydettiğinde bu bölüm tamamlanır.",
+      "rules": { "prReleaseLimit": 50000, "poReleaseLimit": 20000, "tolerancePct": 2 },
+      "seed": {
+        "prs": [
+          { "no": "0010000001", "code": "GD-1008", "qty": 200, "plant": "1100", "needDate": "2026-11-12", "supplier": "200002", "price": 2960, "status": "ordered", "poNo": "4500000001", "createdBy": "SYSTEM", "createdAt": "2026-11-04T09:00:00.000Z", "history": [{ "at": "2026-11-04T09:00:00.000Z", "by": "SYSTEM", "action": "created", "note": "Önceki dönemden devralınan talep" }] }
+        ],
+        "pos": [
+          { "no": "4500000001", "prNo": "0010000001", "supplier": "200002", "plant": "1100", "date": "2026-11-05", "deliveryDate": "2026-11-12", "lines": [{ "pos": 10, "code": "GD-1008", "qty": 200, "price": 2960 }], "status": "released", "sentAt": "2026-11-05T10:00:00.000Z", "createdBy": "SYSTEM", "createdAt": "2026-11-05T09:00:00.000Z", "history": [{ "at": "2026-11-05T09:00:00.000Z", "by": "SYSTEM", "action": "created", "note": "Önceki dönemden devralınan sipariş" }, { "at": "2026-11-05T10:00:00.000Z", "by": "SYSTEM", "action": "sent", "note": "E-posta · siparis@marmarabakliyat.example" }] }
+        ],
+        "matdocs": [
+          { "no": "5000000001", "type": "101", "date": "2026-11-12", "poNo": "4500000001", "lines": [{ "pos": 10, "code": "GD-1008", "qty": 120, "plant": "1100" }], "note": "Kısmi teslimat: 80 koli sonraki sevkiyatta", "createdBy": "SYSTEM", "createdAt": "2026-11-12T08:30:00.000Z", "historic": true }
+        ],
+        "invoices": []
+      }
+    },
+
+    "scenarios": {
+      "intro": "Üç senaryo P2P'yi dört farklı rolle yaşatır: satın alma uzmanı, satın alma müdürü, depo ve muhasebe. Her adımda hangi rolle oturum açman gerektiği yazar.",
+      "items": [
+        {
+          "id": "kagit-havlu-p2p",
+          "title": "Kritik stoktaki kağıt havlu için uçtan uca P2P",
+          "level": "İleri",
+          "duration": "35 dk",
+          "role": "key-user",
+          "simulation": { "tab": "stock" },
+          "summary": "Kritik stoğu gör, talep aç ve onaylat, siparişe dönüştürüp gönder, malı iki parti halinde teslim al, faturayı eşleştir.",
+          "goal": "Kağıt havlu (TM-2006) stoğunu yeniden sipariş noktasının üstüne çıkar ve PR → PO → GR → fatura zincirini belge akışında tamamla.",
+          "steps": [
+            {
+              "title": "Satın alma kullanıcılarını oluştur",
+              "role": "key-user",
+              "what": "Key User rolüne geç. Simülasyon > Stok sekmesindeki uyarı kutularından \"Kullanıcı Yönetimi'nden oluştur\"a bas ve önce {{role:purchaser}}, sonra {{role:purchasing-manager}} rolünde birer kullanıcı oluştur (departman Satın Alma). Şu an: uzman {{user:purchaser}}, müdür {{user:purchasing-manager}}.",
+              "why": "Talep ve sipariş oluşturma (PR_CREATE, PO_CREATE) ile onay (PR_RELEASE, PO_RELEASE) farklı rollerde; iki rolün de varsayılan kullanıcısı yok.",
+              "caution": "Satın Alma Uzmanı rolüne GR_POST eklemeye çalışırsan SoD uyarısı alırsın: siparişi veren malı teslim almamalı."
+            },
+            {
+              "title": "Kritik stoğu bul ve talep aç",
+              "role": "purchaser",
+              "what": "Satın Alma Uzmanı ile oturum aç. Stok sekmesinde kağıt havlunun kırmızı vurgulandığını gör: serbest stok toplamı 370, yeniden sipariş noktası 400. \"Talep oluştur\"a bas; öneri 450 paket, Kemalpaşa (1100), Parlak Kimya. Kaydet.",
+              "why": "Talep tutarı 450 × 185 = 83.250 ₺; 50.000 ₺ eşiğini aştığı için talep onaya düşer.",
+              "caution": "Yoldaki (sipariş edilmiş) miktar da hesaba katılır; açık talep veya sipariş varsa öneri tekrar çıkmaz."
+            },
+            {
+              "title": "Talebi onayla",
+              "role": "purchasing-manager",
+              "what": "Satın Alma Müdürü'ne geç. Onay Kutusu'nda (veya Talepler sekmesinde) talebi aç ve onayla.",
+              "why": "Serbest bırakılmamış talep siparişe dönüştürülemez.",
+              "caution": "Talebi açan kişi kendi talebini onaylayamaz (PR_CREATE + PR_RELEASE SoD)."
+            },
+            {
+              "title": "Siparişe dönüştür ve gönder",
+              "role": "purchaser",
+              "what": "Uzmana dön. Talepler sekmesinde \"Siparişe dönüştür\": fiyat bilgi kaydından 185 ₺, teslim tarihi 10 gün sonra gelir. Sipariş 20.000 ₺ üstü olduğu için müdür onayına düşer.",
+              "why": "Sipariş tedarikçiye giden yasal belgedir; tutar eşiği talepten bağımsız ayrıca kontrol edilir.",
+              "caution": "Onaylanmamış sipariş tedarikçiye gönderilemez."
+            },
+            {
+              "title": "Siparişi onayla, yazdır ve gönder",
+              "role": "purchasing-manager",
+              "what": "Müdür olarak siparişi onayla. Ardından uzmanla siparişi aç, \"Yazdır / gönder\" görünümünü incele ve \"Tedarikçiye gönder\"e bas.",
+              "why": "Gönderilen sipariş tedarikçiye ulaşır ve mal girişine açılır; Stok sekmesinde 450 paket \"yolda\" görünür.",
+              "caution": "Gönderilmemiş siparişe mal girişi yapılamaz."
+            },
+            {
+              "title": "Malı iki partide teslim al",
+              "role": "warehouse",
+              "what": "Depo Sorumlusu'na geç ({{user:warehouse}}). Mal girişi sekmesinde siparişi seç, önce 300 paket kaydet (101). Sonra kalan 150 paketi ikinci mal girişiyle al.",
+              "why": "Kısmi teslimatta sipariş açık kalır; her giriş ayrı malzeme belgesi oluşturur ve Kemalpaşa stoğunu artırır.",
+              "caution": "Açık miktardan fazlası girilemez; fazla gelen mal tedarikçiye iade edilir veya ayrı siparişle alınır."
+            },
+            {
+              "title": "Faturayı doğrula",
+              "role": "accounting",
+              "what": "Muhasebe'ye geç ({{user:accounting}}). Fatura sekmesinde siparişi seç; tedarikçi fatura no gir, 450 paket × 185 ₺ ile kaydet.",
+              "why": "Fiyat ve miktar sipariş ve mal girişiyle eşleştiği için fatura ödemeye açık kaydedilir.",
+              "caution": "Mal girişi yapılmamış miktar faturalanırsa fatura miktar farkıyla bloke olur."
+            },
+            {
+              "title": "Belge akışını kontrol et",
+              "role": "accounting",
+              "what": "Faturanın panelindeki belge akışında PR → PO → iki mal girişi → fatura zincirini izle. Stok sekmesinde kağıt havlunun artık kritik olmadığını gör.",
+              "why": "Her belge bir öncekine referans verdiği için denetçi zinciri tek ekrandan takip edebilir.",
+              "caution": "Stok toplamı 820'ye çıktı; yeniden sipariş noktası 400'ün üstünde."
+            }
+          ],
+          "outcome": "Kağıt havlu stoğu 820 pakete çıktı. Talep ve sipariş farklı kişilerce onaylandı, mal iki partide alındı ve fatura üç yönlü eşleşmeyle ödemeye açık kaydedildi."
+        },
+        {
+          "id": "fiyat-farki",
+          "title": "Fiyat farklı fatura → blokaj → çözüm",
+          "level": "Orta",
+          "duration": "20 dk",
+          "role": "accounting",
+          "simulation": { "tab": "invoice" },
+          "summary": "Siyah çay siparişinin faturası sipariş fiyatından yüksek gelir; fatura ödemeye bloke olur, fark araştırılır ve blokaj gerekçeyle kaldırılır.",
+          "goal": "Tolerans kontrolünü gör, farkın kaynağını belge akışından bul ve blokajı gerekçeli kararla kaldır.",
+          "steps": [
+            {
+              "title": "Siparişi ve mal girişini incele",
+              "role": "accounting",
+              "what": "Muhasebe rolüyle ({{user:accounting}}) Siparişler sekmesinde 4500000001'i aç: Marmara Bakliyat, 200 koli siyah çay, 2.960 ₺. Belge akışında 120 kolilik mal girişini (5000000001) gör; 80 koli hâlâ yolda.",
+              "why": "Faturalanabilecek miktar teslim alınan miktardır: 120 koli.",
+              "caution": "Siparişteki 200 koli faturalanamaz; 80 koli henüz gelmedi."
+            },
+            {
+              "title": "Faturayı gir",
+              "role": "accounting",
+              "what": "Fatura sekmesinde 4500000001'i seç. Tedarikçi fatura no MB-2026-1188, miktar 120, birim fiyat 3.080 ₺ gir. Eşleştirme tablosunda farkı gör ve kaydet.",
+              "why": "Fiyat farkı %4,1; tolerans %2. Fatura kaydedilir ama ödemeye bloke edilir.",
+              "caution": "Blokajlı fatura kaybolmaz; vadesi gelse de ödeme programı onu atlar."
+            },
+            {
+              "title": "Miktar toleransını da dene",
+              "role": "accounting",
+              "what": "Aynı sipariş için ikinci bir fatura girmeyi dene: miktar 10, fiyat 2.960 ₺. Eşleştirme tablosunda teslim alınan ama faturalanmamış miktarın kalmadığını gör ve vazgeç.",
+              "why": "Teslim alınmayan mal faturalanırsa miktar farkı oluşur; bu da blokaj nedenidir.",
+              "caution": "Gerçekte ikinci fatura kaydedilirse o da bloke olur; denemeden sonra kaydetme."
+            },
+            {
+              "title": "Farkın nedenini araştır",
+              "role": "purchaser",
+              "what": "Satın Alma Uzmanı'na geç ({{user:purchaser}}). Bloke faturayı aç ve tedarikçiyle konuştuğunu varsay: 1 Kasım'dan geçerli %4 fiyat artışı yazılı olarak bildirilmiş ama bilgi kaydı ve sipariş güncellenmemiş.",
+              "why": "Blokajın çözümü satın almanın elindedir; muhasebe ancak bilgiyle karar verebilir.",
+              "caution": "Satın Alma Uzmanı blokajı kaldıramaz (INVOICE_VERIFY yok); bu SoD'nin kendisidir."
+            },
+            {
+              "title": "Blokajı gerekçeyle kaldır",
+              "role": "accounting",
+              "what": "Muhasebe'ye dön. Bloke faturada \"Blokajı kaldır\"a bas ve gerekçe yaz: \"Tedarikçinin 1 Kasım fiyat artışı yazılı teyitli; bilgi kaydı güncellenecek.\"",
+              "why": "Gerekçe faturanın geçmişine yazılır; denetimde kimin hangi bilgiyle ödemeyi açtığı görülür.",
+              "caution": "Fark kabul edilemezse blokaj kaldırılmaz; tedarikçiden fiyat farkı için alacak dekontu istenir."
+            }
+          ],
+          "outcome": "Fiyat farklı fatura tolerans kontrolüne takıldı, satın alma farkın nedenini doğruladı ve muhasebe blokajı gerekçeyle kaldırdı. Fatura ödemeye açıldı."
+        },
+        {
+          "id": "zeytinyagi-transfer",
+          "title": "Manisa'da olmayan zeytinyağını transferle getir",
+          "level": "İleri",
+          "duration": "30 dk",
+          "role": "sales-rep",
+          "customer": "100003",
+          "simulation": { "tab": "transfer" },
+          "summary": "Manisa deposundan teslim edilecek zeytinyağı siparişi stok yüzünden ERP'ye aktarılamaz; Kemalpaşa'dan 301 ile transfer yapılır, mesaj yeniden işlenir ve teslimat çıkar.",
+          "goal": "Manisa Yıldız Dağıtım'ın zeytinyağı siparişini, tesisler arası transferle stoğu sağlayarak teslim et.",
+          "steps": [
+            {
+              "title": "Teklifi ve kredi onayını tamamla",
+              "role": "sales-rep",
+              "what": "Satış Temsilcisi ({{user:sales-rep}}) olarak B2B CRM teklif simülasyonunda Manisa Yıldız Dağıtım'a GD-1002 Riviera Zeytinyağı × 5 koli teklif ver ve onaya gönder. Müşteri kredi limitini aştığı için teklif kredi onayına düşer.",
+              "why": "Manisa Yıldız'ın teslimat deposu 1200 Manisa'dır; sipariş oradan çıkacak.",
+              "caution": "Kredi onayını Muhasebe verir ({{user:accounting}}); temsilci kendi teklifini onaylayamaz."
+            },
+            {
+              "title": "Kredi onayı",
+              "role": "accounting",
+              "what": "Muhasebe'ye geç, Onay Kutusu'nda teklifi gerekçeyle onayla (ör. \"Ödeme planı mutabık, tek seferlik\").",
+              "why": "Onaylanmamış teklif siparişe dönüştürülemez.",
+              "caution": "Gerekçe onay geçmişine yazılır."
+            },
+            {
+              "title": "Siparişi oluştur, aktarım hatasını gör",
+              "role": "sales-rep",
+              "what": "Temsilciye dön, teklifi siparişe dönüştür (teslimat deposu 1200 Manisa). Aktarım mesajı \"Depoda kullanılabilir stok yok\" hatasıyla düşer.",
+              "why": "ERP siparişi kabul ederken teslimat tesisindeki stoğu kontrol eder; Manisa'da zeytinyağı 0.",
+              "caution": "Depoyu Kemalpaşa'ya çevirmek de bir çözümdür, ama müşteri Manisa'dan teslim istiyor."
+            },
+            {
+              "title": "Stoğu kontrol et",
+              "role": "warehouse",
+              "what": "Depo Sorumlusu'na geç ({{user:warehouse}}). MM > Stok sekmesinde GD-1002'nin Kemalpaşa'da 260, Manisa'da 0 olduğunu gör. Transfer sekmesinde \"Stok bekleyen satış siparişleri\" listesinde Manisa Yıldız siparişini gör.",
+              "why": "Toplam stok yeterli, yalnızca yanlış tesiste.",
+              "caution": "Kemalpaşa'da yeniden sipariş noktası 120; transferden sonra da üstünde kalmalı."
+            },
+            {
+              "title": "301 ile transfer et",
+              "role": "warehouse",
+              "what": "Transfer sekmesinde GD-1002, 1100 Kemalpaşa → 1200 Manisa, 20 koli gir ve kaydet. Malzeme belgesinde iki satırı (çıkış ve giriş) gör.",
+              "why": "Hareket türü 301 tek adımda bir tesisten düşüp diğerine ekler.",
+              "caution": "311 tesis içinde depo yerleri arasında transferdir; tesisler arası taşımada 301 (tek adım) veya 303/305 (iki adım) kullanılır."
+            },
+            {
+              "title": "Mesajı yeniden işle",
+              "role": "key-user",
+              "what": "Key User'a geç ({{user:key-user}}). Aktarım Monitörü'nde hatalı mesajı aç ve \"Yeniden işle\"ye bas. Sipariş ERP'ye aktarılır.",
+              "why": "Stok sorunu çözüldü; mesajın yeniden işlenmesi yeterli, siparişi yeniden girmeye gerek yok.",
+              "caution": "Yeniden işleme yetkisi (INTERFACE_REPROCESS) Key User ve Teknik Lider'dedir."
+            },
+            {
+              "title": "Teslimatı çıkar",
+              "role": "warehouse",
+              "what": "Depo Sorumlusu olarak siparişi aç ve teslimat oluştur. Stok sekmesinde Manisa zeytinyağı stoğunun 20'den 15'e indiğini gör.",
+              "why": "Teslimatın mal çıkışı (601) Manisa stoğunu düşürür.",
+              "caution": "v1.1 sürümünde teslimat stok düşürmez (bilinen hata); bu senaryoyu v1.0'da yap."
+            }
+          ],
+          "outcome": "Kemalpaşa'dan Manisa'ya 20 koli zeytinyağı 301 ile aktarıldı, bekleyen sipariş ERP'ye aktarıldı ve Manisa deposundan teslim edildi."
+        }
+      ]
+    },
     "tests": null,
     "quiz": null
   }

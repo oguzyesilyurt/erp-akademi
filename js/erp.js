@@ -521,7 +521,17 @@ function invoiceHtml(inv) {
 }
 
 // ---------- panel yönlendirme ----------
+// Diğer modüller (ör. MM: pr, po, mdoc, sinv) kendi belge türlerini kaydeder
+const DOC_TYPES = new Map();
+export function registerDocType(type, opener) {
+  DOC_TYPES.set(type, opener);
+}
+
 export function openDoc(type, no) {
+  if (DOC_TYPES.has(type)) {
+    current = { type, no };
+    return DOC_TYPES.get(type)(no);
+  }
   if (type === 'quote') {
     current = { type, no };
     return openQuote(no);

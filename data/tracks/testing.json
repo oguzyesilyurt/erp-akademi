@@ -29,7 +29,7 @@
           "title": "Test planı",
           "paragraphs": [
             "Test planı; kapsamı (hangi gereksinimler ve süreçler), ortamı (hangi sürüm, hangi veri), takvimi (test turları), rolleri (kim test eder, kim düzeltir, kim kapatır) ve kabul kriterlerini tek belgede toplar.",
-            "Ege Dağıtım'ın v1.1 sürümü için plan basittir: 10 gereksinim, her biri en az bir test case ile kapsanacak; key user testleri koşacak, teknik lider hataları düzeltecek, key user yeniden test edip kapatacak."
+            "Ege Dağıtım'ın v1.1 sürümü için plan basittir: 12 gereksinim (10 satış, 2 satın alma), her biri en az bir test case ile kapsanacak; key user testleri koşacak, teknik lider hataları düzeltecek, key user yeniden test edip kapatacak."
           ]
         },
         {
@@ -54,7 +54,7 @@
           "title": "Bu yolda uygulayacağın akış",
           "text": "Test Laboratuvarı (Simülasyon sekmesi) bu akışı uçtan uca yaşatır. Sürüm seçici v1.1'e alındığında simülasyonlar o sürümün kurallarıyla çalışır.",
           "steps": [
-            { "label": "Gereksinim", "system": "Plan", "owner": "Süreç sahibi", "text": "REQ-01…REQ-10: sistemin ne yapması gerektiği." },
+            { "label": "Gereksinim", "system": "Plan", "owner": "Süreç sahibi", "text": "REQ-01…REQ-12: sistemin ne yapması gerektiği." },
             { "label": "Test case", "system": "Plan", "owner": "Key user", "text": "Gereksinime bağlı, adım ve beklenen sonuç içeren senaryo." },
             { "label": "Koşum", "system": "Test", "owner": "Key user", "text": "Simülasyon açıkken adım adım Geçti / Kaldı / Bloke." },
             { "label": "Defect", "system": "Test", "owner": "Key user → Teknik lider", "text": "Kalan adımdan hata kaydı; atama, düzeltme." },
@@ -69,7 +69,7 @@
       "items": [
         { "id": "requirement", "term": "Gereksinim", "en": "Requirement", "definition": "Sistemin ne yapması gerektiğini ölçülebilir biçimde tanımlayan ifade. Testin dayanağıdır.", "example": "REQ-04: Net tutarı 50.000 ₺'yi aşan teklif müdür onayına düşmeli.", "glossary": "gereksinim" },
         { "id": "test-case", "term": "Test case", "en": "Test case", "definition": "Bir gereksinimi doğrulamak için ön koşul, test verisi, adımlar ve her adımın beklenen sonucundan oluşan senaryo.", "example": "TC-01: Karşıyaka Gıda'ya 15 koli siyah çay teklifi; beklenen: durum \"Onay bekliyor\".", "glossary": "test-case" },
-        { "id": "test-plan", "term": "Test planı", "en": "Test plan", "definition": "Kapsam, ortam, takvim, roller ve kabul kriterlerini tanımlayan belge.", "example": "v1.1 UAT planı: 10 gereksinim, 2 test turu, key user koşar, teknik lider düzeltir.", "glossary": "test-plani" },
+        { "id": "test-plan", "term": "Test planı", "en": "Test plan", "definition": "Kapsam, ortam, takvim, roller ve kabul kriterlerini tanımlayan belge.", "example": "v1.1 UAT planı: 12 gereksinim, 2 test turu, key user koşar, teknik lider düzeltir.", "glossary": "test-plani" },
         { "id": "entry-exit", "term": "Giriş / çıkış kriteri", "en": "Entry / exit criteria", "definition": "Teste başlamak ve testi bitirmek için sağlanması gereken koşullar.", "example": "Çıkış kriteri: açık Kritik veya Yüksek önemli defect yok.", "glossary": "cikis-kriteri" },
         { "id": "test-run", "term": "Test koşumu", "en": "Test run / execution", "definition": "Bir test case'in belirli bir sürümde, belirli bir kişi tarafından adım adım çalıştırılması ve sonucun kaydı.", "example": "TC-02, v1.1 üzerinde Oğuz tarafından koşuldu: adım 2 Kaldı.", "glossary": "test-kosumu" },
         { "id": "defect", "term": "Defect (hata kaydı)", "en": "Defect / bug", "definition": "Beklenen ile gerçekleşen sonuç arasındaki farkın kaydı; önem, atanan kişi ve durum ile izlenir.", "example": "DEF-001: 6 kolilik kalemde kampanya iskontosu uygulanıyor (REQ-02, Orta).", "glossary": "defect" },
@@ -95,7 +95,9 @@
         { "id": "REQ-07", "title": "Teslimatta stok teslim miktarı kadar düşmeli", "detail": "Teslimat deposunun stoğu mal çıkışıyla azalmalı; Şirket > Ürünler'de görülebilir.", "area": "Teslimat", "priority": "Kritik" },
         { "id": "REQ-08", "title": "Fatura vadesi ödeme koşuluna göre hesaplanmalı", "detail": "Vade = fatura tarihi + ödeme koşulu gün sayısı (ör. Z030 → +30 gün).", "area": "Faturalama", "priority": "Yüksek" },
         { "id": "REQ-09", "title": "ERP'de tanımlı olmayan müşterinin siparişi aktarımda hata vermeli", "detail": "Mesaj \"Hatalı\" durumuna düşmeli ve hata metni müşteriyi belirtmeli.", "area": "Entegrasyon", "priority": "Orta" },
-        { "id": "REQ-10", "title": "Teklifi oluşturan kişi kendi teklifini onaylayamamalı", "detail": "Görevler ayrılığı: onay düğmeleri oluşturan için kilitli olmalı.", "area": "Yetki", "priority": "Yüksek" }
+        { "id": "REQ-10", "title": "Teklifi oluşturan kişi kendi teklifini onaylayamamalı", "detail": "Görevler ayrılığı: onay düğmeleri oluşturan için kilitli olmalı.", "area": "Yetki", "priority": "Yüksek" },
+        { "id": "REQ-11", "title": "Tolerans dışı fiyat farkı olan tedarikçi faturası ödemeye bloke edilmeli", "detail": "Fatura birim fiyatı sipariş fiyatından %2'den fazla saparsa fatura kaydedilir ama ödemeye bloke edilir; blokajı yalnızca INVOICE_VERIFY yetkilisi gerekçeyle kaldırır.", "area": "Satın alma (MIRO)", "priority": "Yüksek" },
+        { "id": "REQ-12", "title": "Mal girişi siparişin açık miktarını aşamamalı; kısmi girişte kalan miktar açık kalmalı", "detail": "Hareket türü 101 ile girilen miktar açık sipariş miktarından fazla olamaz; kısmi girişte sipariş açık kalır ve kalan miktar yolda görünür.", "area": "Satın alma (MIGO)", "priority": "Orta" }
       ],
       "sampleCases": [
         {
@@ -138,6 +140,21 @@
             { "action": "Simülasyonda müşteriyi ve kalemi yükle, fiyat adımlarını aç.", "expected": "K007 %8 (segment A), ZKMP %10; net birim 538,20 ₺." },
             { "action": "Fiyat özetinde toplam iskontoyu oku.", "expected": "Toplam iskonto %17,2 ve \"Müdür onayı gerekli\" (iskonto eşiği %12)." }
           ]
+        },
+        {
+          "id": "TC-04",
+          "title": "Fiyatı %2'den fazla farklı tedarikçi faturası ödemeye bloke olur",
+          "requirements": ["REQ-11"],
+          "priority": "Yüksek",
+          "sim": "mm",
+          "precondition": "Muhasebe rolüyle oturum. Sipariş 4500000001 (Marmara Bakliyat, siyah çay 2.960 ₺/koli) için 120 kolilik mal girişi var, fatura yok.",
+          "data": "PO 4500000001 · GD-1008 Siyah Çay · fatura miktarı 120 koli · fiyat 3.010 ₺ ve 3.080 ₺",
+          "preset": null,
+          "steps": [
+            { "action": "Simülasyonda Fatura sekmesini aç, 4500000001'i seç; fatura no TC04-A, miktar 120, fiyat 3.010 ₺ gir (kaydetme).", "expected": "Eşleşme sütununda \"Eşleşti (+1,7%)\"; özet \"Ödemeye açık kaydedilecek\"." },
+            { "action": "Fiyatı 3.080 ₺ yap.", "expected": "Eşleşme \"Fiyat farkı +4,1% (tolerans %2)\"; özet \"Ödemeye bloke edilecek\"." },
+            { "action": "Faturayı kaydet ve fatura panelini incele.", "expected": "Durum \"Ödemeye bloke\"; blokaj nedeni fiyat farkı; \"Blokajı kaldır\" gerekçe ister." }
+          ]
         }
       ]
     },
@@ -152,7 +169,7 @@
           "duration": "40 dk",
           "role": "key-user",
           "summary": "Teknik lider kullanıcısını oluştur, v1.1'deki 4 hatayı test case'lerle bul, defect aç, düzelttir ve yeniden test ederek kapat.",
-          "goal": "v1.1 sürümünü UAT'den geçir: 10 gereksinimi kapsa, 4 hatayı defect olarak raporla, düzeltmeleri doğrula ve tüm defect'leri kapat.",
+          "goal": "v1.1 sürümünü UAT'den geçir: 12 gereksinimi kapsa, 4 hatayı defect olarak raporla, düzeltmeleri doğrula ve tüm defect'leri kapat.",
           "steps": [
             {
               "title": "Key User rolüne geç ve sürümü seç",
