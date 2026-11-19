@@ -1,5 +1,7 @@
 # ERP Akademi
 
+**Canlı site:** https://oguzyesilyurt.github.io/erp-akademi/ · **Depo:** https://github.com/oguzyesilyurt/erp-akademi
+
 SAP ve CRM süreçlerini uygulamalı öğreten eğitim simülatörü. Telefona ve bilgisayara uygulama olarak yüklenebilen (PWA), çevrimdışı çalışan, tamamen statik bir web uygulamasıdır. Build aracı yoktur; saf HTML, CSS ve JavaScript.
 
 ## Yapı
