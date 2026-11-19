@@ -33,7 +33,7 @@ Her yeni sürüm, düzeltme veya SAP güncellemesi sonrasında kritik süreçler
 6. **Gerçekleşen sonuç ve durum:** Geçti / Kaldı / Engellendi
 
 > [!ORNEK]
-> **O2C-07** · Ön koşul: Denel Kaya (Satış Temsilcisi) oturumu, Bornova Market A segmenti, Kış Temizlik Kampanyası aktif.
+> **O2C-07** · Ön koşul: Denel (Satış Temsilcisi) oturumu, Bornova Market A segmenti, Kış Temizlik Kampanyası aktif.
 > Adımlar: TM-2001 × 200, TM-2002 × 150, TM-2003 × 200 ile teklif oluştur ve kaydet.
 > Beklenen: Toplam iskonto %17,2; durum "Onay bekliyor"; ilk adım "Müdür onayı", ikinci adım "Kredi onayı".
 
@@ -49,7 +49,7 @@ Yeni onay kuralı (iskonto %12 veya net 50.000 ₺ üzeri müdür onayı) canlı
 - **Birim testi:** Danışman, eşik değerlerini tek tek dener (%11,9 → onaysız, %12,1 → onaylı).
 - **Entegrasyon testi:** Onaylanan teklif siparişe dönüşür, ERP'ye aktarılır, teslim edilir ve faturalanır.
 - **Yetki testi:** Temsilcinin kendi teklifini onaylayamadığı doğrulanır.
-- **UAT:** Key user Oğuz Öztürk, satış ekibiyle gerçek senaryoları yürütür ve kabul imzası verir.
+- **UAT:** Key user Oğuz, satış ekibiyle gerçek senaryoları yürütür ve kabul imzası verir.
 
 ## İlgili işlem kodları ve araçlar
 

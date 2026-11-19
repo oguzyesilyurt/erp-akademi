@@ -299,7 +299,7 @@ function openUserForm(id, prefill = null) {
       ${prefill?.note ? alertBox('info', 'Form önerilen değerlerle dolduruldu', esc(prefill.note)) : ''}
       <div class="form-grid">
         <label class="field"><span class="field-label">Ad <span class="req">*</span></span><input class="input" data-f="firstName" value="${esc(v.firstName)}" maxlength="40"></label>
-        <label class="field"><span class="field-label">Soyad <span class="req">*</span></span><input class="input" data-f="lastName" value="${esc(v.lastName)}" maxlength="40"></label>
+        <label class="field"><span class="field-label">Soyad${u && !u.lastName ? '' : ' <span class="req">*</span>'}</span><input class="input" data-f="lastName" value="${esc(v.lastName)}" maxlength="40"></label>
         <div class="field"><span class="field-label">Kullanıcı adı</span><div class="ro" data-username>${esc(u?.username || '—')}</div></div>
         <label class="field"><span class="field-label">Departman</span><select class="select" data-f="department">${st.departments.map((d) => `<option ${d === v.department ? 'selected' : ''}>${esc(d)}</option>`).join('')}</select></label>
         <label class="field span-2"><span class="field-label">Unvan</span><input class="input" data-f="title" value="${esc(v.title || '')}" maxlength="60" placeholder="Ör. Satış Temsilcisi"></label>
@@ -359,16 +359,17 @@ function saveUser(id) {
   const form = drawerRoot();
   const v = readUserForm(form);
   const block = form.querySelector('[data-block]');
-  if (!v.firstName || !v.lastName) return toast('Ad ve soyad zorunlu');
-
   const st = clone(iam());
   const me = currentUser();
   const old = id ? st.users.find((u) => u.id === id) : null;
+  // Soyad zorunlu; yalnızca soyadı zaten boş olan varsayılan kullanıcılar soyadsız kaydedilebilir
+  const lastOptional = !!old && !old.lastName;
+  if (!v.firstName || (!v.lastName && !lastOptional)) return toast(lastOptional ? 'Ad zorunlu' : 'Ad ve soyad zorunlu');
   const rec = old || { id: nextUserId(st), email: '', phone: '', responsibilities: [], approvalLimit: 0 };
   Object.assign(rec, {
     firstName: v.firstName,
     lastName: v.lastName,
-    name: `${v.firstName} ${v.lastName}`,
+    name: [v.firstName, v.lastName].filter(Boolean).join(' '),
     username: old?.username || makeUsername(v.firstName, v.lastName, st, rec.id),
     department: v.department,
     title: v.title,

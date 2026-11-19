@@ -36,7 +36,7 @@ SAP'nin bulut CRM çözümünde (SAP Sales Cloud, eski adıyla SAP Cloud for Cus
 
 ## Ege Dağıtım'dan örnek
 
-Bölge bayi toplantısında tanışılan Ödemiş Yöresel Gıda, Denel Kaya tarafından **lead** olarak açıldı. Nitelendirme görüşmesinden sonra 1,8 milyon ₺ yıllık tahmini hacimle **fırsat** oluştu. İlk deneme teklifi CRM'de hazırlandı. Ancak firma ERP'de henüz Business Partner olarak açılmadığı için siparişe dönüşte aktarım hatası alındı. Key user müşteriyi ERP'de açınca süreç devam etti.
+Bölge bayi toplantısında tanışılan Ödemiş Yöresel Gıda, Denel tarafından **lead** olarak açıldı. Nitelendirme görüşmesinden sonra 1,8 milyon ₺ yıllık tahmini hacimle **fırsat** oluştu. İlk deneme teklifi CRM'de hazırlandı. Ancak firma ERP'de henüz Business Partner olarak açılmadığı için siparişe dönüşte aktarım hatası alındı. Key user müşteriyi ERP'de açınca süreç devam etti.
 
 ## İlgili işlemler ve uygulamalar
 

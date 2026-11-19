@@ -100,11 +100,11 @@
     "users": [
       {
         "id": "U01",
-        "username": "DKAYA",
-        "name": "Denel Kaya",
+        "username": "DENEL",
+        "name": "Denel",
         "role": "Satış Temsilcisi",
         "department": "Satış",
-        "email": "denel.kaya@egedagitim.example",
+        "email": "denel@egedagitim.example",
         "phone": "0555 000 01 01",
         "responsibilities": [
           "Müşteri ziyaretleri ve fırsat takibi",
@@ -120,11 +120,11 @@
       },
       {
         "id": "U02",
-        "username": "ADEMIR",
-        "name": "Ayçelen Demir",
+        "username": "AYCELEN",
+        "name": "Ayçelen",
         "role": "Satış Müdürü",
         "department": "Satış",
-        "email": "aycelen.demir@egedagitim.example",
+        "email": "aycelen@egedagitim.example",
         "phone": "0555 000 01 02",
         "responsibilities": [
           "Ek iskonto ve özel fiyat onayı",
@@ -140,11 +140,11 @@
       },
       {
         "id": "U03",
-        "username": "GYILMAZ",
-        "name": "Gökhan Yılmaz",
+        "username": "GOKHAN",
+        "name": "Gökhan",
         "role": "Muhasebe Uzmanı",
         "department": "Finans",
-        "email": "gokhan.yilmaz@egedagitim.example",
+        "email": "gokhan@egedagitim.example",
         "phone": "0555 000 01 03",
         "responsibilities": [
           "Kredi limiti kontrolü ve bloke kaldırma",
@@ -160,11 +160,11 @@
       },
       {
         "id": "U04",
-        "username": "OOZTURK",
-        "name": "Oğuz Öztürk",
+        "username": "OGUZ",
+        "name": "Oğuz",
         "role": "Key User (SD/MM)",
         "department": "Bilgi Teknolojileri",
-        "email": "oguz.ozturk@egedagitim.example",
+        "email": "oguz@egedagitim.example",
         "phone": "0555 000 01 04",
         "responsibilities": [
           "Ana veri bakımı (müşteri, malzeme, fiyat)",
@@ -180,11 +180,11 @@
       },
       {
         "id": "U05",
-        "username": "MCINAR",
-        "name": "Mehmet Çınar",
+        "username": "MEHMET",
+        "name": "Mehmet",
         "role": "Depo Sorumlusu",
         "department": "Lojistik",
-        "email": "mehmet.cinar@egedagitim.example",
+        "email": "mehmet@egedagitim.example",
         "phone": "0555 000 01 05",
         "responsibilities": [
           "ERP siparişlerinden teslimat oluşturma",

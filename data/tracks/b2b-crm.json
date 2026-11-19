@@ -135,7 +135,7 @@
           "term": "Lead (potansiyel müşteri)",
           "en": "Lead",
           "definition": "Henüz nitelendirilmemiş satış ilgisi. Bir firmanın ürünlerinle ilgilendiğini gösteren ilk işarettir; gerçek bir satış ihtimali olup olmadığı henüz bilinmez.",
-          "example": "Ekim 2026'daki bölge bayi toplantısında kartvizit bırakan \"Ödemiş Yöresel Gıda\", Denel Kaya tarafından lead olarak kaydedildi.",
+          "example": "Ekim 2026'daki bölge bayi toplantısında kartvizit bırakan \"Ödemiş Yöresel Gıda\", Denel tarafından lead olarak kaydedildi.",
           "glossary": "lead"
         },
         {
@@ -151,7 +151,7 @@
           "term": "Satış hunisi",
           "en": "Sales funnel / pipeline",
           "definition": "Fırsatların aşamalara göre dağılımı. Üstte çok sayıda erken aşama fırsat, altta az sayıda kapanmaya yakın fırsat bulunur. Satış tahmini bu huniden yapılır.",
-          "example": "Satış müdürü Ayçelen Demir her pazartesi huniyi inceler: \"Nitelendirme\" aşamasında 12, \"Teklif\" aşamasında 5, \"Pazarlık\" aşamasında 2 fırsat var.",
+          "example": "Satış müdürü Ayçelen her pazartesi huniyi inceler: \"Nitelendirme\" aşamasında 12, \"Teklif\" aşamasında 5, \"Pazarlık\" aşamasında 2 fırsat var.",
           "glossary": "satis-hunisi"
         },
         {
@@ -219,7 +219,7 @@
           "term": "Onay akışı",
           "en": "Approval workflow",
           "definition": "Belirli kurallar aşıldığında belgenin bir yöneticiye onaya gitmesi. Onaylanmadan belge müşteriye gönderilemez veya siparişe dönüştürülemez.",
-          "example": "Ege Dağıtım'da teklifte toplam iskonto %12'yi veya net tutar 50.000 ₺'yi geçerse teklif satış müdürü Ayçelen Demir'in onayına düşer.",
+          "example": "Ege Dağıtım'da teklifte toplam iskonto %12'yi veya net tutar 50.000 ₺'yi geçerse teklif satış müdürü Ayçelen'in onayına düşer.",
           "glossary": "onay-akisi"
         },
         {
@@ -239,7 +239,7 @@
           "term": "Key user",
           "en": "Key user",
           "definition": "İş biriminden seçilen, sistemi en iyi bilen kullanıcı. Kullanıcılara destek olur, ana veriyi bakımını yapar, yeni geliştirmeleri test eder ve IT ile iş birimi arasında köprü kurar.",
-          "example": "Oğuz Öztürk, Ege Dağıtım'ın SD/MM key user'ıdır. Yeni bayi açılış taleplerini o işler ve UAT senaryolarını o yürütür.",
+          "example": "Oğuz, Ege Dağıtım'ın SD/MM key user'ıdır. Yeni bayi açılış taleplerini o işler ve UAT senaryolarını o yürütür.",
           "glossary": "key-user"
         },
         {
@@ -247,7 +247,7 @@
           "term": "UAT (kullanıcı kabul testi)",
           "en": "User Acceptance Testing",
           "definition": "Canlıya geçmeden önce iş biriminin, sistemin gerçek iş süreçlerini doğru yürüttüğünü kendi senaryolarıyla doğruladığı test aşaması.",
-          "example": "Yeni onay kuralı canlıya alınmadan önce Oğuz Öztürk, \"%12 iskontolu teklif müdür onayına düşmeli\" senaryosunu test sisteminde çalıştırdı ve sonucu kayıt altına aldı.",
+          "example": "Yeni onay kuralı canlıya alınmadan önce Oğuz, \"%12 iskontolu teklif müdür onayına düşmeli\" senaryosunu test sisteminde çalıştırdı ve sonucu kayıt altına aldı.",
           "glossary": "uat"
         }
       ]
@@ -1135,7 +1135,7 @@
         {
           "id": "q03",
           "tag": "Kavram",
-          "q": "Ege Dağıtım'da key user Oğuz Öztürk'ün görevi hangisi değildir?",
+          "q": "Ege Dağıtım'da key user Oğuz'un görevi hangisi değildir?",
           "options": [
             "Müşterilerin kredi limitini belirlemek",
             "Ana veri bakımı yapmak",

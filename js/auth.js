@@ -41,8 +41,9 @@ export function loadRoles() {
 
 // ---------- IAM durumu ----------
 function splitName(name) {
-  const parts = String(name || '').trim().split(/\s+/);
-  return { firstName: parts.slice(0, -1).join(' ') || parts[0] || '', lastName: parts.length > 1 ? parts.at(-1) : '' };
+  // Tek kelimelik adlarda soyad boş kalır (varsayılan kullanıcılar)
+  const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+  return { firstName: parts.length > 1 ? parts.slice(0, -1).join(' ') : parts[0] || '', lastName: parts.length > 1 ? parts.at(-1) : '' };
 }
 
 function defaults() {
@@ -64,6 +65,15 @@ function defaults() {
     log: [],
   };
 }
+
+// Önceki sürümlerin varsayılan kullanıcı kayıtları: [kullanıcı adı, ad, e-posta]
+const LEGACY_USERS = {
+  U01: ['DKAYA', 'Denel Kaya', 'denel.kaya@egedagitim.example'],
+  U02: ['ADEMIR', 'Ayçelen Demir', 'aycelen.demir@egedagitim.example'],
+  U03: ['GYILMAZ', 'Gökhan Yılmaz', 'gokhan.yilmaz@egedagitim.example'],
+  U04: ['OOZTURK', 'Oğuz Öztürk', 'oguz.ozturk@egedagitim.example'],
+  U05: ['MCINAR', 'Mehmet Çınar', 'mehmet.cinar@egedagitim.example'],
+};
 
 // Yeni eklenen yetkileri varsayılan rollere, yeni varsayılan rolleri duruma ekler.
 // Kullanıcının bilinçli olarak kaldırdığı eski yetkilere dokunmaz.
@@ -90,6 +100,17 @@ function migrate(st) {
       st.departments.push(d);
       changed = true;
     }
+  }
+  // Varsayılan kullanıcıların eski "Ad Soyad" kayıtlarını yeni adlara taşı.
+  // Yalnızca hiç düzenlenmemiş (eski ad + eski kullanıcı adı aynen duran) kayıtlar değişir.
+  const cu = company()?.organization.users || [];
+  for (const u of st.users) {
+    const old = LEGACY_USERS[u.id];
+    const def = cu.find((x) => x.id === u.id);
+    if (!old || !def || u.username !== old[0] || u.name !== old[1]) continue;
+    Object.assign(u, { name: def.name, username: def.username, ...splitName(def.name) });
+    if (u.email === old[2]) u.email = def.email;
+    changed = true;
   }
   if (fresh.length || !st.knownPerms) {
     st.knownPerms = all;

@@ -225,7 +225,7 @@ function fillRoles(txt) {
     .replace(/\{\{role:([\w-]+)\}\}/g, (_, id) => roleById(id)?.name || id);
 }
 
-// "Satış müdürü rolündeki bir kullanıcıya geç (şu an: Ayçelen Demir)"
+// "Satış müdürü rolündeki bir kullanıcıya geç (şu an: Ayçelen)"
 function roleBox(roleId) {
   const r = roleById(roleId);
   if (!r) return '';

@@ -50,7 +50,7 @@ Feature flag, bir işlevi kod değiştirmeden açıp kapatan ayardır. Ekipler y
 
 ## Ege Dağıtım'dan örnek
 
-TC-02 v1.1 üzerinde koşuldu: 6 kolilik bulaşık deterjanı kaleminde ZKMP %10 uygulandı (beklenen: uygulanmamalı). Key user Oğuz Öztürk "Defect aç" ile DEF-002'yi oluşturdu; adımlar ve test verisi otomatik doldu, gereksinim REQ-02 seçildi, önem Orta verildi. Teknik lider düzeltince durum "Yeniden teste hazır" oldu. Oğuz TC-02'yi yeniden koştu, test geçti ve defect kapandı.
+TC-02 v1.1 üzerinde koşuldu: 6 kolilik bulaşık deterjanı kaleminde ZKMP %10 uygulandı (beklenen: uygulanmamalı). Key user Oğuz "Defect aç" ile DEF-002'yi oluşturdu; adımlar ve test verisi otomatik doldu, gereksinim REQ-02 seçildi, önem Orta verildi. Teknik lider düzeltince durum "Yeniden teste hazır" oldu. Oğuz TC-02'yi yeniden koştu, test geçti ve defect kapandı.
 
 ## İlgili araçlar
 

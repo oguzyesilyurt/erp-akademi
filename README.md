@@ -98,11 +98,13 @@ Varsayılan kullanıcılar `data/company.json`, roller, yetkiler, rol şablonlar
 
 | Kullanıcı | Kod | Rol |
 |---|---|---|
-| Denel Kaya | DKAYA | Satış Temsilcisi |
-| Ayçelen Demir | ADEMIR | Satış Müdürü |
-| Gökhan Yılmaz | GYILMAZ | Muhasebe |
-| Oğuz Öztürk | OOZTURK | Key User (kullanıcı yönetimi dahil) |
-| Mehmet Çınar | MCINAR | Depo Sorumlusu |
+| Denel | DENEL | Satış Temsilcisi |
+| Ayçelen | AYCELEN | Satış Müdürü |
+| Gökhan | GOKHAN | Muhasebe |
+| Oğuz | OGUZ | Key User (kullanıcı yönetimi dahil) |
+| Mehmet | MEHMET | Depo Sorumlusu |
+
+Varsayılan kullanıcılar yalnızca adla tanımlıdır; kullanıcı adı addan (Türkçe karakterler ASCII'ye çevrilerek) türetilir. Yeni oluşturulan kullanıcılarda soyad zorunludur ve kullanıcı adı ad baş harfi + soyaddan üretilir (ör. Çağrı Şahin → `CSAHIN`). Eski sürümden kalan, düzenlenmemiş varsayılan kullanıcı kayıtları açılışta yeni adlara taşınır.
 
 `USER_ADMIN` yetkisine sahip kullanıcılar `#/users` sayfasından kullanıcı, rol ve departmanları yönetebilir. Değişiklikler tarayıcıda saklanır; "Varsayılana dön" ile sıfırlanır. Senaryolar kişiye değil role bağlıdır; adımlarda o roldeki güncel kullanıcı gösterilir. Gerçek SAP'de bu işler `SU01` (kullanıcı) ve `PFCG` (rol) ile yapılır.
 

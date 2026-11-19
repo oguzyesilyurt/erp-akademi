@@ -53,7 +53,7 @@ Ege Dağıtım'ın CRM–ERP projesinde:
 
 - **Explore:** Teklif onay kuralı (%12 / 50.000 ₺) fit-to-standard atölyesinde netleşti; kampanya iskontosu için şirkete özel ZKMP koşul türü kararlaştırıldı.
 - **Realize:** Onay akışı ve sipariş aktarımı yapılandırıldı, entegrasyon testi yapıldı.
-- **Deploy:** Key user Oğuz Öztürk UAT'yi yönetti; cutover hafta sonunda açık siparişler ve müşteri bakiyeleri taşındı.
+- **Deploy:** Key user Oğuz UAT'yi yönetti; cutover hafta sonunda açık siparişler ve müşteri bakiyeleri taşındı.
 - **Hypercare:** İlk hafta Aktarım Monitörü günde üç kez kontrol edildi; aday müşterilerden gelen aktarım hataları için ana veri açılış süreci hızlandırıldı.
 
 ## İlgili araçlar
