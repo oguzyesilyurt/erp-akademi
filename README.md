@@ -31,6 +31,7 @@ js/docs.js            Dokümantasyon merkezi, arama, sözlük (#/docs)
 js/users-page.js      Kullanıcı Yönetimi: kullanıcı, rol, departman, günlük (#/users)
 js/release.js         Sistem sürümü ve feature flag'ler (data/releases.json)
 js/testlab.js         Test Laboratuvarı: gereksinim, test case, koşum, defect, izlenebilirlik
+js/c4c.js             SAP C4C çalışma alanı: huni, tahmin, lead/BANT, Hesap 360, aktivite, kampanya
 data/docs/            Makaleler (.md), index.json, glossary.json
 data/roles.json       Roller, yetkiler ve görevler ayrılığı açıklaması
 data/company.json     Ortak sahte şirket verisi (Ege Dağıtım A.Ş.)
@@ -104,6 +105,8 @@ Varsayılan kullanıcılar `data/company.json`, roller, yetkiler, rol şablonlar
 | Oğuz | OGUZ | Key User (kullanıcı yönetimi dahil) |
 | Mehmet | MEHMET | Depo Sorumlusu |
 
+Varsayılan kullanıcısı olmayan roller: **Teknik Lider** (DEFECT_FIX) ve **Pazarlama Uzmanı** (CAMPAIGN_MANAGE, LEAD_CREATE, LEAD_QUALIFY). İlgili ekrandaki uyarı kutusundan Kullanıcı Yönetimi'nde oluşturulur.
+
 Varsayılan kullanıcılar yalnızca adla tanımlıdır; kullanıcı adı addan (Türkçe karakterler ASCII'ye çevrilerek) türetilir. Yeni oluşturulan kullanıcılarda soyad zorunludur ve kullanıcı adı ad baş harfi + soyaddan üretilir (ör. Çağrı Şahin → `CSAHIN`). Eski sürümden kalan, düzenlenmemiş varsayılan kullanıcı kayıtları açılışta yeni adlara taşınır.
 
 `USER_ADMIN` yetkisine sahip kullanıcılar `#/users` sayfasından kullanıcı, rol ve departmanları yönetebilir. Değişiklikler tarayıcıda saklanır; "Varsayılana dön" ile sıfırlanır. Senaryolar kişiye değil role bağlıdır; adımlarda o roldeki güncel kullanıcı gösterilir. Gerçek SAP'de bu işler `SU01` (kullanıcı) ve `PFCG` (rol) ile yapılır.
@@ -114,6 +117,12 @@ Varsayılan kullanıcılar yalnızca adla tanımlıdır; kullanıcı adı addan 
 
 Test Laboratuvarı'nda 10 gereksinim, 3 örnek test case, test koşumu (adımlar + gömülü simülasyon), defect yaşam döngüsü (Yeni → Atandı → Düzeltiliyor → Yeniden teste hazır → Kapandı / Yeniden açıldı / Tekrarlanamadı) ve izlenebilirlik matrisi bulunur. Defect düzeltme yetkisi (`DEFECT_FIX`) varsayılan kullanıcısı olmayan Teknik Lider rolündedir; önce Kullanıcı Yönetimi'nden bu rolde kullanıcı oluşturulmalıdır.
 
+## SAP C4C (Sales Cloud)
+
+SAP C4C > Simülasyon bir C4C çalışma alanıdır. Huni sekmesinde Kanban (PC'de sürükle-bırak, mobilde yatay kaydırma ve aşama menüsü) ve tahmin (ağırlıklı tutar, kapanış ayı, riskli fırsatlar, kayıp nedenleri) bulunur. Leadler sekmesinde BANT ile nitelendirilen lead tek tıkla hesap + ilgili kişi + fırsata dönüşür. Hesaplar sekmesi Hesap 360 görünümünü verir. Aktiviteler haftalık takvimde, gecikmiş görevler vurgulu gösterilir. Kampanyalar sekmesinde hedef grup önizlenir, lead üretilir ve performans izlenir. Fırsat Teklif aşamasında teklif simülasyonunu açar; teklif onayı fırsatı Pazarlık'a taşır ve tutarı günceller, sipariş fırsatı Kazanıldı yapar. Başlangıç verisi `data/tracks/sap-c4c.json` içinde `simulation.seed` altındadır; "Demo verisini sıfırla" ile geri yüklenir. Yetkiler: LEAD_CREATE, LEAD_QUALIFY, OPP_MANAGE (temsilci, müdür), FORECAST_VIEW_TEAM (müdür), CAMPAIGN_MANAGE (Pazarlama Uzmanı).
+
 ## Derin bağlantılar
 
 Herhangi bir sayfaya `?open=<tür>:<no>` eklenirse ilgili belge paneli açılır. Türler: `quote`, `order`, `message`, `delivery`, `invoice`. Örnek: `#/interface?open=order:10000001`.
+
+C4C: `#/track/sap-c4c/simulation?account=100002` (Hesap 360), `?opp=OPP-0002`, `?lead=LEAD-0007`, `?tab=campaigns`.

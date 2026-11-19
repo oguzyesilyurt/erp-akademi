@@ -17,7 +17,7 @@ import {
 } from './company.js';
 
 // ---------- durum (sekme değişse de taslak korunur) ----------
-const newDraft = () => ({ customer: '', contact: '', reference: '', plant: '', validTo: '', items: [], open: [], scenario: null, addCode: '', addQty: '' });
+const newDraft = () => ({ customer: '', contact: '', reference: '', plant: '', validTo: '', items: [], open: [], scenario: null, opportunity: null, addCode: '', addQty: '' });
 const draft = newDraft();
 let mode = 'form'; // 'form' | 'list' | 'orders'
 let lastSaved = null;
@@ -68,7 +68,7 @@ function addItem(code, qty) {
 export const hasDraft = () => !!draft.customer || draft.items.length > 0;
 
 // Test koşumu gibi dış modüllerin simülasyonu belirli veriyle başlatması için
-// preset: { customer, contact?, reference?, items: [{ code, qty }] }
+// preset: { customer, contact?, reference?, items: [{ code, qty }], opportunity?: { id, name } }
 // simCtx: simülasyon henüz hiç çizilmediyse kurallar (sistem tarihi, geçerlilik) için gereken bağlam
 export function applyPreset(preset, simCtx = null) {
   if (simCtx) ctx = simCtx;
@@ -78,6 +78,7 @@ export function applyPreset(preset, simCtx = null) {
   const c = partnerOf(draft.customer);
   if (preset.contact && c?.contacts.some((k) => k.name === preset.contact)) draft.contact = preset.contact;
   draft.reference = preset.reference || '';
+  draft.opportunity = preset.opportunity || null;
   (preset.items || []).forEach((it) => addItem(it.code, it.qty));
   draft.open = [];
   mode = 'form';
@@ -418,6 +419,9 @@ function formView() {
     ${sc ? `<div class="scenario-banner">${icon('route')}<span>Senaryo: <strong>${esc(sc.title)}</strong></span>
       <a class="link small" href="${href('track', { id: ctx.track.id, section: 'scenarios', sub: sc.id })}">Adımlara dön</a>
       <button class="icon-btn sm" type="button" data-act="drop-scenario" aria-label="Senaryo bağlantısını kaldır">${icon('close')}</button></div>` : ''}
+    ${draft.opportunity ? `<div class="scenario-banner">${icon('cloud')}<span>C4C fırsatı: <strong>${esc(draft.opportunity.id)}</strong> ${esc(draft.opportunity.name || '')} · teklif onaylanınca fırsat güncellenir</span>
+      <a class="link small" href="#/track/sap-c4c/simulation?opp=${encodeURIComponent(draft.opportunity.id)}">Fırsata dön</a>
+      <button class="icon-btn sm" type="button" data-act="drop-opp" aria-label="Fırsat bağlantısını kaldır">${icon('close')}</button></div>` : ''}
     <div class="docbar card">
       <div class="docbar-title">
         <span class="doc-type">${icon('tag')}</span>
@@ -534,6 +538,8 @@ function save(asDraft = false) {
       contact: draft.contact,
       reference: draft.reference.trim(),
       scenario: draft.scenario,
+      opportunity: draft.opportunity?.id || null,
+      opportunityName: draft.opportunity?.name || null,
       lines: c.lines.map((l) => ({
         pos: l.pos, code: l.p.code, name: l.p.name, qty: l.qty, unit: l.p.unit,
         list: l.r.list, net: l.r.net, netTotal: l.netTotal, vatRate: l.r.vatRate, vatTotal: l.vatTotal,
@@ -561,6 +567,7 @@ function copyIntoDraft(src) {
   if (src.contact) draft.contact = src.contact;
   draft.plant = src.plant;
   draft.reference = src.reference || '';
+  draft.opportunity = src.opportunity ? { id: src.opportunity, name: src.opportunityName || '' } : null;
   src.lines.forEach((l) => addItem(l.code, l.qty));
   draft.open = [];
   mode = 'form';
@@ -628,6 +635,9 @@ function bindSim(el) {
       save(true);
     } else if (act === 'login') {
       openLogin();
+    } else if (act === 'drop-opp') {
+      draft.opportunity = null;
+      render();
     } else if (act === 'drop-scenario') {
       draft.scenario = null;
       render();

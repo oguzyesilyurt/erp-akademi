@@ -397,13 +397,14 @@
     },
     {
       "id": "kampanya",
-      "term": "Kampanya",
+      "term": "Kampanya (fiyat)",
       "en": "Campaign / promotion",
       "cat": "CRM",
       "def": "Belirli ürün, kanal ve tarih aralığında geçerli ek iskonto; genellikle minimum miktar gibi koşulları vardır.",
       "article": "sd-fiyat-kredi",
       "see": [
-        "fiyat-kosulu"
+        "fiyat-kosulu",
+        "pazarlama-kampanyasi"
       ]
     },
     {
@@ -1034,6 +1035,91 @@
       "see": [
         "entegrasyon-testi",
         "regresyon-testi"
+      ]
+    },
+    {
+      "id": "hesap-360",
+      "term": "Hesap 360",
+      "en": "Account 360 view",
+      "cat": "CRM",
+      "def": "Bir hesabın özetini, ilgili kişilerini, fırsatlarını, aktivitelerini, teklif ve siparişlerini ve ERP'den okunan açık bakiyesini tek ekranda toplayan görünüm.",
+      "article": "c4c-lead-firsat",
+      "see": [
+        "hesap",
+        "ilgili-kisi",
+        "firsat"
+      ]
+    },
+    {
+      "id": "bant",
+      "term": "BANT nitelendirme",
+      "en": "BANT qualification",
+      "cat": "CRM",
+      "def": "Lead'in satışa hazır olup olmadığını Bütçe (Budget), Yetki (Authority), İhtiyaç (Need) ve Zaman (Timeline) sorularıyla kontrol etme yöntemi.",
+      "article": "c4c-lead-firsat",
+      "see": [
+        "lead",
+        "firsat"
+      ]
+    },
+    {
+      "id": "satis-asamasi",
+      "term": "Satış aşaması ve olasılık",
+      "en": "Sales phase / probability",
+      "cat": "CRM",
+      "def": "Fırsatın satış döngüsündeki yeri (Keşif, İhtiyaç analizi, Teklif, Pazarlık, Kazanıldı/Kaybedildi). Her aşamanın varsayılan kazanma olasılığı vardır; temsilci gerekçesiyle değiştirebilir.",
+      "article": "c4c-lead-firsat",
+      "see": [
+        "firsat",
+        "agirlikli-tutar"
+      ]
+    },
+    {
+      "id": "agirlikli-tutar",
+      "term": "Ağırlıklı tutar (tahmin)",
+      "en": "Weighted value / forecast",
+      "cat": "CRM",
+      "def": "Beklenen tutar × olasılık. Açık fırsatların ağırlıklı toplamı kapanış ayına göre satış tahminini verir; huni toplamından daha gerçekçidir.",
+      "article": "c4c-huni-tahmin",
+      "see": [
+        "satis-hunisi",
+        "satis-asamasi"
+      ]
+    },
+    {
+      "id": "kayip-nedeni",
+      "term": "Kazanma / kayıp nedeni",
+      "en": "Win/loss reason",
+      "cat": "CRM",
+      "def": "Fırsat kapanırken neden kazanıldığı veya kaybedildiğinin kaydı; rakiple birlikte tutulur. Kaybedilen fırsatta zorunludur ve kayıp analizinin dayanağıdır.",
+      "article": "c4c-huni-tahmin",
+      "see": [
+        "firsat"
+      ]
+    },
+    {
+      "id": "hedef-grup",
+      "term": "Hedef grup",
+      "en": "Target group",
+      "cat": "CRM",
+      "def": "Pazarlama kampanyasının ulaşacağı hesap ve kişi listesi; segment, bölge, kanal gibi filtrelerle oluşturulur.",
+      "article": "c4c-huni-tahmin",
+      "see": [
+        "pazarlama-kampanyasi",
+        "segment"
+      ]
+    },
+    {
+      "id": "pazarlama-kampanyasi",
+      "term": "Pazarlama kampanyası",
+      "en": "Marketing campaign",
+      "cat": "CRM",
+      "def": "Belirli hedef gruba, belirli bütçe ve tarihlerle yapılan pazarlama faaliyeti (e-posta, etkinlik, telefon). Performansı lead → fırsat → kazanılan tutar ile ölçülür. ERP'deki fiyat kampanyasından (iskonto koşulu) farklıdır.",
+      "article": "c4c-huni-tahmin",
+      "see": [
+        "hedef-grup",
+        "lead",
+        "kampanya"
       ]
     }
   ]

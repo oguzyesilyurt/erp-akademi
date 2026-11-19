@@ -259,6 +259,7 @@ function detailHtml(q) {
           ['İlgili kişi', esc(q.contact || '—')],
           q.reference ? ['Müşteri referansı', esc(q.reference)] : null,
           q.scenario ? ['Senaryo', esc(q.scenario.title)] : null,
+          q.opportunity ? ['C4C fırsatı', `<a class="link" href="#/track/sap-c4c/simulation?opp=${encodeURIComponent(q.opportunity)}">${esc(q.opportunity)}</a> ${esc(q.opportunityName || '')}`] : null,
         ])
       )}
       ${dsec(

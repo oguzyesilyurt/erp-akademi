@@ -1,11 +1,333 @@
 {
   "id": "sap-c4c",
-  "version": 1,
+  "version": 2,
   "sections": {
-    "intro": null,
-    "concepts": null,
-    "simulation": null,
-    "scenarios": null,
+    "intro": {
+      "title": "SAP C4C (Sales Cloud) ile satışın ön cephesi",
+      "lead": "Kampanyadan gelen ilgiyi lead olarak yakala, nitelendir, fırsata dönüştür, huniyi yönet ve kazandığın işi ERP'ye sipariş olarak gönder. Hepsini Ege Dağıtım'ın verisiyle uygula.",
+      "duration": "10 dk",
+      "goals": [
+        "C4C'nin (SAP Sales Cloud) ne işe yaradığını ve ERP ile iş bölümünü açıklayabilmek",
+        "Lead'i BANT ile nitelendirip hesap, ilgili kişi ve fırsata dönüştürebilmek",
+        "Fırsatı aşama, olasılık, beklenen tutar ve kapanış tarihiyle yönetebilmek",
+        "Huniden ağırlıklı tahmin okuyup riskli fırsatları bulabilmek",
+        "Kampanya hedef grubunu belirleyip performansını leadden kazanılan tutara kadar izleyebilmek"
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "title": "C4C nedir?",
+          "paragraphs": [
+            "SAP Cloud for Customer (C4C), SAP'nin bulut tabanlı müşteri ilişkileri yönetimi (CRM) çözümüdür. Satış tarafı bugün SAP Sales Cloud adıyla anılır. Satış temsilcisinin günlük işi burada döner: hesaplar ve ilgili kişiler, lead'ler, fırsatlar, ziyaret ve telefon aktiviteleri, satış hunisi ve tahmin.",
+            "C4C kayıt sistemi değil, ilişki sistemidir: müşteriyle ne konuşulduğunu, hangi işin hangi olasılıkla ne zaman kapanacağını tutar. Fiyatın, stoğun, kredinin ve faturanın doğru kaynağı ise ERP'dir (S/4HANA veya ECC)."
+          ]
+        },
+        {
+          "type": "compare",
+          "title": "Kim neyi tutar?",
+          "columns": ["Konu", "C4C (Sales Cloud)", "ERP (S/4HANA)"],
+          "rows": [
+            ["Müşteri", "Hesap ve ilgili kişiler, aday hesaplar, etkileşim geçmişi", "Business Partner / müşteri ana verisi, kredi limiti, ödeme koşulu"],
+            ["Satış ihtimali", "Lead, fırsat, aşama, olasılık, tahmin", "Yok (ERP fırsat bilmez)"],
+            ["Teklif ve sipariş", "Teklif hazırlanır, onaya gider; sipariş ERP'ye aktarılır", "Fiyatlandırma, kredi kontrolü, sipariş, teslimat, fatura"],
+            ["Pazarlama", "Kampanya, hedef grup, kampanyadan lead", "Fiyat kampanyası (koşul kaydı, ör. ZKMP)"],
+            ["Finans görünümü", "Açık bakiye ve faturalar ERP'den okunur (Hesap 360)", "Açık kalemler, vade, tahsilat"]
+          ]
+        },
+        {
+          "type": "flow",
+          "title": "Bu yolda uygulayacağın akış",
+          "text": "Simülasyon sekmesi bir C4C çalışma alanıdır: Huni, Leadler, Hesaplar, Aktiviteler ve Kampanyalar. Teklif adımında mevcut teklif simülasyonuna, sipariş adımında ERP aktarımına bağlanır.",
+          "steps": [
+            { "label": "Kampanya", "system": "C4C", "owner": "Pazarlama Uzmanı", "text": "Hedef segment, bölge ve kanal seçilir; hedef grup önizlenir, kampanyadan lead üretilir." },
+            { "label": "Lead", "system": "C4C", "owner": "Satış Temsilcisi", "text": "BANT kontrol listesiyle nitelendirilir; nitelikli ise tek tıkla dönüştürülür, değilse gerekçeyle reddedilir." },
+            { "label": "Fırsat", "system": "C4C", "owner": "Satış Temsilcisi", "text": "Aşama, olasılık, beklenen tutar, kapanış tarihi ve rakip tutulur; aktivitelerle ilerletilir." },
+            { "label": "Teklif ve onay", "system": "C4C → onay", "owner": "Temsilci → Satış Müdürü", "text": "Teklif aşamasında teklif simülasyonu açılır; eşik aşılırsa müdür onayına düşer, onay fırsatı günceller." },
+            { "label": "Sipariş", "system": "ERP", "owner": "Satış Temsilcisi", "text": "Onaylı tekliften sipariş ERP'ye aktarılır; fırsat Kazanıldı olur, kampanya performansına yazılır." }
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "title": "Tahmin, olasılık × tutardır",
+          "text": "Huni toplamı iyimserdir: 420.000 ₺'lik bir fırsat %75 olasılıkla tahmine 315.000 ₺ katkı verir. Müdür, toplam huniye değil ağırlıklı tahmine ve kapanış ayına bakarak hedefe ne kadar yakın olduğunu okur."
+        }
+      ]
+    },
+
+    "concepts": {
+      "intro": "C4C'de her gün kullanılan 12 terim. Her kart sözlükteki tanıma bağlıdır.",
+      "items": [
+        { "id": "account-360", "term": "Hesap 360", "en": "Account 360 view", "definition": "Bir hesabın özetini, ilgili kişilerini, fırsatlarını, aktivitelerini, teklif ve siparişlerini ve ERP'den gelen açık bakiyesini tek ekranda toplayan görünüm.", "example": "Bornova Market Zinciri'ne gitmeden önce Denel Hesap 360'ta açık fırsatı, vadesi geçmiş 145.000 ₺'yi ve son ziyareti görür.", "glossary": "hesap-360" },
+        { "id": "contact", "term": "İlgili kişi", "en": "Contact", "definition": "Hesaba bağlı, şirket adına görüşülen kişi. Karar verici, satın almacı ve muhasebeci farklı ilgili kişilerdir.", "example": "Karşıyaka Gıda'da teklif Satın Alma Sorumlusu Elif Şahin'e gider, sözleşmeyi Genel Müdür Hakan Arslan imzalar.", "glossary": "ilgili-kisi" },
+        { "id": "lead", "term": "Lead", "en": "Lead", "definition": "Henüz nitelendirilmemiş satış ilgisi. Kaynağı (fuar, web, kampanya, referans) ve sıcaklığı (sıcak/ılık/soğuk) ile tutulur.", "example": "İzmir gıda fuarında kartvizit bırakan Bergama Zeytin Kooperatifi \"sıcak\" lead olarak açıldı.", "glossary": "lead" },
+        { "id": "bant", "term": "BANT nitelendirme", "en": "BANT qualification", "definition": "Lead'in satışa hazır olup olmadığını dört soruyla kontrol etme yöntemi: Bütçe (Budget), Yetki (Authority), İhtiyaç (Need), Zaman (Timeline).", "example": "Salihli Gross Market: bütçe onaylı, görüşülen kişi satın alma müdürü, ihtiyaç yeni şube, zaman Aralık. Dördü de ✓ → dönüştürülebilir.", "glossary": "bant" },
+        { "id": "opportunity", "term": "Fırsat", "en": "Opportunity", "definition": "Nitelendirilmiş satış ihtimali: beklenen tutar, aşama, olasılık, kapanış tarihi, rakip ve sorumlu ile izlenir.", "example": "OPP-0002 Bornova yeni şubeler: 420.000 ₺, Pazarlık, %75, kapanış 5 Aralık, rakip Ege Toptan.", "glossary": "firsat" },
+        { "id": "sales-phase", "term": "Satış aşaması ve olasılık", "en": "Sales phase / probability", "definition": "Fırsatın satış döngüsündeki yeri. Her aşamanın varsayılan bir kazanma olasılığı vardır; temsilci gerekçesiyle değiştirebilir.", "example": "Keşif %10 → İhtiyaç analizi %25 → Teklif %50 → Pazarlık %75 → Kazanıldı %100 / Kaybedildi %0.", "glossary": "satis-asamasi" },
+        { "id": "weighted", "term": "Ağırlıklı tutar (tahmin)", "en": "Weighted value / forecast", "definition": "Beklenen tutar × olasılık. Açık fırsatların ağırlıklı toplamı, kapanış ayına göre satış tahminini verir.", "example": "Aralık tahmini: Bornova 420.000 × %75 + Karşıyaka 85.000 × %50 = 357.500 ₺.", "glossary": "agirlikli-tutar" },
+        { "id": "pipeline", "term": "Satış hunisi", "en": "Sales pipeline", "definition": "Açık fırsatların aşamalara göre dağılımı. Kanban görünümünde her sütun bir aşamadır.", "example": "Huni toplantısında Ayçelen, Pazarlık sütunundaki fırsatların kapanış tarihlerini ve risklerini sorar.", "glossary": "satis-hunisi" },
+        { "id": "loss-reason", "term": "Kazanma / kayıp nedeni ve rakip", "en": "Win/loss reason, competitor", "definition": "Fırsat kapanırken neden kazanıldığı veya kaybedildiği ve rakibin kim olduğu. Kaybedilen fırsatta neden zorunludur; analiz bu veriyle yapılır.", "example": "OPP-0004 TemizSepet kaybedildi: neden Fiyat, rakip OnlineToptan; e-ticaret kanalında kampanya iskontosu yoktu.", "glossary": "kayip-nedeni" },
+        { "id": "activity", "term": "Aktivite", "en": "Activity (visit, call, task)", "definition": "Hesap veya fırsata bağlı ziyaret, telefon görüşmesi ya da görev. Tarihi geçen açık görev gecikmiş sayılır.", "example": "\"Bornova: vadesi geçmiş bakiye için muhasebeyle görüş\" görevi 14 Kasım'da kapanmalıydı; takvimde kırmızı görünür.", "glossary": "aktivite" },
+        { "id": "campaign", "term": "Pazarlama kampanyası", "en": "Marketing campaign", "definition": "Belirli hedef gruba, belirli bütçe ve tarihlerle yapılan pazarlama faaliyeti. Performansı lead → fırsat → kazanılan tutar ile ölçülür. Fiyat kampanyasından (ZKMP koşulu) farklıdır.", "example": "Ege Bölge Bayi Buluşması 2026: 85.000 ₺ bütçe, 4 lead, 2 fırsat, 148.600 ₺ kazanılan iş.", "glossary": "pazarlama-kampanyasi" },
+        { "id": "target-group", "term": "Hedef grup", "en": "Target group", "definition": "Kampanyanın ulaşacağı hesap ve kişi listesi; segment, bölge, kanal gibi filtrelerle oluşturulur.", "example": "Segment A + Kurumsal kanal + İzmir filtresi: Bornova Market Zinciri ve Çeşme Kıyı Otel.", "glossary": "hedef-grup" }
+      ]
+    },
+
+    "simulation": {
+      "type": "c4c",
+      "title": "C4C çalışma alanı",
+      "description": "Huni, lead, hesap, aktivite ve kampanya yönetimi. Teklif adımında teklif simülasyonuna, sipariş adımında ERP aktarımına bağlanır.",
+      "completeHint": "Bir lead'i fırsata dönüştürdüğünde veya bir fırsatı kazandığında bu bölüm tamamlanır.",
+      "stages": [
+        { "id": "discovery", "label": "Keşif", "probability": 10 },
+        { "id": "needs", "label": "İhtiyaç analizi", "probability": 25 },
+        { "id": "quote", "label": "Teklif", "probability": 50 },
+        { "id": "negotiation", "label": "Pazarlık", "probability": 75 },
+        { "id": "won", "label": "Kazanıldı", "probability": 100 },
+        { "id": "lost", "label": "Kaybedildi", "probability": 0 }
+      ],
+      "leadSources": ["Fuar", "Web", "Kampanya", "Referans"],
+      "lossReasons": ["Fiyat", "Rakip ürün/hizmet", "Teslim süresi", "Bütçe iptal edildi", "İhtiyaç ortadan kalktı", "Kredi riski", "Yanıt alınamadı"],
+      "rejectReasons": ["Bütçe yok", "Karar vericiye ulaşılamıyor", "İhtiyaç yok", "Hizmet bölgesi dışında", "Rakiple sözleşmeli", "Kredi riski", "Mükerrer kayıt", "İhale gerekiyor"],
+      "campaignTypes": ["E-posta", "Telefon", "Etkinlik / fuar", "Saha ziyareti"],
+      "seed": {
+        "campaigns": [
+          {
+            "id": "CMP-0001",
+            "name": "Ege Bölge Bayi Buluşması 2026",
+            "type": "Etkinlik / fuar",
+            "description": "Bayi kanalındaki B ve C segment toptancılarla bölge buluşması; yeni ürün tanıtımı ve kış dönemi sipariş görüşmeleri.",
+            "segments": ["B", "C"],
+            "regions": ["İzmir", "Manisa", "Aydın", "Denizli"],
+            "channels": ["10"],
+            "budget": 85000,
+            "start": "2026-10-01",
+            "end": "2026-10-31",
+            "status": "completed",
+            "createdBy": "U02",
+            "createdAt": "2026-09-15T09:00:00.000Z"
+          }
+        ],
+        "leads": [
+          { "id": "LEAD-0001", "company": "Ödemiş Yöresel Gıda Ltd. Şti.", "account": "A-0001", "contact": { "name": "Recep Toprak", "role": "Firma Sahibi", "phone": "0555 000 19 01", "email": "recep@odemisyoresel.example" }, "source": "Kampanya", "campaign": "CMP-0001", "score": "hot", "region": "İzmir", "segment": "C", "channel": "10", "value": 120000, "bant": { "budget": true, "authority": true, "need": true, "timeline": true }, "status": "converted", "owner": "U01", "opportunity": "OPP-0005", "note": "Bayi buluşmasında tanışıldı. Ödemiş, Tire ve Bayındır'da 140 satış noktası.", "createdAt": "2026-10-08T10:00:00.000Z", "createdBy": "U01", "closedAt": "2026-10-20T09:00:00.000Z" },
+          { "id": "LEAD-0002", "company": "Aydın Efe Toptan Gıda", "account": "100004", "contact": { "name": "Ali Efe", "role": "Firma Sahibi" }, "source": "Kampanya", "campaign": "CMP-0001", "score": "hot", "region": "Aydın", "segment": "B", "channel": "10", "value": 150000, "bant": { "budget": true, "authority": true, "need": true, "timeline": true }, "status": "converted", "owner": "U01", "opportunity": "OPP-0006", "note": "Kış dönemi stok siparişi için bütçe ayrıldı.", "createdAt": "2026-10-08T11:00:00.000Z", "createdBy": "U01", "closedAt": "2026-10-12T09:00:00.000Z" },
+          { "id": "LEAD-0003", "company": "Pamukkale Ticaret ve Pazarlama", "account": "100005", "contact": { "name": "Seda Ateş", "role": "Satın Alma Sorumlusu" }, "source": "Kampanya", "campaign": "CMP-0001", "score": "warm", "region": "Denizli", "segment": "C", "channel": "10", "value": 60000, "bant": { "budget": false, "authority": true, "need": true, "timeline": false }, "status": "rejected", "rejectReason": "Bütçe yok", "rejectNote": "Yıl sonuna kadar depo dolu; Şubat'ta yeniden aranacak.", "owner": "U01", "createdAt": "2026-10-08T12:00:00.000Z", "createdBy": "U01", "closedAt": "2026-10-15T09:00:00.000Z" },
+          { "id": "LEAD-0004", "company": "Manisa Yıldız Dağıtım Ltd. Şti.", "account": "100003", "contact": { "name": "Zeynep Kurt", "role": "Satın Alma Sorumlusu" }, "source": "Kampanya", "campaign": "CMP-0001", "score": "cold", "region": "Manisa", "segment": "B", "channel": "10", "value": 90000, "bant": { "budget": false, "authority": true, "need": true, "timeline": true }, "status": "rejected", "rejectReason": "Kredi riski", "rejectNote": "Kredi limiti aşılmış, vadesi geçmiş bakiye var; muhasebe ek hacmi onaylamıyor.", "owner": "U01", "createdAt": "2026-10-08T12:30:00.000Z", "createdBy": "U01", "closedAt": "2026-10-16T09:00:00.000Z" },
+          { "id": "LEAD-0005", "company": "Bergama Zeytin Kooperatifi", "contact": { "name": "Nuri Akın", "role": "Kooperatif Müdürü", "phone": "0555 000 31 01", "email": "nuri.akin@bergamazeytin.example" }, "source": "Fuar", "score": "hot", "region": "İzmir", "segment": "B", "channel": "10", "value": 140000, "bant": { "budget": true, "authority": true, "need": true, "timeline": false }, "status": "open", "owner": "U01", "note": "İzmir gıda fuarında standı ziyaret etti. Üyelerine temel gıda ve temizlik ürünü dağıtmak istiyor; ne zaman başlayacakları belli değil.", "createdAt": "2026-11-09T14:00:00.000Z", "createdBy": "U01" },
+          { "id": "LEAD-0006", "company": "Kuşadası Marina Otel", "contact": { "name": "Selin Arı", "role": "Satın Alma Uzmanı", "phone": "0555 000 32 01", "email": "satinalma@kusadasimarina.example" }, "source": "Web", "score": "warm", "region": "Aydın", "segment": "B", "channel": "20", "value": 75000, "bant": { "budget": false, "authority": false, "need": true, "timeline": false }, "status": "open", "owner": "U01", "note": "Web formundan temizlik ürünleri için fiyat listesi istedi.", "createdAt": "2026-11-12T08:30:00.000Z", "createdBy": "U01" },
+          { "id": "LEAD-0007", "company": "Salihli Gross Market", "contact": { "name": "Burak Yalçın", "role": "Satın Alma Müdürü", "phone": "0555 000 33 01", "email": "burak.yalcin@salihligross.example" }, "source": "Referans", "score": "hot", "region": "Manisa", "segment": "B", "channel": "10", "value": 210000, "bant": { "budget": true, "authority": true, "need": true, "timeline": true }, "status": "open", "owner": "U01", "note": "Manisa Yıldız Dağıtım önerdi. Aralık'ta iki yeni şube açılıyor; yıllık gıda tedariki arıyor.", "createdAt": "2026-11-14T09:15:00.000Z", "createdBy": "U01" },
+          { "id": "LEAD-0008", "company": "Didim Tatil Köyü", "contact": { "name": "Gamze Koç", "role": "Ön Büro Şefi", "phone": "0555 000 34 01", "email": "info@didimtatil.example" }, "source": "Web", "score": "cold", "region": "Aydın", "segment": "C", "channel": "20", "value": 40000, "bant": { "budget": false, "authority": false, "need": false, "timeline": false }, "status": "open", "owner": "U01", "note": "Bülten aboneliği; somut talep yok.", "createdAt": "2026-11-16T16:40:00.000Z", "createdBy": "U01" },
+          { "id": "LEAD-0009", "company": "Torbalı Belediyesi Sosyal Tesisleri", "contact": { "name": "Erkan Uçar", "role": "Tesis Sorumlusu", "phone": "0555 000 35 01", "email": "" }, "source": "Fuar", "score": "cold", "region": "İzmir", "segment": "C", "channel": "20", "value": 55000, "bant": { "budget": false, "authority": false, "need": true, "timeline": false }, "status": "open", "owner": "U01", "note": "Kamu kurumu; alımlar ihale ile yapılıyor.", "createdAt": "2026-11-10T11:00:00.000Z", "createdBy": "U01" }
+        ],
+        "opportunities": [
+          { "id": "OPP-0001", "name": "Kış dönemi temizlik ürünleri", "account": "100001", "contact": "Elif Şahin", "owner": "U01", "stage": "quote", "probability": 50, "amount": 85000, "closeDate": "2026-12-15", "competitor": "Marmara Temizlik Dağıtım", "source": "Saha ziyareti", "items": [{ "code": "TM-2001", "qty": 40 }, { "code": "TM-2002", "qty": 60 }, { "code": "TM-2003", "qty": 50 }], "createdAt": "2026-10-28T09:00:00.000Z" },
+          { "id": "OPP-0002", "name": "Yeni şube açılışları – gıda", "account": "100002", "contact": "Deniz Koç", "owner": "U01", "stage": "negotiation", "probability": 75, "amount": 420000, "closeDate": "2026-12-05", "competitor": "Ege Toptan", "source": "Mevcut müşteri", "items": [{ "code": "GD-1001", "qty": 120 }, { "code": "GD-1007", "qty": 150 }], "createdAt": "2026-09-30T09:00:00.000Z" },
+          { "id": "OPP-0003", "name": "2027 sezon öncesi tedarik", "account": "100007", "contact": "Cem Erdem", "owner": "U01", "stage": "discovery", "probability": 10, "amount": 260000, "closeDate": "2027-02-26", "competitor": "", "source": "Mevcut müşteri", "items": [{ "code": "TM-2001", "qty": 20 }], "createdAt": "2026-11-04T09:00:00.000Z" },
+          { "id": "OPP-0004", "name": "Online kanal temizlik listesi", "account": "100008", "contact": "Berk Uçar", "owner": "U01", "stage": "lost", "probability": 0, "amount": 95000, "closeDate": "2026-11-12", "competitor": "OnlineToptan", "lossReason": "Fiyat", "lossNote": "Rakip %6 daha düşük net fiyat ve ücretsiz kargo verdi. Bizim kampanya iskontomuz (ZKMP) e-ticaret kanalında geçerli değildi.", "source": "Web", "items": [{ "code": "TM-2002", "qty": 80 }], "createdAt": "2026-10-05T09:00:00.000Z", "closedAt": "2026-11-12T15:00:00.000Z" },
+          { "id": "OPP-0005", "name": "İlk bayi siparişi", "account": "A-0001", "contact": "Recep Toprak", "owner": "U01", "stage": "needs", "probability": 25, "amount": 120000, "closeDate": "2027-01-15", "competitor": "Yerel toptancılar", "source": "Kampanya", "campaign": "CMP-0001", "lead": "LEAD-0001", "items": [{ "code": "GD-1003", "qty": 80 }, { "code": "GD-1004", "qty": 80 }], "createdAt": "2026-10-20T09:00:00.000Z" },
+          { "id": "OPP-0006", "name": "Kış stok siparişi", "account": "100004", "contact": "Ali Efe", "owner": "U01", "stage": "won", "probability": 100, "amount": 148600, "closeDate": "2026-10-30", "competitor": "", "winReason": "Kampanya iskontosu ve hızlı teslimat", "source": "Kampanya", "campaign": "CMP-0001", "lead": "LEAD-0002", "items": [{ "code": "GD-1001", "qty": 60 }], "createdAt": "2026-10-12T09:00:00.000Z", "closedAt": "2026-10-30T16:00:00.000Z" }
+        ],
+        "activities": [
+          { "id": "ACT-0001", "type": "task", "subject": "Bornova: vadesi geçmiş bakiye için muhasebeyle görüş", "account": "100002", "opportunity": "OPP-0002", "owner": "U01", "date": "2026-11-14", "time": "", "status": "open", "note": "145.000 ₺ vadesi geçmiş; pazarlık sonuçlanmadan netleşmeli." },
+          { "id": "ACT-0002", "type": "task", "subject": "Çeşme Kıyı: sezon menüsüne göre ürün listesini iste", "account": "100007", "opportunity": "OPP-0003", "owner": "U01", "date": "2026-11-16", "time": "", "status": "open", "note": "" },
+          { "id": "ACT-0003", "type": "call", "subject": "TemizSepet: kayıp sonrası geri bildirim", "account": "100008", "opportunity": "OPP-0004", "owner": "U01", "date": "2026-11-13", "time": "11:00", "status": "done", "note": "Fiyat farkı ve kargo koşulu belirleyici olmuş. Şubat'ta liste yenilenecek." },
+          { "id": "ACT-0004", "type": "visit", "subject": "Karşıyaka Gıda: deterjan hacimleri toplantısı", "account": "100001", "opportunity": "OPP-0001", "owner": "U01", "date": "2026-11-17", "time": "10:00", "status": "done", "note": "Elif Şahin aylık 40 koli toz deterjan, 60 koli bulaşık deterjanı istiyor." },
+          { "id": "ACT-0005", "type": "call", "subject": "Çeşme Kıyı: sezon planı ön görüşme", "account": "100007", "opportunity": "OPP-0003", "owner": "U01", "date": "2026-11-18", "time": "14:30", "status": "done", "note": "Sezon Nisan'da açılıyor; karar Şubat sonunda." },
+          { "id": "ACT-0006", "type": "visit", "subject": "Bornova: şube açılış takvimi ve fiyat", "account": "100002", "opportunity": "OPP-0002", "owner": "U01", "date": "2026-11-19", "time": "15:00", "status": "open", "note": "" },
+          { "id": "ACT-0007", "type": "task", "subject": "Karşıyaka: teklifi hazırla ve gönder", "account": "100001", "opportunity": "OPP-0001", "owner": "U01", "date": "2026-11-20", "time": "", "status": "open", "note": "Teklif aşamasında; teklif simülasyonundan oluştur." },
+          { "id": "ACT-0008", "type": "visit", "subject": "Ödemiş: depo ve satış noktası ziyareti", "account": "A-0001", "opportunity": "OPP-0005", "owner": "U01", "date": "2026-11-21", "time": "11:00", "status": "open", "note": "" },
+          { "id": "ACT-0009", "type": "call", "subject": "Aydın Efe: teslimat memnuniyeti", "account": "100004", "opportunity": "OPP-0006", "owner": "U01", "date": "2026-11-24", "time": "10:30", "status": "open", "note": "" }
+        ]
+      }
+    },
+
+    "scenarios": {
+      "intro": "Üç senaryo, C4C'yi üç farklı rolden yaşatır: pazarlama, saha satışı ve satış yönetimi. Her adımda hangi rolle oturum açman gerektiği yazar.",
+      "items": [
+        {
+          "id": "kampanyadan-siparise",
+          "title": "Kampanyadan siparişe",
+          "level": "İleri",
+          "duration": "35 dk",
+          "role": "key-user",
+          "customer": "100007",
+          "simulation": { "tab": "campaigns" },
+          "summary": "Pazarlama kampanyası kur, hedef gruptan lead üret, BANT ile nitelendir, fırsata dönüştür, teklif ver, onaylat ve siparişi ERP'ye gönder.",
+          "goal": "Kurumsal kanaldaki A segment İzmir müşterilerine kış kampanyası yap; Çeşme Kıyı Otel'den gelen ilgiyi siparişe kadar götür ve kampanya performansında kazanılan tutarı gör.",
+          "steps": [
+            {
+              "title": "Pazarlama Uzmanı kullanıcısını oluştur",
+              "role": "key-user",
+              "what": "Key User rolüne geç. Simülasyon > Kampanyalar sekmesindeki uyarı kutusundan \"Kullanıcı Yönetimi'nden oluştur\"a bas. Form Pazarlama Uzmanı rolüyle hazır açılır; ad, soyad ve departman (Pazarlama) gir ve kaydet. Şu an bu roldeki kullanıcı: {{user:marketing}}.",
+              "why": "Kampanya oluşturma yetkisi (CAMPAIGN_MANAGE) yalnızca {{role:marketing}} rolündedir ve bu rolün varsayılan kullanıcısı yoktur.",
+              "caution": "Pazarlama rolüne QUOTE_APPROVE eklemeye çalışırsan SoD uyarısı alırsın: kampanyanın sahibi kampanyadan gelen iskontoyu onaylamamalı."
+            },
+            {
+              "title": "Kampanyayı kur ve hedef grubu önizle",
+              "role": "marketing",
+              "what": "Yeni kullanıcıyla oturum aç. Kampanyalar > Yeni kampanya: ad \"Kurumsal Kış Kampanyası\", tür E-posta, segment A, bölge İzmir, kanal Kurumsal, bütçe 30.000 ₺, tarih 20 Kasım – 31 Aralık. Hedef grup önizlemesinde Bornova Market Zinciri ve Çeşme Kıyı Otel'i gör, kaydet.",
+              "why": "Hedef grup filtreyle oluşur; önizleme kampanyanın kime gideceğini ve kaç lead üreteceğini gösterir.",
+              "caution": "Bölge veya kanal seçmeyi unutursan hedef grup tüm A segmentine genişler ve bayi kanalındaki Karşıyaka Gıda da girer."
+            },
+            {
+              "title": "Kampanyadan lead üret",
+              "role": "marketing",
+              "what": "Kampanya detayında \"Lead üret\"e bas. Hedef gruptaki her hesap için kaynak Kampanya olan bir lead açılır; sıcaklık segmente göre önerilir. Leadler sekmesinde yeni kayıtları gör.",
+              "why": "Kampanyadan gelen lead kampanyaya bağlı kalır; performans raporu bu bağdan beslenir.",
+              "caution": "Bloke müşteriler hedef gruba girse bile lead üretilmez. Aynı kampanyadan ikinci kez üretmek mükerrer lead açmaz."
+            },
+            {
+              "title": "Çeşme Kıyı Otel lead'ini nitelendir",
+              "role": "sales-rep",
+              "what": "Satış Temsilcisi rolüne geç ({{user:sales-rep}}). Çeşme Kıyı Otel lead'ini aç; müşteriyi aradığını varsay ve BANT'ı işaretle: bütçe var, görüşülen kişi karar verici, ihtiyaç sezon öncesi temizlik ürünü, zaman Aralık. Sıcaklığı \"Sıcak\" yap.",
+              "why": "BANT'ın dört maddesi de karşılanmadan dönüştürme düğmesi kilitli kalır; satış ekibinin zamanı nitelikli ilgiye harcanır.",
+              "caution": "Bornova lead'ini dönüştürme: hesap kredi riski taşıyor. Gerekçesini \"Kredi riski\" seçerek reddet."
+            },
+            {
+              "title": "Tek tıkla fırsata dönüştür",
+              "role": "sales-rep",
+              "what": "\"Nitelikli · dönüştür\"e bas. Hesap mevcut olduğu için ilgili kişi ve fırsat oluşur: fırsat adı \"Kış temizlik kampanyası\", beklenen tutar 15.000 ₺, kapanış 15 Aralık, aşama İhtiyaç analizi.",
+              "why": "Dönüşüm lead'in bilgisini (kaynak, kampanya, kişi) fırsata taşır; kampanya performansı fırsata ve sonra kazanılan tutara kadar izlenir.",
+              "caution": "Yeni bir şirketten gelen lead'de (ör. Salihli Gross Market) dönüşüm aday hesap da açar; o hesap ERP'de açılmadan sipariş aktarılamaz."
+            },
+            {
+              "title": "Teklif aşamasında teklifi oluştur",
+              "role": "sales-rep",
+              "what": "Huni'de fırsatı Teklif sütununa taşı (mobilde \"Aşama değiştir\"). Fırsatı aç, kalemleri gir (TM-2001 Toz Çamaşır Deterjanı × 20) ve \"Teklif oluştur\"a bas. Teklif simülasyonu fırsata bağlı açılır; \"Kaydet ve onaya gönder\".",
+              "why": "Segment (%8) ve kampanya (%10) iskontosu birlikte %17,2'ye çıkar; %12 eşiği aşıldığı için teklif müdür onayına düşer.",
+              "caution": "Teklif simülasyonunda müşteriyi değiştirirsen teklif fırsata bağlanmaz: fırsatın hesabı ile teklifin müşterisi aynı olmalı."
+            },
+            {
+              "title": "Müdür onayı",
+              "role": "sales-manager",
+              "what": "Satış Müdürü rolüne geç ({{user:sales-manager}}). Onay Kutusu'nda teklifi aç, gerekçeyi oku ve onayla. Ardından C4C Huni'de fırsatın Pazarlık aşamasına geçtiğini ve beklenen tutarın teklif net tutarıyla güncellendiğini gör.",
+              "why": "Teklif onayı fırsatı günceller: tutar artık tahmin değil, onaylı teklif tutarıdır.",
+              "caution": "Teklifi oluşturan kişi onaylayamaz (görevler ayrılığı)."
+            },
+            {
+              "title": "Siparişe dönüştür ve performansı gör",
+              "role": "sales-rep",
+              "what": "Satış Temsilcisi'ne dön; fırsattaki teklif bağlantısından \"Siparişe dönüştür\". Sipariş ERP'ye aktarılınca fırsat Kazanıldı olur. Kampanyalar sekmesinde Kurumsal Kış Kampanyası'nın lead → fırsat → kazanılan tutar hunisini kontrol et.",
+              "why": "Kampanyanın değeri harcanan bütçeye karşı kazanılan iş ile ölçülür; zincirin her halkası kayıtlı olduğu için bu hesap otomatik yapılır.",
+              "caution": "Sipariş ERP'ye aktarılamazsa (ör. stok) fırsat yine kazanılmış sayılır ama Aktarım Monitörü'nden hata çözülmelidir."
+            }
+          ],
+          "outcome": "Kampanya → lead → nitelendirme → fırsat → teklif → onay → sipariş zinciri kuruldu. Fırsat Kazanıldı, kampanya performansında 1 fırsat ve kazanılan tutar görünüyor."
+        },
+        {
+          "id": "kayip-analizi",
+          "title": "Kaybedilen fırsat analizi",
+          "level": "Orta",
+          "duration": "20 dk",
+          "role": "sales-rep",
+          "customer": "100008",
+          "simulation": { "tab": "pipeline", "opp": "OPP-0004" },
+          "summary": "TemizSepet fırsatının neden kaybedildiğini Hesap 360, fiyat verisi ve aktivitelerle çöz; kayıp nedeninin neden zorunlu olduğunu dene; geri kazanım görevi planla.",
+          "goal": "Kayıp nedenini veriyle doğrula, aynı hatanın tekrar etmemesi için aksiyon belirle ve kayıp verisinin tahmini nasıl etkilediğini gör.",
+          "steps": [
+            {
+              "title": "Kaybedilen fırsatı aç",
+              "role": "sales-rep",
+              "what": "Satış Temsilcisi rolüyle ({{user:sales-rep}}) Huni'de Kaybedildi sütunundaki OPP-0004 \"Online kanal temizlik listesi\"ni aç. Kayıp nedeni, rakip ve açıklamayı oku.",
+              "why": "Kayıp nedeni ve rakip, fırsat kapanırken kaydedilmeseydi analiz edecek veri olmazdı.",
+              "caution": "Açıklama tek başına yorumdur; veriyle doğrulanmadan aksiyon alma."
+            },
+            {
+              "title": "Hesap 360 ile bağlamı topla",
+              "role": "sales-rep",
+              "what": "Fırsattaki hesap bağlantısından TemizSepet E-Ticaret Hesap 360'ı aç. Özet, Aktiviteler (kayıp sonrası geri bildirim görüşmesi) ve Açık bakiye sekmelerine bak.",
+              "why": "Kaybın nedeni bazen fiyat değil ödeme koşulu, teslimat veya kredi olabilir; Hesap 360 bunları tek ekranda gösterir.",
+              "caution": "TemizSepet'in kredi durumu iyi; demek ki kayıp kredi kaynaklı değil."
+            },
+            {
+              "title": "Fiyatı doğrula",
+              "role": "sales-rep",
+              "what": "Şirket > Fiyatlar'da segment B ve kanal E-ticaret seç; TM-2002 Sıvı Bulaşık Deterjanı'nın net fiyatını, sonra kanal Bayi ile karşılaştır.",
+              "why": "Kış Temizlik Kampanyası (ZKMP) yalnızca Bayi ve Kurumsal kanallarda geçerli; e-ticaret müşterisi %10 ek iskontoyu alamadı.",
+              "caution": "Bu bir yapılandırma kararıdır; temsilci tek başına değiştiremez. Bulguyu müdüre ve pazarlamaya iletmek gerekir."
+            },
+            {
+              "title": "Kayıp nedeninin zorunlu olduğunu dene",
+              "role": "sales-rep",
+              "what": "Huni'de OPP-0003 Çeşme Kıyı Otel'i Kaybedildi sütununa sürükle (mobilde \"Aşama değiştir\" > Kaybedildi). Açılan pencerede nedeni boş bırakıp kaydetmeyi dene, sonra Vazgeç.",
+              "why": "Nedeni boş kaybedilen fırsatlar analizde \"bilinmiyor\" olarak birikir ve hiçbir şey öğretmez; sistem bu yüzden zorunlu tutar.",
+              "caution": "Vazgeçtiğinde fırsat Keşif aşamasında kalır; gerçek bir fırsatı yanlışlıkla kapatma."
+            },
+            {
+              "title": "Geri kazanım görevi planla",
+              "role": "sales-rep",
+              "what": "Aktiviteler sekmesinde yeni görev: \"TemizSepet: e-ticaret kanal fiyatıyla yeniden teklif\", hesap TemizSepet, fırsat OPP-0004, tarih 15 Şubat 2027.",
+              "why": "Kaybedilen müşteri kaybedilmiş değildir; doğru zamanda yeni koşulla dönmek için görev takvime girer.",
+              "caution": "Görevi fırsata bağla ki fırsat geçmişinde ve Hesap 360'ta görünsün."
+            },
+            {
+              "title": "Müdürle kayıp tablosuna bak",
+              "role": "sales-manager",
+              "what": "Satış Müdürü rolüne geç ({{user:sales-manager}}). Huni > Tahmin görünümünde \"Kayıp nedenleri\" kırılımını incele.",
+              "why": "Tek kayıp anekdottur; aynı neden birkaç kez tekrarlıyorsa fiyat politikası veya kampanya kapsamı değişmelidir.",
+              "caution": "Kaybedilen tutar ağırlıklı tahmine girmez; yalnızca kayıp analizinde görünür."
+            }
+          ],
+          "outcome": "Kayıp nedeni (e-ticaret kanalında kampanya iskontosu yok) veriyle doğrulandı, geri kazanım görevi takvime girdi ve müdür kayıp nedenleri kırılımını gördü."
+        },
+        {
+          "id": "haftalik-huni",
+          "title": "Müdürün haftalık huni toplantısı",
+          "level": "Orta",
+          "duration": "20 dk",
+          "role": "sales-manager",
+          "customer": "100002",
+          "simulation": { "tab": "pipeline", "view": "forecast" },
+          "summary": "Ekip tahminini oku, aya göre ağırlıklı tutarı yorumla, riskli fırsatları bul ve aksiyon ata.",
+          "goal": "Aralık ayı ağırlıklı tahminini oku, riskli fırsatları gerekçeleriyle listele, gecikmiş görevleri ele al ve temsilci görünümüyle farkı gör.",
+          "steps": [
+            {
+              "title": "Ekip görünümünde tahmini aç",
+              "role": "sales-manager",
+              "what": "Satış Müdürü rolüne geç ({{user:sales-manager}}). Simülasyon > Huni > Tahmin. Açık huni toplamını, ağırlıklı tahmini ve aya göre kırılımı oku.",
+              "why": "FORECAST_VIEW_TEAM yetkisi ekibin tüm fırsatlarını gösterir; temsilci yalnızca kendininkini görür.",
+              "caution": "Toplam huni ile ağırlıklı tahmini karıştırma: hedefe yakınlık ağırlıklı tutarla ölçülür."
+            },
+            {
+              "title": "Aralık tahminini yorumla",
+              "role": "sales-manager",
+              "what": "Aralık satırında hangi fırsatların olduğunu gör: Bornova 420.000 ₺ × %75 ve Karşıyaka 85.000 ₺ × %50. Tahminin büyük kısmının tek bir fırsata bağlı olduğuna dikkat et.",
+              "why": "Tahmin tek fırsata yaslanıyorsa o fırsatın riski tüm ayın riskidir.",
+              "caution": "Kapanış tarihi geçmiş açık fırsatlar tahmini şişirir; riskli listede görünür."
+            },
+            {
+              "title": "Riskli fırsatları bul",
+              "role": "sales-manager",
+              "what": "\"Riskli fırsatlar\" listesini incele: Bornova (kredi limitine yakın, vadesi geçmiş bakiye, gecikmiş görev) ve Çeşme Kıyı (gecikmiş görev). Bornova'nın Hesap 360'ına git, Açık bakiye sekmesini aç.",
+              "why": "Pazarlık aşamasındaki büyük fırsat, kredi onayı alamazsa siparişe dönüşmez; risk şimdiden görülmeli.",
+              "caution": "Risk işareti karar değil sinyaldir; nedenini temsilciyle konuş."
+            },
+            {
+              "title": "Gecikmiş görevleri ele al",
+              "role": "sales-manager",
+              "what": "Aktiviteler sekmesinde gecikmiş görevleri (kırmızı) gör. Bornova görevi için temsilciye yeni bir görev ata: \"Bornova: kredi ve vade planını muhasebeyle netleştir\", sorumlu {{user:sales-rep}}, tarih 20 Kasım.",
+              "why": "Müdür ekip görünümünde başkasına görev atayabilir; takip toplantıdan sonra kaybolmaz.",
+              "caution": "Görevi fırsata bağla ki riskli listede \"aksiyon planlandı\" olarak izlenebilsin."
+            },
+            {
+              "title": "Olasılığı gerçekçi yap",
+              "role": "sales-manager",
+              "what": "Bornova fırsatını aç; olasılığı %75'ten %60'a çek ve kaydet. Tahminin nasıl değiştiğini gör.",
+              "why": "Aşamanın varsayılan olasılığı bir başlangıçtır; bilinen risk varsa tahmin buna göre düzeltilir.",
+              "caution": "Aşamayı değiştirirsen olasılık o aşamanın varsayılanına döner."
+            },
+            {
+              "title": "Temsilci görünümüyle karşılaştır",
+              "role": "sales-rep",
+              "what": "Satış Temsilcisi rolüne geç. Huni > Tahmin'de yalnızca kendi fırsatlarını ve kendi tahminini gördüğünü, temsilci filtresinin olmadığını kontrol et.",
+              "why": "Yetki görünürlüğü belirler: ekip tahmini müdürün yönetim aracıdır.",
+              "caution": "Yeni bir satış temsilcisi oluşturup fırsat atarsan müdür ekip görünümünde temsilci kırılımını görür."
+            }
+          ],
+          "outcome": "Aralık tahmini okundu, riskli fırsatlar gerekçeleriyle listelendi, gecikmiş görev için aksiyon atandı ve Bornova'nın olasılığı riske göre düzeltildi."
+        }
+      ]
+    },
     "tests": null,
     "quiz": null
   }

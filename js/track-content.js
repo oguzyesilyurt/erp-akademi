@@ -8,6 +8,7 @@ import { renderQuoteSim } from './sim-quote.js';
 import { renderBugHunt } from './bug-hunt.js';
 import { renderQuiz } from './quiz.js';
 import { renderTestLab } from './testlab.js';
+import { renderC4C } from './c4c.js';
 import { roleById, roleUsersText, currentUser, currentRoleNames, openLogin, loadRoles } from './auth.js';
 
 export async function renderSection(ctx) {
@@ -21,6 +22,7 @@ export async function renderSection(ctx) {
   if (section === 'simulation') {
     if (content.type === 'quote') return renderQuoteSim(ctx);
     if (content.type === 'test-lab') return renderTestLab(ctx);
+    if (content.type === 'c4c') return renderC4C(ctx);
     return { html: emptyState('monitor', 'Simülasyon türü desteklenmiyor', `"${content.type}" türü için oynatıcı yok.`) };
   }
   if (section === 'tests' && content.type === 'bug-hunt') return renderBugHunt(ctx);

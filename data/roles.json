@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 5,
   "defaultUser": "U01",
   "permissions": [
     {
@@ -75,6 +75,36 @@
       "description": "Müşteri segmenti, ödeme koşulu ve teslimat deposu gibi alanları değiştirir."
     },
     {
+      "id": "LEAD_CREATE",
+      "label": "Lead oluşturma",
+      "group": "CRM",
+      "description": "Fuar, web, kampanya veya referanstan gelen lead kaydını açar."
+    },
+    {
+      "id": "LEAD_QUALIFY",
+      "label": "Lead nitelendirme",
+      "group": "CRM",
+      "description": "BANT kontrol listesini işler; nitelikli leadi hesap, ilgili kişi ve fırsata dönüştürür ya da gerekçeyle reddeder."
+    },
+    {
+      "id": "OPP_MANAGE",
+      "label": "Fırsat yönetimi",
+      "group": "CRM",
+      "description": "Fırsat ve aktivite oluşturur; aşama, olasılık, beklenen tutar ve kapanış tarihini günceller."
+    },
+    {
+      "id": "FORECAST_VIEW_TEAM",
+      "label": "Ekip tahmini görme",
+      "group": "CRM",
+      "description": "Satış hunisini ve tahmini tüm ekip için görür; temsilci bazında kırılım yapar."
+    },
+    {
+      "id": "CAMPAIGN_MANAGE",
+      "label": "Kampanya yönetimi",
+      "group": "CRM",
+      "description": "Pazarlama kampanyası oluşturur, hedef grubu belirler ve kampanyadan lead üretir."
+    },
+    {
       "id": "DEFECT_CREATE",
       "label": "Test ve defect yönetimi",
       "group": "Test",
@@ -106,13 +136,16 @@
       "users": [
         "U01"
       ],
-      "summary": "Teklif ve sipariş oluşturur, kendi belgelerini görür.",
+      "summary": "Lead nitelendirir, fırsat yönetir, teklif ve sipariş oluşturur; kendi belgelerini görür.",
       "permissions": [
         "QUOTE_CREATE",
         "QUOTE_VIEW_OWN",
         "PRICE_VIEW",
         "MASTERDATA_VIEW",
-        "ORDER_CREATE"
+        "ORDER_CREATE",
+        "LEAD_CREATE",
+        "LEAD_QUALIFY",
+        "OPP_MANAGE"
       ]
     },
     {
@@ -121,12 +154,14 @@
       "users": [
         "U02"
       ],
-      "summary": "Tüm teklifleri görür, iskonto ve tutar onayı verir.",
+      "summary": "Tüm teklifleri ve ekip hunisini görür, iskonto ve tutar onayı verir.",
       "permissions": [
         "QUOTE_VIEW_ALL",
         "QUOTE_APPROVE",
         "PRICE_VIEW",
-        "MASTERDATA_VIEW"
+        "MASTERDATA_VIEW",
+        "OPP_MANAGE",
+        "FORECAST_VIEW_TEAM"
       ]
     },
     {
@@ -173,6 +208,19 @@
         "QUOTE_VIEW_ALL",
         "MASTERDATA_VIEW",
         "DELIVERY_CREATE"
+      ]
+    },
+    {
+      "id": "marketing",
+      "name": "Pazarlama Uzmanı",
+      "users": [],
+      "summary": "Kampanya oluşturur, hedef grubu belirler, lead üretir ve nitelendirir; teklif oluşturamaz.",
+      "permissions": [
+        "CAMPAIGN_MANAGE",
+        "LEAD_CREATE",
+        "LEAD_QUALIFY",
+        "PRICE_VIEW",
+        "MASTERDATA_VIEW"
       ]
     },
     {
@@ -237,6 +285,11 @@
         "a": "Defect düzeltme",
         "b": "Defect kapatma",
         "why": "Düzelten kişi kendi düzeltmesini kapatırsa bağımsız yeniden test yapılmamış olur."
+      },
+      {
+        "a": "Kampanya yönetimi",
+        "b": "Müdür onayı",
+        "why": "Kampanyanın sahibi, kampanyadan gelen teklifin iskontosunu da onaylarsa performans tarafsız ölçülmez."
       }
     ]
   },
@@ -285,6 +338,11 @@
       "a": "DEFECT_FIX",
       "b": "DEFECT_CLOSE",
       "why": "Hatayı düzelten kişi kendi düzeltmesini kapatırsa bağımsız yeniden test yapılmamış olur."
+    },
+    {
+      "a": "CAMPAIGN_MANAGE",
+      "b": "QUOTE_APPROVE",
+      "why": "Kampanya bütçesini yöneten kişi kampanyadan gelen iskontolu teklifleri onaylarsa kampanya başarısı kendi onayıyla şişirilebilir."
     }
   ],
   "templates": [
@@ -295,7 +353,9 @@
         "QUOTE_VIEW_ALL",
         "QUOTE_APPROVE",
         "PRICE_VIEW",
-        "MASTERDATA_VIEW"
+        "MASTERDATA_VIEW",
+        "OPP_MANAGE",
+        "FORECAST_VIEW_TEAM"
       ]
     },
     {
@@ -312,9 +372,11 @@
     },
     {
       "name": "Pazarlama Uzmanı",
-      "description": "Fiyat, kampanya ve teklifleri izler; işlem yapmaz.",
+      "description": "Kampanya oluşturur, hedef grubu belirler, lead üretir ve nitelendirir.",
       "permissions": [
-        "QUOTE_VIEW_ALL",
+        "CAMPAIGN_MANAGE",
+        "LEAD_CREATE",
+        "LEAD_QUALIFY",
         "PRICE_VIEW",
         "MASTERDATA_VIEW"
       ]

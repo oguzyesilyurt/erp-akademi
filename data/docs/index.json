@@ -114,8 +114,45 @@
       ],
       "readingMinutes": 2,
       "related": [
+        "c4c-lead-firsat",
         "entegrasyon",
         "order-to-cash"
+      ]
+    },
+    {
+      "slug": "c4c-lead-firsat",
+      "category": "crm",
+      "title": "Lead nitelendirme (BANT) ve fırsat yönetimi",
+      "summary": "Lead kaynağı ve sıcaklığı, BANT, tek tıkla hesap + kişi + fırsat dönüşümü, aşama ve olasılık.",
+      "tags": [
+        "Lead",
+        "BANT",
+        "Fırsat",
+        "Satış aşaması",
+        "Kayıp nedeni"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "crm-c4c",
+        "c4c-huni-tahmin"
+      ]
+    },
+    {
+      "slug": "c4c-huni-tahmin",
+      "category": "crm",
+      "title": "Satış hunisi, ağırlıklı tahmin ve kampanya performansı",
+      "summary": "Ağırlıklı tutar, kapanış ayına göre tahmin, riskli fırsat sinyalleri, kayıp analizi ve kampanya getirisi.",
+      "tags": [
+        "Satış hunisi",
+        "Tahmin",
+        "Ağırlıklı tutar",
+        "Kampanya",
+        "Hedef grup"
+      ],
+      "readingMinutes": 3,
+      "related": [
+        "c4c-lead-firsat",
+        "crm-c4c"
       ]
     },
     {

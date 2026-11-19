@@ -56,6 +56,7 @@ function addDays(iso, n) {
 // ---------- okuma ----------
 export const orders = () => read().orders;
 export const messages = () => read().messages;
+export const invoices = () => read().invoices;
 export const getOrder = (no) => read().orders.find((o) => o.no === no) || null;
 export const getMessage = (no) => read().messages.find((m) => m.no === no) || null;
 export const getDelivery = (no) => read().deliveries.find((d) => d.no === no) || null;

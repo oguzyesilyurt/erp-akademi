@@ -29,9 +29,9 @@ let baseMode = false;
 function readMd() {
   try {
     const md = JSON.parse(localStorage.getItem(MD_KEY)) || {};
-    return { customers: md.customers || {}, products: md.products || {} };
+    return { customers: md.customers || {}, products: md.products || {}, prospects: md.prospects || [] };
   } catch {
-    return { customers: {}, products: {} };
+    return { customers: {}, products: {}, prospects: [] };
   }
 }
 
@@ -43,6 +43,9 @@ function writeMd(md) {
 
 function applyOverrides() {
   const md = readMd();
+  // CRM'de lead dönüşümüyle açılan aday hesaplar (C4C)
+  D.prospects = D.prospects || [];
+  for (const p of md.prospects) if (!partnerOf(p.id)) D.prospects.push(clone(p));
   for (const [id, patch] of Object.entries(md.customers)) {
     const c = partnerOf(id);
     if (c) Object.assign(c, patch);
@@ -53,8 +56,37 @@ function applyOverrides() {
   }
 }
 
-// İşlem verisi (fatura → açık bakiye, teslimat → stok) ana veri değişikliği sayılmaz
-const TX_FIELDS = ['openBalance'];
+// İşlem verisi (fatura → açık bakiye, teslimat → stok) ve CRM'den eklenen ilgili kişiler
+// ana veri değişikliği sayılmaz
+const TX_FIELDS = ['openBalance', 'contacts'];
+
+// CRM'de (lead dönüşümü) yeni aday hesap açar; ERP'de açılana kadar müşteri numarası yoktur
+export function addProspect(rec) {
+  const md = readMd();
+  const nums = [...(D.prospects || []).map((p) => p.id), ...md.prospects.map((p) => p.id)].map((x) => Number(String(x).replace(/\D/g, '')) || 0);
+  const id = `A-${String(Math.max(0, ...nums) + 1).padStart(4, '0')}`;
+  const p = {
+    id, prospect: true, taxNo: '', taxOffice: '', city: rec.region || '', segment: 'C', channel: '10', plant: D.organization.warehouses[0].code,
+    creditLimit: 0, openBalance: 0, overdue: 0, paymentTerm: 'Z000', blocked: false, contacts: [], ...rec,
+  };
+  p.id = id;
+  md.prospects.push(p);
+  writeMd(md);
+  D.prospects = D.prospects || [];
+  D.prospects.push(clone(p));
+  return p;
+}
+
+// C4C demo verisi sıfırlanırken CRM'de açılan aday hesapları kaldırır
+export function removeProspects(ids) {
+  const set = new Set(ids);
+  const md = readMd();
+  md.prospects = md.prospects.filter((p) => !set.has(p.id));
+  for (const id of ids) delete md.customers[id];
+  writeMd(md);
+  if (D) D.prospects = (D.prospects || []).filter((p) => !set.has(p.id));
+}
+export const crmProspectIds = () => readMd().prospects.map((p) => p.id);
 
 export function hasMasterDataChanges() {
   return Object.values(readMd().customers).some((p) => Object.keys(p).some((k) => !TX_FIELDS.includes(k)));
@@ -105,7 +137,7 @@ export function resetMasterData({ keepProducts = false } = {}) {
       if (Object.keys(tx).length) customers[id] = tx;
     }
   }
-  writeMd({ customers, products: keepProducts ? md.products : {} });
+  writeMd({ customers, products: keepProducts ? md.products : {}, prospects: md.prospects });
   if (BASE_D) {
     D = clone(BASE_D);
     applyOverrides();
@@ -571,6 +603,7 @@ const DETAILS = {
           ])
         )}
         ${dsec('İlgili kişiler', contactList(c.contacts))}
+        ${baseMode ? '' : `<a class="btn btn-ghost" href="#/track/sap-c4c/simulation?account=${encodeURIComponent(c.id)}">${icon('cloud')}<span>Hesap 360 (C4C)</span></a>`}
         ${baseMode ? '' : dsec(
           'İşlemler',
           `${c.erpOpenedBy ? alertBox('success', `ERP'de açıldı · ${esc(c.erpNumber)}`, `${esc(userLabel(c.erpOpenedBy))} · ${datetime(c.erpOpenedAt)}`) : ''}
