@@ -107,7 +107,7 @@ export async function renderTestLab(c) {
 }
 
 // Gömülü teklif simülasyonu B2B CRM yolunun simülasyon ayarlarıyla çalışır
-const simContext = () => ({ track: { id: 'b2b-crm' }, content: B2B.sections.simulation, data: B2B, route: { query: {} } });
+const simContext = () => (B2B ? { track: { id: 'b2b-crm' }, content: B2B.sections.simulation, data: B2B, route: { query: {} } } : null);
 
 async function loadB2B() {
   if (!B2B) {
