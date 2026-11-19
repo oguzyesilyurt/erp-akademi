@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "tracks": [
+    { "id": "b2b-crm",     "title": "B2B CRM",            "summary": "Kurumsal müşteri yönetimi: hesap, fırsat ve satış hunisi süreçleri.", "icon": "users",    "accent": "#4f7cff" },
+    { "id": "sap-c4c",     "title": "SAP C4C",            "summary": "SAP Cloud for Customer ile satış ve servis operasyonları.",           "icon": "cloud",    "accent": "#2fb4ff" },
+    { "id": "s4-sd",       "title": "S/4 Satış (SD)",     "summary": "Siparişten tahsilata: teklif, sipariş, teslimat ve faturalama.",       "icon": "cart",     "accent": "#18b38a" },
+    { "id": "s4-mm",       "title": "Satın Alma (MM)",    "summary": "Talepten ödemeye: satın alma talebi, sipariş ve mal girişi.",          "icon": "box",      "accent": "#f2a33a" },
+    { "id": "s4-fico",     "title": "Finans (FI/CO)",     "summary": "Genel muhasebe, alacak/borç hesapları ve maliyet muhasebesi.",         "icon": "chart",    "accent": "#e5577a" },
+    { "id": "integration", "title": "Entegrasyon",        "summary": "Sistemler arası veri akışı, arayüzler ve mesaj izleme.",               "icon": "link",     "accent": "#8b5cf6" },
+    { "id": "testing",     "title": "Test Uzmanlığı",     "summary": "Uçtan uca test senaryoları, test verisi ve hata yönetimi.",            "icon": "check",    "accent": "#14a3a3" }
+  ]
+}

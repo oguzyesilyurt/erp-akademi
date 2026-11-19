@@ -1,0 +1,912 @@
+{
+  "version": 1,
+  "currency": "TRY",
+  "asOf": "2026-11-19",
+  "organization": {
+    "company": {
+      "code": "1000",
+      "name": "Ege Dağıtım A.Ş.",
+      "legalName": "Ege Dağıtım ve Pazarlama Anonim Şirketi",
+      "taxNo": "3250417896",
+      "taxOffice": "Kordon",
+      "address": "Atatürk Organize Sanayi Bölgesi 10003 Sk. No: 14, Çiğli / İzmir",
+      "phone": "0232 000 10 00",
+      "email": "info@egedagitim.example",
+      "founded": 2009,
+      "employees": 186,
+      "business": "B2B dağıtım: gıda ve temizlik ürünleri",
+      "fiscalYear": "Takvim yılı (Ocak–Aralık)"
+    },
+    "salesOrg": {
+      "code": "1000",
+      "name": "Ege Satış Organizasyonu"
+    },
+    "purchasingOrg": {
+      "code": "1000",
+      "name": "Merkez Satın Alma"
+    },
+    "distributionChannels": [
+      {
+        "code": "10",
+        "name": "Bayi",
+        "description": "Bölge bayileri ve toptancılar üzerinden satış"
+      },
+      {
+        "code": "20",
+        "name": "Kurumsal",
+        "description": "Zincir market, otel ve kurumlara doğrudan satış"
+      },
+      {
+        "code": "30",
+        "name": "E-ticaret",
+        "description": "Online pazar yeri ve B2B portal satıcıları"
+      }
+    ],
+    "divisions": [
+      {
+        "code": "01",
+        "name": "Gıda"
+      },
+      {
+        "code": "02",
+        "name": "Temizlik"
+      }
+    ],
+    "warehouses": [
+      {
+        "code": "1100",
+        "name": "Kemalpaşa Merkez Depo",
+        "city": "İzmir",
+        "address": "Kemalpaşa OSB, 2. Cad. No: 7, Kemalpaşa / İzmir",
+        "capacityPallet": 4200,
+        "type": "Ana depo"
+      },
+      {
+        "code": "1200",
+        "name": "Manisa Bölge Depo",
+        "city": "Manisa",
+        "address": "Manisa OSB, 5. Kısım, Yunusemre / Manisa",
+        "capacityPallet": 1600,
+        "type": "Bölge aktarma deposu"
+      }
+    ],
+    "paymentTerms": [
+      {
+        "code": "Z000",
+        "name": "Peşin",
+        "days": 0
+      },
+      {
+        "code": "Z015",
+        "name": "15 gün vadeli",
+        "days": 15
+      },
+      {
+        "code": "Z030",
+        "name": "30 gün vadeli",
+        "days": 30
+      },
+      {
+        "code": "Z045",
+        "name": "45 gün vadeli",
+        "days": 45
+      },
+      {
+        "code": "Z060",
+        "name": "60 gün vadeli",
+        "days": 60
+      }
+    ],
+    "users": [
+      {
+        "id": "U01",
+        "username": "SKAYA",
+        "name": "Selin Kaya",
+        "role": "Satış Temsilcisi",
+        "department": "Satış",
+        "email": "selin.kaya@egedagitim.example",
+        "phone": "0555 000 01 01",
+        "responsibilities": [
+          "Müşteri ziyaretleri ve fırsat takibi",
+          "Teklif ve satış siparişi girişi",
+          "Bayi portföyü (Ege bölgesi)"
+        ],
+        "permissions": [
+          "Müşteri görüntüleme",
+          "Teklif oluşturma",
+          "Sipariş oluşturma"
+        ],
+        "approvalLimit": 0
+      },
+      {
+        "id": "U02",
+        "username": "MDEMIR",
+        "name": "Murat Demir",
+        "role": "Satış Müdürü",
+        "department": "Satış",
+        "email": "murat.demir@egedagitim.example",
+        "phone": "0555 000 01 02",
+        "responsibilities": [
+          "Ek iskonto ve özel fiyat onayı",
+          "Satış hedefleri ve raporlama",
+          "Kampanya kararları"
+        ],
+        "permissions": [
+          "Tüm satış işlemleri",
+          "Fiyat/iskonto onayı",
+          "Raporlar"
+        ],
+        "approvalLimit": 250000
+      },
+      {
+        "id": "U03",
+        "username": "AYILMAZ",
+        "name": "Ayşe Yılmaz",
+        "role": "Muhasebe Uzmanı",
+        "department": "Finans",
+        "email": "ayse.yilmaz@egedagitim.example",
+        "phone": "0555 000 01 03",
+        "responsibilities": [
+          "Kredi limiti kontrolü ve bloke kaldırma",
+          "Tahsilat ve cari hesap mutabakatı",
+          "Faturalama kontrolü"
+        ],
+        "permissions": [
+          "Cari hesap",
+          "Kredi yönetimi",
+          "Fatura iptal/düzeltme"
+        ],
+        "approvalLimit": 500000
+      },
+      {
+        "id": "U04",
+        "username": "COZTURK",
+        "name": "Can Öztürk",
+        "role": "Key User (SD/MM)",
+        "department": "Bilgi Teknolojileri",
+        "email": "can.ozturk@egedagitim.example",
+        "phone": "0555 000 01 04",
+        "responsibilities": [
+          "Ana veri bakımı (müşteri, malzeme, fiyat)",
+          "Kullanıcı eğitimi ve destek",
+          "Test senaryolarının yürütülmesi"
+        ],
+        "permissions": [
+          "Ana veri bakımı",
+          "Özelleştirme görüntüleme",
+          "Test sistemi erişimi"
+        ],
+        "approvalLimit": 0
+      },
+      {
+        "id": "U05",
+        "username": "HCINAR",
+        "name": "Hasan Çınar",
+        "role": "Depo Sorumlusu",
+        "department": "Lojistik",
+        "email": "hasan.cinar@egedagitim.example",
+        "phone": "0555 000 01 05",
+        "responsibilities": [
+          "ERP siparişlerinden teslimat oluşturma",
+          "Toplama ve sevkiyat planı",
+          "Depo stok sayımları"
+        ],
+        "permissions": [
+          "Teslimat oluşturma",
+          "Stok görüntüleme"
+        ],
+        "approvalLimit": 0
+      }
+    ]
+  },
+  "customers": [
+    {
+      "id": "100001",
+      "name": "Karşıyaka Gıda Toptan Ltd. Şti.",
+      "taxNo": "5410238876",
+      "taxOffice": "Karşıyaka",
+      "region": "İzmir",
+      "city": "İzmir / Karşıyaka",
+      "segment": "A",
+      "channel": "10",
+      "plant": "1100",
+      "creditLimit": 1500000,
+      "openBalance": 620000,
+      "overdue": 0,
+      "paymentTerm": "Z030",
+      "blocked": false,
+      "salesRep": "U01",
+      "customerSince": 2011,
+      "contacts": [
+        {
+          "name": "Hakan Arslan",
+          "role": "Genel Müdür",
+          "phone": "0555 000 11 01",
+          "email": "hakan.arslan@karsiyakagida.example"
+        },
+        {
+          "name": "Elif Şahin",
+          "role": "Satın Alma Sorumlusu",
+          "phone": "0555 000 11 02",
+          "email": "elif.sahin@karsiyakagida.example"
+        },
+        {
+          "name": "Okan Polat",
+          "role": "Muhasebe Sorumlusu",
+          "phone": "0555 000 11 03",
+          "email": "muhasebe@karsiyakagida.example"
+        }
+      ]
+    },
+    {
+      "id": "100002",
+      "name": "Bornova Market Zinciri A.Ş.",
+      "taxNo": "1870346652",
+      "taxOffice": "Bornova",
+      "region": "İzmir",
+      "city": "İzmir / Bornova",
+      "segment": "A",
+      "channel": "20",
+      "plant": "1100",
+      "creditLimit": 2500000,
+      "openBalance": 2180000,
+      "overdue": 145000,
+      "paymentTerm": "Z045",
+      "blocked": false,
+      "salesRep": "U01",
+      "customerSince": 2014,
+      "contacts": [
+        {
+          "name": "Deniz Koç",
+          "role": "Kategori Müdürü",
+          "phone": "0555 000 12 01",
+          "email": "deniz.koc@bornovamarket.example"
+        },
+        {
+          "name": "Serkan Aydın",
+          "role": "Lojistik Sorumlusu",
+          "phone": "0555 000 12 02",
+          "email": "serkan.aydin@bornovamarket.example"
+        },
+        {
+          "name": "Gül Çelik",
+          "role": "Finans Müdürü",
+          "phone": "0555 000 12 03",
+          "email": "gul.celik@bornovamarket.example"
+        }
+      ]
+    },
+    {
+      "id": "100003",
+      "name": "Manisa Yıldız Dağıtım Ltd. Şti.",
+      "taxNo": "6120987345",
+      "taxOffice": "Mesir",
+      "region": "Manisa",
+      "city": "Manisa / Yunusemre",
+      "segment": "B",
+      "channel": "10",
+      "plant": "1200",
+      "creditLimit": 750000,
+      "openBalance": 812400,
+      "overdue": 96000,
+      "paymentTerm": "Z030",
+      "blocked": false,
+      "salesRep": "U01",
+      "customerSince": 2016,
+      "note": "Açık bakiye kredi limitini aşıyor; yeni siparişler kredi kontrolüne takılır.",
+      "contacts": [
+        {
+          "name": "Mehmet Yıldız",
+          "role": "Firma Sahibi",
+          "phone": "0555 000 13 01",
+          "email": "mehmet@manisayildiz.example"
+        },
+        {
+          "name": "Zeynep Kurt",
+          "role": "Satın Alma Sorumlusu",
+          "phone": "0555 000 13 02",
+          "email": "zeynep.kurt@manisayildiz.example"
+        }
+      ]
+    },
+    {
+      "id": "100004",
+      "name": "Aydın Efe Toptan Gıda",
+      "taxNo": "0874512369",
+      "taxOffice": "Efeler",
+      "region": "Aydın",
+      "city": "Aydın / Efeler",
+      "segment": "B",
+      "channel": "10",
+      "plant": "1100",
+      "creditLimit": 600000,
+      "openBalance": 145000,
+      "overdue": 0,
+      "paymentTerm": "Z030",
+      "blocked": false,
+      "salesRep": "U01",
+      "customerSince": 2018,
+      "contacts": [
+        {
+          "name": "Ali Efe",
+          "role": "Firma Sahibi",
+          "phone": "0555 000 14 01",
+          "email": "ali.efe@aydinefe.example"
+        },
+        {
+          "name": "Burcu Taş",
+          "role": "Muhasebe Sorumlusu",
+          "phone": "0555 000 14 02",
+          "email": "burcu.tas@aydinefe.example"
+        }
+      ]
+    },
+    {
+      "id": "100005",
+      "name": "Pamukkale Ticaret ve Pazarlama",
+      "taxNo": "7230156498",
+      "taxOffice": "Pamukkale",
+      "region": "Denizli",
+      "city": "Denizli / Merkezefendi",
+      "segment": "C",
+      "channel": "10",
+      "plant": "1100",
+      "creditLimit": 300000,
+      "openBalance": 96500,
+      "overdue": 0,
+      "paymentTerm": "Z030",
+      "blocked": false,
+      "salesRep": "U01",
+      "customerSince": 2021,
+      "contacts": [
+        {
+          "name": "Emre Güneş",
+          "role": "Genel Müdür",
+          "phone": "0555 000 15 01",
+          "email": "emre.gunes@pamukkaleticaret.example"
+        },
+        {
+          "name": "Seda Ateş",
+          "role": "Satın Alma Sorumlusu",
+          "phone": "0555 000 15 02",
+          "email": "seda.ates@pamukkaleticaret.example"
+        }
+      ]
+    },
+    {
+      "id": "100006",
+      "name": "Uşak Kardeşler Gıda Pazarlama",
+      "taxNo": "9015473621",
+      "taxOffice": "Uşak",
+      "region": "Uşak",
+      "city": "Uşak / Merkez",
+      "segment": "C",
+      "channel": "10",
+      "plant": "1200",
+      "creditLimit": 250000,
+      "openBalance": 231800,
+      "overdue": 184300,
+      "paymentTerm": "Z030",
+      "blocked": true,
+      "blockReason": "Karşılıksız çek ve 60 günü aşan ödeme gecikmesi",
+      "blockedSince": "2026-10-28",
+      "blockedBy": "U03",
+      "salesRep": "U01",
+      "customerSince": 2019,
+      "contacts": [
+        {
+          "name": "İsmail Kardeş",
+          "role": "Firma Sahibi",
+          "phone": "0555 000 16 01",
+          "email": "ismail@usakkardesler.example"
+        },
+        {
+          "name": "Fatma Kardeş",
+          "role": "Muhasebe Sorumlusu",
+          "phone": "0555 000 16 02",
+          "email": "fatma@usakkardesler.example"
+        }
+      ]
+    },
+    {
+      "id": "100007",
+      "name": "Çeşme Kıyı Otel İşletmeleri A.Ş.",
+      "taxNo": "2468013579",
+      "taxOffice": "Çeşme",
+      "region": "İzmir",
+      "city": "İzmir / Çeşme",
+      "segment": "A",
+      "channel": "20",
+      "plant": "1100",
+      "creditLimit": 1000000,
+      "openBalance": 340000,
+      "overdue": 0,
+      "paymentTerm": "Z060",
+      "blocked": false,
+      "salesRep": "U01",
+      "customerSince": 2015,
+      "contacts": [
+        {
+          "name": "Cem Erdem",
+          "role": "Satın Alma Müdürü",
+          "phone": "0555 000 17 01",
+          "email": "cem.erdem@kiyiotel.example"
+        },
+        {
+          "name": "Nazlı Özkan",
+          "role": "Kat Hizmetleri Müdürü",
+          "phone": "0555 000 17 02",
+          "email": "nazli.ozkan@kiyiotel.example"
+        },
+        {
+          "name": "Tolga Aksoy",
+          "role": "Mali İşler Sorumlusu",
+          "phone": "0555 000 17 03",
+          "email": "tolga.aksoy@kiyiotel.example"
+        }
+      ]
+    },
+    {
+      "id": "100008",
+      "name": "TemizSepet E-Ticaret Ltd. Şti.",
+      "taxNo": "4305982714",
+      "taxOffice": "Hasan Tahsin",
+      "region": "İzmir",
+      "city": "İzmir / Bayraklı",
+      "segment": "B",
+      "channel": "30",
+      "plant": "1100",
+      "creditLimit": 500000,
+      "openBalance": 118250,
+      "overdue": 0,
+      "paymentTerm": "Z015",
+      "blocked": false,
+      "salesRep": "U01",
+      "customerSince": 2023,
+      "contacts": [
+        {
+          "name": "Berk Uçar",
+          "role": "Kurucu Ortak",
+          "phone": "0555 000 18 01",
+          "email": "berk@temizsepet.example"
+        },
+        {
+          "name": "İrem Doğan",
+          "role": "Operasyon Sorumlusu",
+          "phone": "0555 000 18 02",
+          "email": "irem@temizsepet.example"
+        }
+      ]
+    }
+  ],
+  "prospects": [
+    {
+      "id": "A-0001",
+      "prospect": true,
+      "name": "Ödemiş Yöresel Gıda Ltd. Şti.",
+      "taxNo": "6634087215",
+      "taxOffice": "Ödemiş",
+      "region": "İzmir",
+      "city": "İzmir / Ödemiş",
+      "segment": "C",
+      "channel": "10",
+      "plant": "1100",
+      "creditLimit": 0,
+      "openBalance": 0,
+      "overdue": 0,
+      "paymentTerm": "Z000",
+      "blocked": false,
+      "salesRep": "U01",
+      "source": "Bölge bayi toplantısı (Ekim 2026)",
+      "estimatedAnnualVolume": 1800000,
+      "note": "Aday bayi: Ödemiş, Tire ve Bayındır'da 140 satış noktasına dağıtım yapıyor. Kredi limiti tanımlanana kadar peşin çalışılır.",
+      "contacts": [
+        {
+          "name": "Recep Toprak",
+          "role": "Firma Sahibi",
+          "phone": "0555 000 19 01",
+          "email": "recep@odemisyoresel.example"
+        },
+        {
+          "name": "Melis Toprak",
+          "role": "Satın Alma Sorumlusu",
+          "phone": "0555 000 19 02",
+          "email": "melis@odemisyoresel.example"
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "code": "GD-1001",
+      "name": "Ayçiçek Yağı 5 L",
+      "division": "01",
+      "category": "Yağ",
+      "unit": "KOL",
+      "pack": "4 x 5 L",
+      "vatRate": 1,
+      "supplier": "200001",
+      "reorderPoint": 300,
+      "stock": {
+        "1100": 1840,
+        "1200": 420
+      }
+    },
+    {
+      "code": "GD-1002",
+      "name": "Riviera Zeytinyağı 1 L",
+      "division": "01",
+      "category": "Yağ",
+      "unit": "KOL",
+      "pack": "12 x 1 L",
+      "vatRate": 1,
+      "supplier": "200001",
+      "reorderPoint": 120,
+      "stock": {
+        "1100": 260,
+        "1200": 0
+      }
+    },
+    {
+      "code": "GD-1003",
+      "name": "Baldo Pirinç 1 kg",
+      "division": "01",
+      "category": "Bakliyat",
+      "unit": "KOL",
+      "pack": "10 x 1 kg",
+      "vatRate": 1,
+      "supplier": "200002",
+      "reorderPoint": 200,
+      "stock": {
+        "1100": 1320,
+        "1200": 310
+      }
+    },
+    {
+      "code": "GD-1004",
+      "name": "Kırmızı Mercimek 1 kg",
+      "division": "01",
+      "category": "Bakliyat",
+      "unit": "KOL",
+      "pack": "10 x 1 kg",
+      "vatRate": 1,
+      "supplier": "200002",
+      "reorderPoint": 150,
+      "stock": {
+        "1100": 980,
+        "1200": 240
+      }
+    },
+    {
+      "code": "GD-1005",
+      "name": "Spagetti Makarna 500 g",
+      "division": "01",
+      "category": "Makarna",
+      "unit": "KOL",
+      "pack": "20 x 500 g",
+      "vatRate": 1,
+      "supplier": "200002",
+      "reorderPoint": 250,
+      "stock": {
+        "1100": 2150,
+        "1200": 560
+      }
+    },
+    {
+      "code": "GD-1006",
+      "name": "Domates Salçası 830 g",
+      "division": "01",
+      "category": "Konserve",
+      "unit": "KOL",
+      "pack": "12 x 830 g",
+      "vatRate": 1,
+      "supplier": "200002",
+      "reorderPoint": 180,
+      "stock": {
+        "1100": 740,
+        "1200": 95
+      }
+    },
+    {
+      "code": "GD-1007",
+      "name": "Toz Şeker 5 kg",
+      "division": "01",
+      "category": "Temel Gıda",
+      "unit": "KOL",
+      "pack": "4 x 5 kg",
+      "vatRate": 1,
+      "supplier": "200002",
+      "reorderPoint": 200,
+      "stock": {
+        "1100": 1100,
+        "1200": 380
+      }
+    },
+    {
+      "code": "GD-1008",
+      "name": "Siyah Çay 1 kg",
+      "division": "01",
+      "category": "İçecek",
+      "unit": "KOL",
+      "pack": "12 x 1 kg",
+      "vatRate": 1,
+      "supplier": "200002",
+      "reorderPoint": 100,
+      "stock": {
+        "1100": 410,
+        "1200": 120
+      }
+    },
+    {
+      "code": "TM-2001",
+      "name": "Toz Çamaşır Deterjanı 9 kg",
+      "division": "02",
+      "category": "Deterjan",
+      "unit": "ADT",
+      "pack": "1 x 9 kg",
+      "vatRate": 20,
+      "supplier": "200003",
+      "reorderPoint": 400,
+      "stock": {
+        "1100": 2600,
+        "1200": 700
+      }
+    },
+    {
+      "code": "TM-2002",
+      "name": "Sıvı Bulaşık Deterjanı 4 L",
+      "division": "02",
+      "category": "Deterjan",
+      "unit": "KOL",
+      "pack": "4 x 4 L",
+      "vatRate": 20,
+      "supplier": "200003",
+      "reorderPoint": 200,
+      "stock": {
+        "1100": 1450,
+        "1200": 330
+      }
+    },
+    {
+      "code": "TM-2003",
+      "name": "Çamaşır Suyu 3,5 L",
+      "division": "02",
+      "category": "Ev Temizliği",
+      "unit": "KOL",
+      "pack": "6 x 3,5 L",
+      "vatRate": 20,
+      "supplier": "200003",
+      "reorderPoint": 250,
+      "stock": {
+        "1100": 1680,
+        "1200": 450
+      }
+    },
+    {
+      "code": "TM-2004",
+      "name": "Yüzey Temizleyici 2,5 L",
+      "division": "02",
+      "category": "Ev Temizliği",
+      "unit": "KOL",
+      "pack": "6 x 2,5 L",
+      "vatRate": 20,
+      "supplier": "200003",
+      "reorderPoint": 150,
+      "stock": {
+        "1100": 860,
+        "1200": 140
+      }
+    },
+    {
+      "code": "TM-2005",
+      "name": "Tuvalet Kağıdı 32'li",
+      "division": "02",
+      "category": "Kağıt",
+      "unit": "PKT",
+      "pack": "32 rulo",
+      "vatRate": 20,
+      "supplier": "200003",
+      "reorderPoint": 500,
+      "stock": {
+        "1100": 3200,
+        "1200": 900
+      }
+    },
+    {
+      "code": "TM-2006",
+      "name": "Kağıt Havlu 12'li",
+      "division": "02",
+      "category": "Kağıt",
+      "unit": "PKT",
+      "pack": "12 rulo",
+      "vatRate": 20,
+      "supplier": "200003",
+      "reorderPoint": 400,
+      "stock": {
+        "1100": 210,
+        "1200": 160
+      }
+    },
+    {
+      "code": "TM-2007",
+      "name": "Sıvı El Sabunu 3,6 L",
+      "division": "02",
+      "category": "Kişisel Bakım",
+      "unit": "KOL",
+      "pack": "4 x 3,6 L",
+      "vatRate": 20,
+      "supplier": "200003",
+      "reorderPoint": 120,
+      "stock": {
+        "1100": 640,
+        "1200": 85
+      }
+    }
+  ],
+  "units": {
+    "KOL": "Koli",
+    "ADT": "Adet",
+    "PKT": "Paket"
+  },
+  "pricing": {
+    "listPrices": {
+      "name": "Standart Liste Fiyatı 2026/2",
+      "condition": "PR00",
+      "validFrom": "2026-07-01",
+      "validTo": "2026-12-31",
+      "note": "Fiyatlar satış birimi başına, KDV hariçtir.",
+      "prices": {
+        "GD-1001": 1800,
+        "GD-1002": 6600,
+        "GD-1003": 900,
+        "GD-1004": 750,
+        "GD-1005": 500,
+        "GD-1006": 1140,
+        "GD-1007": 800,
+        "GD-1008": 4560,
+        "TM-2001": 650,
+        "TM-2002": 840,
+        "TM-2003": 450,
+        "TM-2004": 720,
+        "TM-2005": 380,
+        "TM-2006": 290,
+        "TM-2007": 640
+      }
+    },
+    "segmentDiscounts": {
+      "condition": "K007",
+      "name": "Müşteri segment iskontosu",
+      "rates": {
+        "A": 8,
+        "B": 5,
+        "C": 2
+      }
+    },
+    "campaigns": [
+      {
+        "id": "KMP-2026-11",
+        "condition": "ZKMP",
+        "name": "Kış Temizlik Kampanyası",
+        "description": "Seçili temizlik ürünlerinde 10 birim ve üzeri siparişe ek iskonto.",
+        "discount": 10,
+        "minQty": 10,
+        "validFrom": "2026-11-01",
+        "validTo": "2026-12-31",
+        "channels": [
+          "10",
+          "20"
+        ],
+        "products": [
+          "TM-2001",
+          "TM-2002",
+          "TM-2003"
+        ],
+        "active": true
+      }
+    ]
+  },
+  "suppliers": [
+    {
+      "id": "200001",
+      "name": "Anadolu Yağ Sanayi A.Ş.",
+      "taxNo": "0632145879",
+      "taxOffice": "Manisa",
+      "city": "Manisa / Akhisar",
+      "category": "Bitkisel yağ",
+      "paymentTerm": "Z045",
+      "leadTimeDays": 5,
+      "rating": "A",
+      "products": [
+        "GD-1001",
+        "GD-1002"
+      ],
+      "contacts": [
+        {
+          "name": "Kemal Uysal",
+          "role": "Satış Müdürü",
+          "phone": "0555 000 21 01",
+          "email": "kemal.uysal@anadoluyag.example"
+        },
+        {
+          "name": "Pınar Sezer",
+          "role": "Sipariş Sorumlusu",
+          "phone": "0555 000 21 02",
+          "email": "siparis@anadoluyag.example"
+        }
+      ]
+    },
+    {
+      "id": "200002",
+      "name": "Marmara Bakliyat ve Gıda San. A.Ş.",
+      "taxNo": "6198273450",
+      "taxOffice": "Nilüfer",
+      "city": "Bursa / Nilüfer",
+      "category": "Kuru gıda ve bakliyat",
+      "paymentTerm": "Z030",
+      "leadTimeDays": 7,
+      "rating": "B",
+      "products": [
+        "GD-1003",
+        "GD-1004",
+        "GD-1005",
+        "GD-1006",
+        "GD-1007",
+        "GD-1008"
+      ],
+      "contacts": [
+        {
+          "name": "Orhan Bilgin",
+          "role": "Bölge Satış Müdürü",
+          "phone": "0555 000 22 01",
+          "email": "orhan.bilgin@marmarabakliyat.example"
+        },
+        {
+          "name": "Esra Yalçın",
+          "role": "Müşteri Temsilcisi",
+          "phone": "0555 000 22 02",
+          "email": "esra.yalcin@marmarabakliyat.example"
+        }
+      ]
+    },
+    {
+      "id": "200003",
+      "name": "Parlak Kimya Temizlik Ürünleri San. A.Ş.",
+      "taxNo": "8401736529",
+      "taxOffice": "Gebze",
+      "city": "Kocaeli / Gebze",
+      "category": "Temizlik ve kağıt ürünleri",
+      "paymentTerm": "Z060",
+      "leadTimeDays": 10,
+      "rating": "A",
+      "products": [
+        "TM-2001",
+        "TM-2002",
+        "TM-2003",
+        "TM-2004",
+        "TM-2005",
+        "TM-2006",
+        "TM-2007"
+      ],
+      "contacts": [
+        {
+          "name": "Volkan Ekinci",
+          "role": "Kilit Müşteri Yöneticisi",
+          "phone": "0555 000 23 01",
+          "email": "volkan.ekinci@parlakkimya.example"
+        },
+        {
+          "name": "Aslı Karaca",
+          "role": "Lojistik Planlama",
+          "phone": "0555 000 23 02",
+          "email": "asli.karaca@parlakkimya.example"
+        },
+        {
+          "name": "Hüseyin Er",
+          "role": "Kalite Sorumlusu",
+          "phone": "0555 000 23 03",
+          "email": "huseyin.er@parlakkimya.example"
+        }
+      ]
+    }
+  ]
+}

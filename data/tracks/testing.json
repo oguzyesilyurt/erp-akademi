@@ -1,0 +1,12 @@
+{
+  "id": "testing",
+  "version": 1,
+  "sections": {
+    "intro": null,
+    "concepts": null,
+    "simulation": null,
+    "scenarios": null,
+    "tests": null,
+    "quiz": null
+  }
+}

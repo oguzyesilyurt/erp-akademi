@@ -1,0 +1,1276 @@
+{
+  "id": "b2b-crm",
+  "version": 4,
+  "sections": {
+    "intro": {
+      "title": "B2B CRM'e giriş",
+      "lead": "Kurumsal müşterilerle uzun soluklu ilişkiyi yöneten sistemi, Ege Dağıtım'ın günlük satış işleri üzerinden tanı.",
+      "duration": "10 dk",
+      "goals": [
+        "B2B CRM'in ne işe yaradığını ve kimlerin kullandığını açıklayabilmek",
+        "B2B ve B2C satış arasındaki temel farkları ayırt edebilmek",
+        "Lead'den ERP siparişine kadar uzanan akışı adım adım anlatabilmek"
+      ],
+      "blocks": [
+        {
+          "type": "text",
+          "title": "B2B CRM nedir?",
+          "paragraphs": [
+            "CRM (Customer Relationship Management), bir şirketin müşterileriyle ilgili tüm etkileşimleri tek yerde toplayan sistemdir. B2B CRM ise müşterinin bir kişi değil bir şirket olduğu durumlar için tasarlanır: bayiler, zincir marketler, oteller, kurumlar.",
+            "B2B'de satış tek bir alışverişle bitmez. Aynı müşteriyle yıllarca çalışılır, her ay yeniden sipariş gelir, fiyatlar sözleşmeyle belirlenir, ödeme vadeli yapılır. CRM bu ilişkinin hafızasıdır: kiminle görüşüldü, hangi fırsat hangi aşamada, hangi teklif verildi, müşteri ne kadar borçlu.",
+            "Ege Dağıtım'da CRM'i en çok satış temsilcileri kullanır; satış müdürü onay ve raporlar için, muhasebe kredi kontrolü için, key user ise ana verinin doğruluğu için sisteme girer."
+          ]
+        },
+        {
+          "type": "compare",
+          "title": "B2B ve B2C arasındaki farklar",
+          "columns": [
+            "Konu",
+            "B2B (Ege Dağıtım)",
+            "B2C (perakende mağaza)"
+          ],
+          "rows": [
+            [
+              "Müşteri",
+              "Şirket; içinde satın almacı, muhasebeci, genel müdür gibi birden çok kişi",
+              "Tek bir bireysel tüketici"
+            ],
+            [
+              "Karar süreci",
+              "Günler veya haftalar; teklif, pazarlık ve onay adımları var",
+              "Dakikalar; çoğu zaman anlık karar"
+            ],
+            [
+              "Fiyat",
+              "Liste fiyat + segment iskontosu + kampanya; müşteriye özel olabilir",
+              "Herkese aynı raf fiyatı"
+            ],
+            [
+              "Ödeme",
+              "Vadeli (15–60 gün), kredi limiti içinde",
+              "Peşin veya kredi kartı"
+            ],
+            [
+              "Sipariş hacmi",
+              "Koli ve palet bazında, düzenli tekrar eden",
+              "Adet bazında, düzensiz"
+            ],
+            [
+              "İlişki",
+              "Uzun vadeli; temsilci müşteriyi tanır, ziyaret eder",
+              "Çoğunlukla anonim"
+            ]
+          ]
+        },
+        {
+          "type": "flow",
+          "title": "Ege Dağıtım'da satış akışı",
+          "text": "Bir satış fırsatı CRM'de doğar, teklif ile şekillenir ve sipariş olduğunda ERP'ye (S/4HANA) aktarılır. Teslimat, fatura ve tahsilat ERP'de devam eder.",
+          "steps": [
+            {
+              "label": "Lead",
+              "system": "CRM",
+              "owner": "Satış Temsilcisi",
+              "text": "Henüz nitelendirilmemiş ilgi: fuar, telefon, web formu veya bayi toplantısından gelen bir firma adı."
+            },
+            {
+              "label": "Fırsat",
+              "system": "CRM",
+              "owner": "Satış Temsilcisi",
+              "text": "Nitelendirilmiş lead. Tahmini tutar, olasılık ve kapanış tarihi ile satış hunisinde izlenir."
+            },
+            {
+              "label": "Teklif",
+              "system": "CRM",
+              "owner": "Temsilci / Müdür",
+              "text": "Ürün, miktar ve fiyatların resmi olarak müşteriye sunulduğu belge. Eşik aşılırsa müdür onayı gerekir."
+            },
+            {
+              "label": "Sipariş",
+              "system": "CRM → ERP",
+              "owner": "Satış Temsilcisi",
+              "text": "Müşteri teklifi kabul eder; teklif satış siparişine dönüşür ve ERP'ye aktarılır."
+            },
+            {
+              "label": "ERP",
+              "system": "S/4HANA",
+              "owner": "Lojistik / Muhasebe",
+              "text": "Kredi kontrolü, depodan teslimat, faturalama ve tahsilat. Sonuçlar CRM'e geri akar."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "tone": "info",
+          "title": "Bu yolda ne yapacaksın?",
+          "text": "Önce kavramları öğren, sonra üç gerçekçi senaryoyu adım adım incele. Simülasyon sekmesinde Ege Dağıtım'ın gerçek verileriyle teklif oluşturup fiyat, kredi ve onay kurallarını kendin deneyimle."
+        }
+      ]
+    },
+    "concepts": {
+      "intro": "B2B CRM ve SAP projelerinde her gün duyacağın 15 temel terim. Her birinin altında Ege Dağıtım'dan somut bir örnek var.",
+      "items": [
+        {
+          "id": "account",
+          "term": "Hesap",
+          "en": "Account",
+          "definition": "CRM'de müşteri şirketi temsil eden ana kayıt. Adres, vergi bilgisi, segment, satış alanı ve bağlı tüm işlemler (fırsat, teklif, sipariş) hesabın altında toplanır.",
+          "example": "\"Karşıyaka Gıda Toptan Ltd. Şti.\" 100001 numaralı hesaptır; segmenti A, kanalı Bayi, ödeme koşulu 30 gün.",
+          "link": {
+            "label": "Müşterileri gör",
+            "href": "#/company/customers"
+          }
+        },
+        {
+          "id": "contact",
+          "term": "İlgili kişi",
+          "en": "Contact",
+          "definition": "Hesaba bağlı, şirket adına iletişim kurduğun kişi. B2B'de bir hesabın genellikle birden çok ilgili kişisi olur ve her birinin rolü farklıdır.",
+          "example": "Bornova Market Zinciri'nde Deniz Koç (Kategori Müdürü) ürün seçer, Gül Çelik (Finans Müdürü) ödemeleri yönetir. Fiyat görüşmesi Deniz Koç'la, vade görüşmesi Gül Çelik'le yapılır."
+        },
+        {
+          "id": "lead",
+          "term": "Lead (potansiyel müşteri)",
+          "en": "Lead",
+          "definition": "Henüz nitelendirilmemiş satış ilgisi. Bir firmanın ürünlerinle ilgilendiğini gösteren ilk işarettir; gerçek bir satış ihtimali olup olmadığı henüz bilinmez.",
+          "example": "Ekim 2026'daki bölge bayi toplantısında kartvizit bırakan \"Ödemiş Yöresel Gıda\", Selin Kaya tarafından lead olarak kaydedildi."
+        },
+        {
+          "id": "opportunity",
+          "term": "Fırsat",
+          "en": "Opportunity",
+          "definition": "Nitelendirilmiş, somut bir satış ihtimali. Tahmini tutar, kazanma olasılığı, aşama ve beklenen kapanış tarihi ile izlenir.",
+          "example": "Ödemiş Yöresel Gıda ile yapılan görüşmeden sonra yıllık 1,8 milyon ₺ tahmini hacimli, %20 olasılıklı bir \"Yeni bayi\" fırsatı açıldı."
+        },
+        {
+          "id": "funnel",
+          "term": "Satış hunisi",
+          "en": "Sales funnel / pipeline",
+          "definition": "Fırsatların aşamalara göre dağılımı. Üstte çok sayıda erken aşama fırsat, altta az sayıda kapanmaya yakın fırsat bulunur. Satış tahmini bu huniden yapılır.",
+          "example": "Satış müdürü Murat Demir her pazartesi huniyi inceler: \"Nitelendirme\" aşamasında 12, \"Teklif\" aşamasında 5, \"Pazarlık\" aşamasında 2 fırsat var."
+        },
+        {
+          "id": "quote",
+          "term": "Teklif",
+          "en": "Quotation",
+          "definition": "Müşteriye sunulan resmi fiyat belgesi: ürünler, miktarlar, birim fiyatlar, iskontolar, ödeme koşulu ve geçerlilik tarihi içerir. Kabul edilirse siparişe dönüşür.",
+          "example": "Çeşme Kıyı Otel'e 40 adet toz deterjan ve 25 koli bulaşık deterjanı için 30 gün geçerli teklif verildi.",
+          "link": {
+            "label": "Simülasyonda teklif oluştur",
+            "href": "#/track/b2b-crm/simulation"
+          }
+        },
+        {
+          "id": "credit-limit",
+          "term": "Kredi limiti",
+          "en": "Credit limit",
+          "definition": "Bir müşterinin ödenmemiş toplam borcunun (açık bakiye) çıkabileceği en üst tutar. Limit aşılırsa yeni siparişler kredi kontrolüne takılır.",
+          "example": "Manisa Yıldız Dağıtım'ın limiti 750.000 ₺, açık bakiyesi 812.400 ₺. Limit %108 kullanıldığı için yeni sipariş muhasebe onayı olmadan sevk edilemez.",
+          "link": {
+            "label": "Kredi durumlarını gör",
+            "href": "#/company/customers"
+          }
+        },
+        {
+          "id": "payment-term",
+          "term": "Vade (ödeme koşulu)",
+          "en": "Payment terms",
+          "definition": "Faturanın kaç gün içinde ödeneceğini belirleyen koşul. SAP'de kod ile tutulur (ör. Z030 = 30 gün). Vadesi geçen tutar \"vadesi geçmiş alacak\" olur.",
+          "example": "Çeşme Kıyı Otel Z060 (60 gün), TemizSepet E-Ticaret Z015 (15 gün) ile çalışır. Ödemiş Yöresel Gıda henüz aday olduğu için Z000 (peşin)."
+        },
+        {
+          "id": "segment",
+          "term": "Segment",
+          "en": "Customer segment",
+          "definition": "Müşterilerin hacim, karlılık veya stratejik öneme göre gruplanması. Segment; iskonto oranını, ziyaret sıklığını ve hizmet seviyesini belirler.",
+          "example": "Ege Dağıtım'da A segmenti %8, B segmenti %5, C segmenti %2 iskonto alır. Karşıyaka Gıda A, Aydın Efe B, Pamukkale Ticaret C segmentindedir."
+        },
+        {
+          "id": "condition",
+          "term": "Fiyat koşulu",
+          "en": "Pricing condition",
+          "definition": "Fiyatı oluşturan her bir yapı taşı. SAP'de her koşulun bir türü vardır ve fiyatlandırma şeması bunları sırayla uygular.",
+          "example": "PR00 liste fiyatı, K007 segment iskontosu, ZKMP kampanya iskontosu, ardından KDV. Toz deterjan (650 ₺) A segmentinde kampanya ile net 538,20 ₺'ye iner.",
+          "link": {
+            "label": "Fiyat listesini gör",
+            "href": "#/company/prices"
+          }
+        },
+        {
+          "id": "campaign",
+          "term": "Kampanya",
+          "en": "Campaign / promotion",
+          "definition": "Belirli ürünlerde, belirli kanallarda ve tarih aralığında geçerli ek iskonto. Genellikle minimum miktar gibi koşulları vardır.",
+          "example": "\"Kış Temizlik Kampanyası\" (ZKMP): 1 Kasım – 31 Aralık 2026, Bayi ve Kurumsal kanalda, 3 temizlik ürününde, en az 10 birimlik kalemde %10 ek iskonto."
+        },
+        {
+          "id": "approval",
+          "term": "Onay akışı",
+          "en": "Approval workflow",
+          "definition": "Belirli kurallar aşıldığında belgenin bir yöneticiye onaya gitmesi. Onaylanmadan belge müşteriye gönderilemez veya siparişe dönüştürülemez.",
+          "example": "Ege Dağıtım'da teklifte toplam iskonto %12'yi veya net tutar 50.000 ₺'yi geçerse teklif satış müdürü Murat Demir'in onayına düşer."
+        },
+        {
+          "id": "master-data",
+          "term": "Ana veri",
+          "en": "Master data",
+          "definition": "İşlemlerde tekrar tekrar kullanılan, nadiren değişen temel kayıtlar: müşteri, ürün (malzeme), fiyat, tedarikçi. Ana veri hatalıysa bütün işlemler hatalı olur.",
+          "example": "Bir müşterinin ödeme koşulu yanlışlıkla Z060 yerine Z000 girilirse, bütün faturalarına yanlış vade atanır ve müşteri şikayet eder.",
+          "link": {
+            "label": "Şirket ana verisini gör",
+            "href": "#/company/org"
+          }
+        },
+        {
+          "id": "key-user",
+          "term": "Key user",
+          "en": "Key user",
+          "definition": "İş biriminden seçilen, sistemi en iyi bilen kullanıcı. Kullanıcılara destek olur, ana veriyi bakımını yapar, yeni geliştirmeleri test eder ve IT ile iş birimi arasında köprü kurar.",
+          "example": "Can Öztürk, Ege Dağıtım'ın SD/MM key user'ıdır. Yeni bayi açılış taleplerini o işler ve UAT senaryolarını o yürütür."
+        },
+        {
+          "id": "uat",
+          "term": "UAT (kullanıcı kabul testi)",
+          "en": "User Acceptance Testing",
+          "definition": "Canlıya geçmeden önce iş biriminin, sistemin gerçek iş süreçlerini doğru yürüttüğünü kendi senaryolarıyla doğruladığı test aşaması.",
+          "example": "Yeni onay kuralı canlıya alınmadan önce Can Öztürk, \"%12 iskontolu teklif müdür onayına düşmeli\" senaryosunu test sisteminde çalıştırdı ve sonucu kayıt altına aldı."
+        }
+      ]
+    },
+    "simulation": {
+      "type": "quote",
+      "title": "Teklif Oluştur",
+      "description": "Ege Dağıtım verileriyle bir müşteri teklifi hazırla. Fiyatlar PR00 → K007 → ZKMP → KDV sırasıyla hesaplanır; kredi, stok ve onay kuralları canlı olarak kontrol edilir.",
+      "systemDate": "2026-11-19",
+      "rules": {
+        "maxDiscountPct": 12,
+        "maxNet": 50000,
+        "firstQuoteNo": 20000001,
+        "validityDays": 30
+      },
+      "help": {
+        "customer": "Teklifin verileceği hesap. Seçtiğin müşterinin segmenti, kanalı ve ödeme koşulu fiyatı ve kuralları belirler. Bloke müşteriye teklif kaydedilemez.",
+        "salesArea": "Satış organizasyonu / dağıtım kanalı / bölüm üçlüsü. Müşterinin hangi kanaldan, hangi ürün gruplarını alabileceğini belirler; müşteri ana verisinden gelir.",
+        "quoteDate": "Teklifin oluşturulduğu tarih. Simülasyonda sistem tarihi sabittir; kampanya geçerliliği bu tarihe göre kontrol edilir.",
+        "validTo": "Teklifin müşteri için bağlayıcı olduğu son gün. Kampanyalı ürünlerde kampanya bitiş tarihini aşmamalıdır.",
+        "paymentTerm": "Faturanın kaç günde ödeneceği. Müşteri ana verisinden gelir; farklı vade vermek ana veri ve muhasebe onayı gerektirir.",
+        "plant": "Ürünlerin sevk edileceği depo. Stok kontrolü bu depodaki miktara göre yapılır.",
+        "contact": "Teklifin muhatabı olan kişi. B2B'de teklif genellikle satın alma yetkilisine gider.",
+        "reference": "Müşterinin kendi talep veya sipariş numarası. Sonraki yazışmalarda ve faturada eşleştirme için kullanılır.",
+        "salesRep": "Hesaptan sorumlu satış temsilcisi; müşteri ana verisinden gelir.",
+        "product": "Teklife eklenecek ürün (malzeme). Satış birimi ve ambalaj bilgisi ürün ana verisinden gelir.",
+        "qty": "Satış birimi cinsinden miktar (koli, adet, paket). Kampanyanın minimum miktarı kalem bazında kontrol edilir.",
+        "PR00": "Liste fiyatı: standart fiyat listesindeki satış birimi fiyatı (KDV hariç).",
+        "K007": "Segment iskontosu: müşterinin segmentine göre liste fiyatından düşülen oran (A %8, B %5, C %2).",
+        "ZKMP": "Kampanya iskontosu: aktif kampanyadaki ürünlerde, uygun kanal ve minimum miktar sağlanırsa segment iskontosundan sonra uygulanır.",
+        "KDV": "Katma değer vergisi. Net tutar üzerinden ürünün KDV oranıyla hesaplanır (gıda %1, temizlik %20).",
+        "discount": "Toplam iskonto oranı = (liste tutarı − net tutar) / liste tutarı. Kampanya iskontosu da bu orana dahildir.",
+        "approval": "Toplam iskonto %12'yi veya net tutar 50.000 ₺'yi aşarsa teklif satış müdürünün onayına gider.",
+        "credit": "Müşterinin açık bakiyesi ile bu teklifin KDV dahil tutarı toplamı kredi limitini aşarsa, siparişe dönüşte muhasebe kredi onayı gerekir."
+      }
+    },
+    "scenarios": {
+      "intro": "Ege Dağıtım'da her gün yaşanan üç durum. Her adımda ne yapılacağını, nedenini ve nelere dikkat edilmesi gerektiğini incele; ardından simülasyonda kendin dene.",
+      "items": [
+        {
+          "id": "yeni-bayi",
+          "title": "Yeni bayi fırsatı",
+          "level": "Başlangıç",
+          "duration": "15 dk",
+          "role": "U01",
+          "customer": "A-0001",
+          "summary": "Bölge toplantısında tanışılan aday bayiyi lead'den ilk teklife kadar götür.",
+          "goal": "Ödemiş Yöresel Gıda'yı nitelendirip fırsat aç, ilgili kişileri bağla ve peşin koşulla ilk deneme teklifini hazırla.",
+          "steps": [
+            {
+              "title": "Lead'i kaydet",
+              "what": "Ödemiş Yöresel Gıda'yı lead olarak aç. Kaynak (bölge bayi toplantısı), bölge (İzmir / Ödemiş), iletişim bilgisi ve kısa notu gir.",
+              "why": "Hangi kaynaktan kaç müşteri kazanıldığı ancak lead kaynağı düzgün girilirse ölçülebilir. Not, ekipteki diğer kişilerin konuyu anlamasını sağlar.",
+              "caution": "Kayıttan önce vergi numarasıyla arama yap. Firma başka bir temsilci tarafından zaten açılmış olabilir; mükerrer kayıt raporları bozar."
+            },
+            {
+              "title": "Lead'i nitelendir",
+              "what": "Firmayı ara ve dört soruyu netleştir: ihtiyaç (hangi ürün grupları), hacim (yıllık tahmini alım), yetki (kim karar veriyor), zaman (ne zaman başlamak istiyor).",
+              "why": "Her lead fırsat değildir. Nitelendirme, zamanı gerçekten satın alacak firmalara ayırmanı sağlar.",
+              "caution": "Tahmini hacmi müşterinin söylediği rakamla değil, dağıtım yaptığı nokta sayısına göre sağlamasını yaparak gir (140 nokta → yıllık yaklaşık 1,8 milyon ₺)."
+            },
+            {
+              "title": "Fırsatı oluştur",
+              "what": "Lead'i fırsata dönüştür: \"Yeni bayi – Ödemiş\" adı, 1.800.000 ₺ yıllık tahmini tutar, \"Nitelendirme\" aşaması, %20 olasılık, beklenen kapanış 31 Aralık 2026.",
+              "why": "Fırsat satış hunisinde görünür olur; müdür satış tahminini ve kaynak planlamasını buna göre yapar.",
+              "caution": "Olasılığı iyimser girme. Henüz teklif bile verilmemiş bir fırsata %70 yazmak huniyi şişirir ve tahminleri yanıltır."
+            },
+            {
+              "title": "İlgili kişileri bağla",
+              "what": "Recep Toprak'ı \"Karar verici\", Melis Toprak'ı \"Satın alma\" rolüyle hesaba ve fırsata bağla.",
+              "why": "B2B'de kararı tek kişi vermez. Kimin neyi onayladığını bilmek, teklifin doğru kişiye doğru içerikle gitmesini sağlar.",
+              "caution": "Kişisel telefon yerine iş iletişim bilgisi gir; kişisel veriler KVKK kapsamında yalnızca amacına uygun tutulmalıdır."
+            },
+            {
+              "title": "İlk deneme teklifini hazırla",
+              "what": "Simülasyonda aday müşteriyi seç ve 4 kalemlik deneme teklifi oluştur: ayçiçek yağı, pirinç, makarna ve tuvalet kağıdı. Segment C (%2), ödeme koşulu peşin (Z000), Kemalpaşa deposu.",
+              "why": "Küçük bir deneme siparişi, yeni bayinin satış hızını ve ödeme alışkanlığını görmeyi sağlar; kredi riski almadan ilişki başlar.",
+              "caution": "Aday müşterinin kredi limiti yoktur, bu yüzden teklif peşin koşulla verilir. Net tutarı 50.000 ₺'nin altında tutarsan müdür onayı gerekmez."
+            },
+            {
+              "title": "Ana veri açılışını başlat",
+              "what": "Müşteri teklifi kabul ederse key user Can Öztürk'e müşteri açılış talebi gönder: vergi levhası, imza sirküleri, ticaret sicil gazetesi ve teminat bilgisi. Muhasebe (Ayşe Yılmaz) kredi limitini belirler.",
+              "why": "ERP'de müşteri ana verisi açılmadan teklif satış siparişine dönüştürülemez; fatura ve tahsilat müşteri numarası üzerinden yürür.",
+              "caution": "Ana veriyi temsilci kendisi açmaz. Görevler ayrılığı (segregation of duties) gereği müşteri ve kredi limiti bakımı farklı rollerdedir."
+            }
+          ],
+          "outcome": "Fırsat hunide görünür, aday bayiye 50.000 ₺'nin altında, onaysız gönderilebilen bir deneme teklifi hazırdır ve ana veri talebi başlatılmıştır.",
+          "simulation": {
+            "customer": "A-0001",
+            "reference": "Deneme siparişi",
+            "items": [
+              {
+                "code": "GD-1001",
+                "qty": 10
+              },
+              {
+                "code": "GD-1003",
+                "qty": 15
+              },
+              {
+                "code": "GD-1005",
+                "qty": 20
+              },
+              {
+                "code": "TM-2005",
+                "qty": 20
+              }
+            ]
+          }
+        },
+        {
+          "id": "kampanyali-teklif",
+          "title": "Kampanyalı teklif",
+          "level": "Orta",
+          "duration": "15 dk",
+          "role": "U01",
+          "customer": "100007",
+          "summary": "Kurumsal otel müşterisine Kış Temizlik Kampanyası ile teklif ver ve onay eşiğini yönet.",
+          "goal": "Çeşme Kıyı Otel için kampanya koşullarını doğru uygulayan bir teklif hazırla, fiyat adımlarını yorumla ve müdür onayına gönder.",
+          "steps": [
+            {
+              "title": "Talebi al",
+              "what": "Kat Hizmetleri Müdürü Nazlı Özkan, yılbaşı yoğunluğu öncesinde temizlik ürünleri için fiyat istiyor: toz deterjan, bulaşık deterjanı ve çamaşır suyu.",
+              "why": "Talebin kimden geldiğini kaydetmek, teklifin doğru muhataba gitmesini ve sonrasında takibin yapılmasını sağlar.",
+              "caution": "Kullanıcı (kat hizmetleri) ile satın almacı (Cem Erdem) farklı kişiler. Teklif satın alma müdürüne hitaben hazırlanmalı."
+            },
+            {
+              "title": "Müşteri ve satış alanını kontrol et",
+              "what": "Hesabı aç: kanal 20 (Kurumsal), segment A (%8), ödeme koşulu Z060, kredi kullanımı %34.",
+              "why": "Kampanyanın geçerli olduğu kanallar ve segment iskontosu müşteri ana verisinden gelir. Yanlış hesapla teklif vermek tüm fiyatı bozar.",
+              "caution": "Kredi durumu \"Uygun\" olsa da büyük bir teklif açık bakiyeyi limite yaklaştırabilir. Fiyat özetindeki kredi kontrolüne bak."
+            },
+            {
+              "title": "Kampanya koşullarını oku",
+              "what": "Şirket > Fiyatlar sekmesinde KMP-2026-11'i incele: %10 ek iskonto, en az 10 birim, Bayi ve Kurumsal kanal, 31 Aralık 2026'ya kadar.",
+              "why": "Kampanyayı müşteriye söz vermeden önce koşullarını bilmek, sonradan \"kampanya neden uygulanmadı\" tartışmasını önler.",
+              "caution": "Teklifin geçerlilik tarihi kampanya bitişini aşmamalı. Aksi halde müşteri, kampanya bittikten sonra aynı fiyatı talep edebilir."
+            },
+            {
+              "title": "Kalemleri ekle",
+              "what": "Simülasyonda 40 adet toz deterjan, 25 koli bulaşık deterjanı ve 30 koli çamaşır suyu ekle. Her kalemde ZKMP satırının oluştuğunu kontrol et.",
+              "why": "Kampanya kalem bazında uygulanır; her satırın minimum miktarı ayrı ayrı sağlaması gerekir.",
+              "caution": "Bir kalemin miktarını 10'un altına düşürürsen o kalemde kampanya düşer; fiyat özetinde farkı gözlemle."
+            },
+            {
+              "title": "Fiyat özetini yorumla",
+              "what": "Toplam iskonto yaklaşık %17,2'dir (önce %8 segment, sonra kalan tutar üzerinden %10 kampanya). Net tutar 50.000 ₺'nin biraz üzerindedir.",
+              "why": "İskontolar toplanmaz, birbirinin ardından uygulanır: 1 − 0,92 × 0,90 = %17,2. Bu ayrım, müşteriye ve müdüre fiyatı doğru anlatmanı sağlar.",
+              "caution": "Kampanya iskontosu da toplam iskontoya dahildir. Bu nedenle kampanyalı teklifler sık sık onay eşiğini aşar; şaşırma, gerekçeni hazırla."
+            },
+            {
+              "title": "Onaya gönder",
+              "what": "Teklifi kaydet. Durum \"Müdür onayı gerekli\" olur. Satış müdürü Murat Demir'e gerekçeyi ilet: kampanya kapsamı, sezon yoğunluğu, müşterinin A segmenti oluşu.",
+              "why": "Onay akışı, şirketin karlılığını korur ve büyük iskontoların bilinçli verilmesini sağlar.",
+              "caution": "Onay gelmeden teklifi müşteriye gönderme. Onaysız fiyat sözü vermek şirket politikasının ihlalidir."
+            }
+          ],
+          "outcome": "Kampanya koşullarını doğru uygulayan, geçerliliği kampanya süresi içinde kalan ve müdür onayına sunulmuş bir teklif.",
+          "simulation": {
+            "customer": "100007",
+            "contact": "Cem Erdem",
+            "reference": "Yılbaşı temizlik alımı",
+            "items": [
+              {
+                "code": "TM-2001",
+                "qty": 40
+              },
+              {
+                "code": "TM-2002",
+                "qty": 25
+              },
+              {
+                "code": "TM-2003",
+                "qty": 30
+              }
+            ]
+          }
+        },
+        {
+          "id": "limit-asimi",
+          "title": "Limit aşımındaki müşteriye teklif",
+          "level": "İleri",
+          "duration": "20 dk",
+          "role": "U01",
+          "customer": "100003",
+          "summary": "Kredi limitini aşmış bayiden gelen talebi muhasebe ile koordineli yönet.",
+          "goal": "Manisa Yıldız Dağıtım'ın talebine teklif hazırlarken kredi riskini görünür kıl, stok sorununu çöz ve doğru kişileri sürece dahil et.",
+          "steps": [
+            {
+              "title": "Talebi al",
+              "what": "Satın Alma Sorumlusu Zeynep Kurt; ayçiçek yağı, makarna ve zeytinyağı istiyor ve teslimatın Manisa deposundan hızlı yapılmasını bekliyor.",
+              "why": "Talebi kayda almak, müşteriye \"talebiniz alındı\" geri dönüşü yapmanı ve süreci izlemeni sağlar.",
+              "caution": "Henüz fiyat veya teslim tarihi sözü verme; önce kredi ve stok durumunu kontrol et."
+            },
+            {
+              "title": "Kredi durumunu incele",
+              "what": "Hesapta kredi kullanımı %108: limit 750.000 ₺, açık bakiye 812.400 ₺, vadesi geçmiş 96.000 ₺.",
+              "why": "Limit aşımında yeni sipariş ERP kredi kontrolüne takılır ve sevk edilemez. Bunu baştan bilmek, müşteriye gerçekçi bilgi vermeni sağlar.",
+              "caution": "Vadesi geçmiş tutar, limit aşımından daha ciddi bir sinyaldir. Müşterinin ödeme davranışı bozuluyor olabilir."
+            },
+            {
+              "title": "Muhasebe ile görüş",
+              "what": "Muhasebe Uzmanı Ayşe Yılmaz'a durumu ilet; müşterinin tahsilat planını ve teminat seçeneklerini sor.",
+              "why": "Kredi kararı satışın değil finansın yetkisindedir. Erken iletişim, sipariş aşamasında sürpriz blokajı önler.",
+              "caution": "Limit artışını müşteriye vaat etme. Satış temsilcisinin limit değiştirme yetkisi yoktur."
+            },
+            {
+              "title": "Çözüm seçeneklerini belirle",
+              "what": "Müşteriye üç yol sun: (1) vadesi geçmiş 96.000 ₺'nin önce ödenmesi, (2) bu sipariş için peşin ödeme veya teminat mektubu, (3) siparişin bakiye düştükçe parçalı sevki.",
+              "why": "Satışı tamamen reddetmek yerine riski yöneten seçenekler sunmak, hem müşteri ilişkisini hem şirketin alacağını korur.",
+              "caution": "Seçenekleri muhasebenin onayladığı çerçevede sun ve görüşmeyi CRM'e not olarak kaydet."
+            },
+            {
+              "title": "Teklifi hazırla ve stok uyarısını çöz",
+              "what": "Simülasyonda müşteriyi seç, kalemleri ekle. Zeytinyağının Manisa deposunda stoğu olmadığını gör; kalemi Kemalpaşa'dan sevk edilecek şekilde planla veya müşteriye ayrı teslim tarihi bildir.",
+              "why": "Stok uyarısı teklif aşamasında çözülmezse sipariş girildiğinde teslimat oluşturulamaz ve müşteri mağdur olur.",
+              "caution": "Teslimat deposunu değiştirmek nakliye maliyetini ve teslim süresini etkiler; bunu teklif notuna yaz."
+            },
+            {
+              "title": "Kaydet ve durumu izle",
+              "what": "Teklifi kaydet. Durum hem \"Müdür onayı gerekli\" (net tutar 50.000 ₺ üzerinde) hem \"Kredi onayı gerekli\" olur. Teklif numarasını muhasebeyle paylaş.",
+              "why": "İki ayrı onay iki ayrı riski yönetir: müdür karlılığı, muhasebe tahsilat riskini değerlendirir.",
+              "caution": "Kredi onayı çıkmadan teklifi siparişe dönüştürmeye çalışma; ERP siparişi bloke eder ve sevkiyat planı boşa gider."
+            }
+          ],
+          "outcome": "Kredi riski kayıt altında, muhasebe bilgilendirilmiş, stok sorunu görünür ve iki onay durumu izlenen bir teklif.",
+          "simulation": {
+            "customer": "100003",
+            "contact": "Zeynep Kurt",
+            "reference": "Aralık yükleme",
+            "items": [
+              {
+                "code": "GD-1001",
+                "qty": 30
+              },
+              {
+                "code": "GD-1005",
+                "qty": 40
+              },
+              {
+                "code": "GD-1002",
+                "qty": 10
+              }
+            ]
+          }
+        },
+        {
+          "id": "uctan-uca-onay",
+          "title": "Kampanyalı teklifi uçtan uca onaylat",
+          "level": "İleri",
+          "duration": "20 dk",
+          "role": "U01",
+          "customer": "100002",
+          "summary": "Bornova Market'e büyük bir kampanyalı teklif hazırla; müdür ve muhasebe onayından geçir.",
+          "goal": "Üç farklı rolle oturum açarak teklifi oluştur, müdür onayını ve kredi onayını al; zaman çizelgesinde kimin ne yaptığını izle.",
+          "steps": [
+            {
+              "title": "Oturumu Satış Temsilcisi yap",
+              "what": "Üst bardaki \"Oturum\" alanına tıkla ve Selin Kaya'yı (Satış Temsilcisi) seç.",
+              "why": "Teklif oluşturma yetkisi (QUOTE_CREATE) yalnızca satış temsilcisinde var. Müdür veya muhasebe rolüyle kaydet düğmesi kilitli görünür.",
+              "caution": "Kilitli düğme bir hata değil, görevler ayrılığıdır. Üzerine geldiğinde hangi yetkinin gerektiğini görürsün."
+            },
+            {
+              "title": "Teklifi oluştur ve onaya gönder",
+              "what": "\"Simülasyonda dene\" ile Bornova Market'i ve 3 temizlik kalemini yükle. Fiyat özetinde ZKMP satırlarını, %17,2 toplam iskontoyu, müdür onayı ve kredi onayı ihtiyacını gör. \"Kaydet ve onaya gönder\"e bas.",
+              "why": "Teklif iki kuralı birden aşıyor: iskonto ve net tutar eşiği (müdür), açık bakiye + teklif tutarının kredi limitini geçmesi (muhasebe). Durum \"Onay bekliyor\" olur.",
+              "caution": "Teklif detayındaki zaman çizelgesinde \"Oluşturdu\" ve \"Onaya gönderdi\" kayıtlarının seni gösterdiğini kontrol et."
+            },
+            {
+              "title": "Rolü Satış Müdürü'ne çevir",
+              "what": "Oturumu Murat Demir (Satış Müdürü) olarak değiştir. Kenar çubuğundaki Onay Kutusu'nda rozetin 1 olduğunu gör ve teklifi aç.",
+              "why": "Onay adımları sıralıdır: önce müdür onayı, ardından kredi onayı. Muhasebe, müdür onaylamadan bu teklifi kutusunda görmez.",
+              "caution": "Müdür teklifi düzenleyemez; yalnızca onaylar veya gerekçeyle reddeder. Fiyat değişikliği gerekiyorsa reddedip temsilciden revize ister."
+            },
+            {
+              "title": "Müdür onayını ver",
+              "what": "Gerekçeleri incele: toplam iskonto %17,2, net 286.488 ₺. Kampanya kapsamında olduğunu ve müşterinin A segmentinde olduğunu doğrula, \"Onayla\"ya bas.",
+              "why": "Onay, şirketin karlılık kontrolüdür. Kampanya iskontosu da toplam iskontoya dahil olduğu için kampanyalı büyük teklifler bu adımdan geçer.",
+              "caution": "Reddetmek istersen gerekçe zorunludur; gerekçe zaman çizelgesine yazılır ve temsilci teklifi buna göre revize eder."
+            },
+            {
+              "title": "Rolü Muhasebe'ye çevir",
+              "what": "Oturumu Ayşe Yılmaz (Muhasebe) olarak değiştir. Onay Kutusu'nda aynı teklif bu kez \"Kredi onayı\" adımıyla görünür.",
+              "why": "Kredi riskine satış değil finans karar verir. Muhasebe teklif oluşturamaz ve iskontoyu onaylayamaz; yalnızca kredi kararını verir.",
+              "caution": "Muhasebe rolüyle simülasyona gidersen kaydet düğmesinin kilitli olduğunu göreceksin."
+            },
+            {
+              "title": "Kredi onayını ver",
+              "what": "Hesabı incele: açık bakiye 2.180.000 ₺ + teklif (KDV dahil) 343.785,60 ₺ = 2.523.785,60 ₺; limit 2.500.000 ₺, vadesi geçmiş 145.000 ₺. Vadesi geçmiş tutarın ay sonu tahsil edileceği notunu yazıp onayla.",
+              "why": "Aşım küçük (yaklaşık %1) ve müşteri A segmentinde düzenli çalışıyor; muhasebe riski not alarak kabul edebilir.",
+              "caution": "Onay notu denetimde kanıttır. Neden onaylandığını kısa ve somut yaz."
+            },
+            {
+              "title": "Sonucu Key User ile doğrula",
+              "what": "Oturumu Can Öztürk (Key User) yap. Simülasyonda teklif listesini aç: durum \"Onaylandı\", zaman çizelgesinde 4 kayıt (oluşturma, gönderme, müdür onayı, kredi onayı).",
+              "why": "Key user her şeyi görür ve süreci denetleyebilir, ancak hiçbir onay veremez. Onay düğmeleri bu rolde kilitlidir.",
+              "caution": "Yetki matrisini (Yetkiler sayfası) açıp her adımda kullanılan yetkiyi rollerle eşleştir."
+            }
+          ],
+          "outcome": "Teklif üç rolün ardışık işlemleriyle onaylandı; kim, ne zaman, ne yaptı zaman çizelgesinde kayıtlı.",
+          "simulation": {
+            "customer": "100002",
+            "contact": "Deniz Koç",
+            "reference": "Yılbaşı temizlik kampanyası",
+            "items": [
+              {
+                "code": "TM-2001",
+                "qty": 200
+              },
+              {
+                "code": "TM-2002",
+                "qty": 150
+              },
+              {
+                "code": "TM-2003",
+                "qty": 200
+              }
+            ]
+          }
+        },
+        {
+          "id": "yeni-bayi-siparis",
+          "title": "Yeni bayinin ilk siparişi",
+          "level": "İleri",
+          "duration": "25 dk",
+          "role": "U01",
+          "customer": "A-0001",
+          "summary": "Aday bayinin deneme teklifini siparişe dönüştür; aktarım hatasını çöz, teslimat ve faturayı tamamla.",
+          "goal": "Ödemiş Yöresel Gıda'nın ilk siparişini CRM'den ERP'ye taşı: aktarım hatasını gör, key user ile müşteriyi ERP'de aç, mesajı yeniden işle, depodan teslim et ve faturala.",
+          "steps": [
+            {
+              "title": "Deneme teklifini oluştur (Satış Temsilcisi)",
+              "what": "Oturumu Selin Kaya yap. \"Simülasyonda dene\" ile Ödemiş Yöresel Gıda'yı ve 4 kalemi yükle, \"Teklifi kaydet\"e bas. Net 48.118 ₺ eşiklerin altında olduğu için teklif onaya gitmeden \"Onaylandı\" olur.",
+              "why": "Siparişe yalnızca onaylanmış teklif dönüştürülebilir. Aday müşteri peşin çalıştığı için kredi onayı da gerekmez.",
+              "caution": "Teklif CRM'de aday müşteri (A-0001) üzerine kaydedilebilir; bu, müşterinin ERP'de var olduğu anlamına gelmez."
+            },
+            {
+              "title": "Teklifi siparişe dönüştür",
+              "what": "\"Tekliflerim\" sekmesinde teklifi aç ve \"Siparişe dönüştür\"e bas. Müşteri sipariş no ODM-2026-001, istenen teslim tarihi 26.11.2026, teslimat deposu 1100 Kemalpaşa. \"Siparişi kaydet\" ile 10000001 numaralı sipariş oluşur.",
+              "why": "Sipariş, teklif referansını taşır; müşteri sipariş no faturada ve yazışmalarda eşleştirme için kullanılır. Kayıtla birlikte ERP'ye bir aktarım mesajı gönderilir.",
+              "caution": "İstenen teslim tarihi bugünden önce olamaz. Teslimat deposunu stoğu olan depo olarak seç; aksi halde aktarım ikinci bir hata verir."
+            },
+            {
+              "title": "Aktarım hatasını incele",
+              "what": "Aktarım Monitörü'nü aç. Mesaj birkaç saniye \"Bekliyor\"da kalır, ardından \"Hatalı\" olur: \"Müşteri ERP'de tanımlı değil\". Mesajı açıp JSON içeriğinde soldTo alanının null olduğunu gör.",
+              "why": "ERP'de satış siparişi ancak ERP müşteri numarasıyla oluşturulabilir. CRM'deki aday kaydın ERP karşılığı yok.",
+              "caution": "Temsilci mesajı yeniden işleyemez (INTERFACE_REPROCESS key user'da). Hatayı key user'a doğru bilgiyle (mesaj no, hata metni) ilet."
+            },
+            {
+              "title": "Müşteriyi ERP'de aç (Key User)",
+              "what": "Oturumu Can Öztürk (Key User) yap. Mesajdaki çözüm bağlantısıyla müşteri kaydını aç ve \"ERP'de müşteri aç\"a bas. Müşteri 100009 numarasını alır, ödeme koşulu Z000 (peşin), kredi limiti 0 olur.",
+              "why": "Ana veri bakımı key user'ın görevidir. Yeni müşteri kredi limiti muhasebe tarafından ayrıca belirlenene kadar peşin çalışır.",
+              "caution": "Gerçek hayatta bu adımdan önce vergi levhası, imza sirküleri ve ticaret sicil kayıtları kontrol edilir."
+            },
+            {
+              "title": "Mesajı yeniden işle",
+              "what": "Aktarım Monitörü'nde hatalı mesajı aç ve \"Yeniden işle\"ye bas. Mesaj \"Başarılı\" olur; deneme geçmişinde ilk denemenin sistem tarafından, ikincisinin Can Öztürk tarafından yapıldığı görünür.",
+              "why": "Yeniden işleme, mesajı güncel ana veriyle tekrar doğrular. Sipariş ERP'ye 100009 müşteri numarasıyla aktarılır.",
+              "caution": "Ana veriyi düzeltmeden yeniden işlemek aynı hatayı tekrar üretir ve deneme sayısını gereksiz artırır."
+            },
+            {
+              "title": "Teslimat oluştur (Depo Sorumlusu)",
+              "what": "Oturumu Hasan Çınar (Depo Sorumlusu) yap. Siparişi aç (Simülasyon > Siparişler veya belge akışı) ve \"Teslimat oluştur\"a bas. 80000001 numaralı teslimat oluşur, Kemalpaşa stokları düşer (ör. ayçiçek yağı 1.840 → 1.830 koli).",
+              "why": "Mal çıkışı stoku azaltır ve faturalamanın ön koşuludur. Teslimat yalnızca ERP'ye aktarılmış siparişten yapılabilir.",
+              "caution": "Depo sorumlusu fatura kesemez; teslimat ve fatura farklı rollerdedir (görevler ayrılığı)."
+            },
+            {
+              "title": "Fatura oluştur (Muhasebe)",
+              "what": "Oturumu Ayşe Yılmaz (Muhasebe) yap. Siparişte \"Fatura oluştur\"a bas. 90000001 numaralı fatura 50.014,30 ₺ (KDV dahil) tutarıyla kesilir; müşterinin açık bakiyesi 0'dan 50.014,30 ₺'ye çıkar, vade peşin olduğu için fatura tarihidir.",
+              "why": "Fatura alacağı doğurur; tahsilat bu bakiye üzerinden izlenir.",
+              "caution": "Peşin müşteride tahsilat sevkiyat öncesinde de istenebilir; bu simülasyonda fatura sonrası bakiye olarak izlenir."
+            },
+            {
+              "title": "Belge akışını incele",
+              "what": "Teklif veya sipariş detayındaki \"Belge akışı\" panelinde teklif → sipariş → aktarım mesajı → teslimat → fatura zincirini gör; her belgeye tıklayarak aç.",
+              "why": "Belge akışı, bir müşteri şikayeti veya denetimde \"bu fatura hangi tekliften geldi?\" sorusunu saniyeler içinde yanıtlar.",
+              "caution": "Durum geçmişinde her adımı kimin yaptığını kontrol et: temsilci, sistem, key user, depo ve muhasebe."
+            }
+          ],
+          "outcome": "Aday bayi ERP müşterisi oldu; ilk siparişi aktarıldı, teslim edildi ve faturalandı. Belge akışı ve durum geçmişi beş farklı aktörün işlemini gösteriyor.",
+          "simulation": {
+            "customer": "A-0001",
+            "reference": "İlk sipariş",
+            "items": [
+              {
+                "code": "GD-1001",
+                "qty": 10
+              },
+              {
+                "code": "GD-1003",
+                "qty": 15
+              },
+              {
+                "code": "GD-1005",
+                "qty": 20
+              },
+              {
+                "code": "TM-2005",
+                "qty": 20
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "tests": {
+      "type": "bug-hunt",
+      "title": "Hata Avı",
+      "intro": "Selin Kaya'nın son bir haftada kaydettiği 8 teklif müşteriye gönderilmeden önce son kontrolden geçiyor. Her teklifte bilerek bırakılmış tek bir hata var. Teklifi incele, ana veriyle karşılaştır ve hata raporunu yaz.",
+      "guide": {
+        "title": "İyi hata raporu nasıl yazılır?",
+        "points": [
+          {
+            "title": "Tek hata, tek rapor",
+            "text": "Her raporda yalnızca bir sorunu anlat. Hatalı alanı net olarak belirt."
+          },
+          {
+            "title": "Beklenen ve gerçekleşen",
+            "text": "Kurala göre ne olması gerektiğini ve sistemde ne gördüğünü rakamla yaz. \"Fiyat yanlış\" değil, \"K007 %5 olmalı, %8 uygulanmış\"."
+          },
+          {
+            "title": "Tekrarlanabilir adımlar",
+            "text": "Başka biri aynı hatayı görebilsin: hangi ekran, hangi belge, hangi alan. Her adımı ayrı satıra yaz."
+          },
+          {
+            "title": "Doğru önem",
+            "text": "Önemi iş etkisine göre ver: yasal risk veya kayıp sevkiyat Kritik, para kaybı Yüksek, gecikme veya süreç ihlali Orta, görsel/kozmetik Düşük."
+          }
+        ],
+        "example": "Teklif 20000099 · K007 alanı: Segment B müşteride %5 beklenirken %8 uygulanmış; kalem başına 27 ₺ fazla iskonto."
+      },
+      "scoring": {
+        "field": 60,
+        "severityExact": 30,
+        "severityNear": 15,
+        "completeness": 10,
+        "passPct": 70
+      },
+      "severities": [
+        {
+          "id": "Kritik",
+          "text": "Yasal risk, bloke/engellenmesi gereken işlem, yanlış vergi veya ciddi finansal kayıp."
+        },
+        {
+          "id": "Yüksek",
+          "text": "Doğrudan para kaybı veya yetki/onay ihlali; düzeltilmeden müşteriye gitmemeli."
+        },
+        {
+          "id": "Orta",
+          "text": "Süreç kuralına aykırılık, teslimat gecikmesi veya sonradan düzeltilebilecek tutarsızlık."
+        },
+        {
+          "id": "Düşük",
+          "text": "Görsel, metin veya iş sonucunu etkilemeyen küçük hata."
+        }
+      ],
+      "fields": [
+        {
+          "id": "customer",
+          "label": "Müşteri / kredi durumu"
+        },
+        {
+          "id": "paymentTerm",
+          "label": "Ödeme koşulu"
+        },
+        {
+          "id": "validTo",
+          "label": "Geçerlilik tarihi"
+        },
+        {
+          "id": "plant",
+          "label": "Teslimat deposu / stok"
+        },
+        {
+          "id": "qty",
+          "label": "Miktar / birim"
+        },
+        {
+          "id": "listPrice",
+          "label": "Liste fiyatı (PR00)"
+        },
+        {
+          "id": "k007",
+          "label": "Segment iskontosu (K007)"
+        },
+        {
+          "id": "zkmp",
+          "label": "Kampanya iskontosu (ZKMP)"
+        },
+        {
+          "id": "vat",
+          "label": "KDV oranı"
+        },
+        {
+          "id": "approval",
+          "label": "Onay durumu"
+        }
+      ],
+      "cases": [
+        {
+          "id": "BUG-01",
+          "title": "Aydın Efe · bakliyat teklifi",
+          "brief": "Aylık bakliyat alımı için hazırlanmış rutin bir teklif.",
+          "quote": {
+            "no": "20000091",
+            "date": "2026-11-12",
+            "validTo": "2026-12-12",
+            "customer": "100004",
+            "contact": "Ali Efe",
+            "plant": "1100",
+            "reference": "Kasım bakliyat",
+            "status": "Kaydedildi",
+            "approval": {
+              "status": "not-required"
+            },
+            "lines": [
+              {
+                "code": "GD-1003",
+                "qty": 20,
+                "k007": 8
+              },
+              {
+                "code": "GD-1004",
+                "qty": 15,
+                "k007": 8
+              }
+            ]
+          },
+          "answer": {
+            "field": "k007",
+            "severity": "Yüksek",
+            "expected": "Aydın Efe B segmentinde; K007 segment iskontosu %5 olmalı (pirinç net 855 ₺, mercimek net 712,50 ₺).",
+            "actual": "Her iki kalemde K007 %8 (A segmenti oranı) uygulanmış; pirinç net 828 ₺, mercimek net 690 ₺.",
+            "steps": [
+              "Teklif 20000091'i aç",
+              "Müşteri ana verisinde segmenti kontrol et: B",
+              "Kalem 10 ve 20'de fiyat adımlarını aç",
+              "K007 oranının %8 olduğunu gör; Şirket > Fiyatlar'da B oranı %5"
+            ],
+            "explanation": "Segment iskontosu müşteri ana verisindeki segmentten gelir. B müşteriye A oranı uygulanınca teklif toplamda 877,50 ₺ fazla iskontoyla gider. Doğrudan gelir kaybı olduğu için Yüksek; yasal bir risk olmadığı için Kritik değil."
+          }
+        },
+        {
+          "id": "BUG-02",
+          "title": "Karşıyaka Gıda · karma teklif",
+          "brief": "Yağ ve bulaşık deterjanından oluşan küçük bir ara teklif.",
+          "quote": {
+            "no": "20000092",
+            "date": "2026-11-13",
+            "validTo": "2026-12-13",
+            "customer": "100001",
+            "contact": "Elif Şahin",
+            "plant": "1100",
+            "reference": "Ara sipariş",
+            "status": "Kaydedildi",
+            "approval": {
+              "status": "not-required"
+            },
+            "lines": [
+              {
+                "code": "GD-1001",
+                "qty": 10
+              },
+              {
+                "code": "TM-2002",
+                "qty": 6,
+                "zkmp": 10
+              }
+            ]
+          },
+          "answer": {
+            "field": "zkmp",
+            "severity": "Orta",
+            "expected": "Kış Temizlik Kampanyası en az 10 birimlik kalemde geçerli; 6 koli bulaşık deterjanında ZKMP uygulanmamalı (net birim 772,80 ₺).",
+            "actual": "Kalem 20'de 6 koliye %10 ZKMP uygulanmış; net birim 695,52 ₺.",
+            "steps": [
+              "Teklif 20000092'yi aç",
+              "Kalem 20 (TM-2002, 6 koli) fiyat adımlarını aç",
+              "ZKMP %10 satırını gör",
+              "Şirket > Fiyatlar'da kampanyanın minimum miktarının 10 olduğunu doğrula"
+            ],
+            "explanation": "Kampanya koşulu kalem bazında minimum 10 birim ister. Kayıp tutar küçük (yaklaşık 464 ₺) ama kampanya kuralı ihlal edildiği ve müşteri bu fiyatı emsal gösterebileceği için Orta önemdedir."
+          }
+        },
+        {
+          "id": "BUG-03",
+          "title": "Uşak Kardeşler · temel gıda teklifi",
+          "brief": "Bayiden gelen makarna ve şeker talebine hazırlanan teklif.",
+          "quote": {
+            "no": "20000093",
+            "date": "2026-11-14",
+            "validTo": "2026-12-14",
+            "customer": "100006",
+            "contact": "İsmail Kardeş",
+            "plant": "1200",
+            "reference": "Aralık stok",
+            "status": "Kaydedildi",
+            "approval": {
+              "status": "not-required"
+            },
+            "lines": [
+              {
+                "code": "GD-1005",
+                "qty": 30
+              },
+              {
+                "code": "GD-1007",
+                "qty": 20
+              }
+            ]
+          },
+          "answer": {
+            "field": "customer",
+            "severity": "Kritik",
+            "expected": "Uşak Kardeşler 28.10.2026'dan beri bloke (karşılıksız çek, 60+ gün gecikme); bu müşteriye teklif kaydedilememeli.",
+            "actual": "Bloke müşteriye teklif kaydedilmiş ve \"Kaydedildi\" durumunda.",
+            "steps": [
+              "Teklif 20000093'ü aç",
+              "Müşteri adına tıklayıp ana veriyi incele",
+              "Kredi durumunun \"Bloke\" olduğunu ve bloke tarihini gör",
+              "Teklifin yine de kaydedilmiş olduğunu doğrula"
+            ],
+            "explanation": "Blokaj, tahsilat riski nedeniyle muhasebe tarafından konur. Sistem kontrolünün atlanması tahsil edilemeyecek yeni bir alacak doğurabilir; bu yüzden Kritik."
+          }
+        },
+        {
+          "id": "BUG-04",
+          "title": "TemizSepet · temizlik ve kağıt teklifi",
+          "brief": "E-ticaret müşterisi için yüzey temizleyici ve kağıt havlu teklifi.",
+          "quote": {
+            "no": "20000094",
+            "date": "2026-11-14",
+            "validTo": "2026-11-29",
+            "customer": "100008",
+            "contact": "İrem Doğan",
+            "plant": "1100",
+            "reference": "Kampanya haftası",
+            "status": "Kaydedildi",
+            "approval": {
+              "status": "not-required"
+            },
+            "lines": [
+              {
+                "code": "TM-2004",
+                "qty": 20,
+                "vatRate": 1
+              },
+              {
+                "code": "TM-2006",
+                "qty": 30
+              }
+            ]
+          },
+          "answer": {
+            "field": "vat",
+            "severity": "Kritik",
+            "expected": "Yüzey temizleyici (TM-2004) temizlik ürünü; KDV %20 olmalı (kalem KDV'si 2.736 ₺).",
+            "actual": "Kalem 10'da KDV %1 uygulanmış (kalem KDV'si 136,80 ₺).",
+            "steps": [
+              "Teklif 20000094'ü aç",
+              "Kalem 10 (TM-2004) fiyat adımlarını aç",
+              "KDV oranının %1 olduğunu gör",
+              "Ürün ana verisinde KDV oranının %20 olduğunu doğrula"
+            ],
+            "explanation": "Yanlış KDV oranı faturaya taşınırsa vergi beyanı hatalı olur; bu yasal bir risktir ve geriye dönük düzeltme gerektirir. Bu nedenle Kritik."
+          }
+        },
+        {
+          "id": "BUG-05",
+          "title": "Bornova Market · çay ve zeytinyağı teklifi",
+          "brief": "Zincir market için yüksek tutarlı, müşteriye gönderilmiş teklif.",
+          "quote": {
+            "no": "20000095",
+            "date": "2026-11-15",
+            "validTo": "2026-12-15",
+            "customer": "100002",
+            "contact": "Deniz Koç",
+            "plant": "1100",
+            "reference": "Yılbaşı raf planı",
+            "status": "Müşteriye gönderildi",
+            "approval": {
+              "status": "not-required"
+            },
+            "lines": [
+              {
+                "code": "GD-1008",
+                "qty": 10
+              },
+              {
+                "code": "GD-1002",
+                "qty": 3
+              }
+            ]
+          },
+          "answer": {
+            "field": "approval",
+            "severity": "Yüksek",
+            "expected": "Net tutar 60.168 ₺, 50.000 ₺ eşiğini aşıyor; teklif müdür onayına gitmeli ve onaydan sonra gönderilmeli.",
+            "actual": "Onay durumu \"Gerekmedi\"; teklif onaysız olarak müşteriye gönderilmiş.",
+            "steps": [
+              "Teklif 20000095'i aç",
+              "Fiyat özetinde net tutarı oku: 60.168 ₺",
+              "Onay durumunun \"Gerekmedi\" olduğunu gör",
+              "Onay kuralını kontrol et: net > 50.000 ₺ müdür onayı ister"
+            ],
+            "explanation": "Fiyatlar doğru olsa da yetki kuralı ihlal edilmiş. Onay akışı şirketin karlılık kontrolüdür; atlanması denetim bulgusu olur. Para kaybı kesin olmadığı için Kritik değil, ama müşteriye ulaştığı için Yüksek."
+          }
+        },
+        {
+          "id": "BUG-06",
+          "title": "Çeşme Kıyı Otel · kampanyalı temizlik teklifi",
+          "brief": "Kampanyalı ürünlerle hazırlanmış, müdür onayı alınmış teklif.",
+          "quote": {
+            "no": "20000096",
+            "date": "2026-11-17",
+            "validTo": "2027-01-15",
+            "customer": "100007",
+            "contact": "Cem Erdem",
+            "plant": "1100",
+            "reference": "Ocak ihtiyacı",
+            "status": "Müşteriye gönderildi",
+            "approval": {
+              "status": "approved",
+              "by": "U02",
+              "at": "2026-11-17"
+            },
+            "lines": [
+              {
+                "code": "TM-2001",
+                "qty": 20
+              },
+              {
+                "code": "TM-2003",
+                "qty": 15
+              }
+            ]
+          },
+          "answer": {
+            "field": "validTo",
+            "severity": "Orta",
+            "expected": "Kampanya 31.12.2026'da bitiyor; kampanyalı kalem içeren teklifin geçerliliği en geç 31.12.2026 olmalı.",
+            "actual": "Geçerlilik tarihi 15.01.2027; müşteri kampanya bittikten sonra da kampanya fiyatını talep edebilir.",
+            "steps": [
+              "Teklif 20000096'yı aç",
+              "Geçerlilik tarihini oku: 15.01.2027",
+              "Kalemlerde ZKMP uygulandığını gör",
+              "Şirket > Fiyatlar'da kampanya bitişinin 31.12.2026 olduğunu doğrula"
+            ],
+            "explanation": "Fiyat ve onay doğru; sorun ileriye dönük. 1–15 Ocak arasında gelecek sipariş kampanya fiyatından işlenmek zorunda kalır. Düzeltilebilir bir süreç hatası olduğu için Orta."
+          }
+        },
+        {
+          "id": "BUG-07",
+          "title": "Pamukkale Ticaret · yağ ve pirinç teklifi",
+          "brief": "Denizli'deki bayi için hazırlanan teklif; teslimat deposu elle değiştirilmiş.",
+          "quote": {
+            "no": "20000097",
+            "date": "2026-11-18",
+            "validTo": "2026-12-18",
+            "customer": "100005",
+            "contact": "Seda Ateş",
+            "plant": "1200",
+            "reference": "Hızlı sevk",
+            "status": "Kaydedildi",
+            "approval": {
+              "status": "not-required"
+            },
+            "lines": [
+              {
+                "code": "GD-1002",
+                "qty": 5
+              },
+              {
+                "code": "GD-1003",
+                "qty": 10
+              }
+            ]
+          },
+          "answer": {
+            "field": "plant",
+            "severity": "Orta",
+            "expected": "Seçilen teslimat deposunda kalemlerin stoğu olmalı; zeytinyağı için Kemalpaşa (1100) seçilmeli veya ayrı sevk planlanmalı.",
+            "actual": "Teslimat deposu 1200 Manisa; GD-1002 zeytinyağının bu depoda stoğu 0 koli.",
+            "steps": [
+              "Teklif 20000097'yi aç",
+              "Teslimat deposunu oku: 1200 Manisa Bölge Depo",
+              "Kalem 10'daki ürüne (GD-1002) tıkla",
+              "Depo stoklarında Manisa'nın 0, Kemalpaşa'nın 260 koli olduğunu gör"
+            ],
+            "explanation": "Sipariş bu haliyle girilirse teslimat oluşturulamaz ve sevkiyat gecikir. Diğer depoda yeterli stok olduğu için çözümü kolay; bu nedenle Orta."
+          }
+        },
+        {
+          "id": "BUG-08",
+          "title": "Karşıyaka Gıda · salça ve şeker teklifi",
+          "brief": "Rutin temel gıda teklifi; fiyatlar eski bir tekliften kopyalanmış.",
+          "quote": {
+            "no": "20000098",
+            "date": "2026-11-18",
+            "validTo": "2026-12-18",
+            "customer": "100001",
+            "contact": "Elif Şahin",
+            "plant": "1100",
+            "reference": "Aralık temel gıda",
+            "status": "Kaydedildi",
+            "approval": {
+              "status": "not-required"
+            },
+            "lines": [
+              {
+                "code": "GD-1006",
+                "qty": 25,
+                "list": 1014
+              },
+              {
+                "code": "GD-1007",
+                "qty": 20
+              }
+            ]
+          },
+          "answer": {
+            "field": "listPrice",
+            "severity": "Yüksek",
+            "expected": "Domates salçası (GD-1006) için geçerli PR00 liste fiyatı 1.140 ₺ (Standart Liste Fiyatı 2026/2).",
+            "actual": "Kalem 10'da liste fiyatı 1.014 ₺; eski fiyat listesinden kopyalanmış görünüyor.",
+            "steps": [
+              "Teklif 20000098'i aç",
+              "Kalem 10 (GD-1006) fiyat adımlarını aç",
+              "PR00'ın 1.014 ₺ olduğunu gör",
+              "Şirket > Fiyatlar'da GD-1006 liste fiyatının 1.140 ₺ olduğunu doğrula"
+            ],
+            "explanation": "Liste fiyatındaki hata tüm iskontolara ve KDV'ye yayılır; bu teklifte yaklaşık 2.900 ₺ gelir kaybı demek. Doğrudan para kaybı olduğu için Yüksek."
+          }
+        }
+      ]
+    },
+    "quiz": {
+      "type": "quiz",
+      "title": "B2B CRM Quiz",
+      "intro": "Kavramlar, fiyat hesabı ve iş kuralları üzerine 15 soru. Sorular ve şıklar her denemede karışık sırayla gelir.",
+      "passPct": 70,
+      "questions": [
+        {
+          "id": "q01",
+          "tag": "Kavram",
+          "q": "Lead ile fırsat arasındaki temel fark nedir?",
+          "options": [
+            "Lead henüz nitelendirilmemiş bir ilgidir; fırsat tutarı, olasılığı ve kapanış tarihi belli, nitelendirilmiş bir satış ihtimalidir.",
+            "Lead mevcut müşterilerden, fırsat yeni müşterilerden gelir.",
+            "Lead ERP'de, fırsat CRM'de tutulur.",
+            "Aralarında fark yoktur; aynı kaydın iki farklı adıdır."
+          ],
+          "answer": 0,
+          "explanation": "Lead nitelendirme sonrası fırsata dönüşür. Ödemiş Yöresel Gıda önce lead olarak kaydedildi, görüşmeden sonra 1,8 milyon ₺ tahmini tutarlı fırsat açıldı."
+        },
+        {
+          "id": "q02",
+          "tag": "Kavram",
+          "q": "Aşağıdakilerden hangisi ana veridir?",
+          "options": [
+            "Müşterinin ödeme koşulu (ör. Z030)",
+            "Teklif 20000001",
+            "Dünkü satış siparişi",
+            "Geçen ayın faturası"
+          ],
+          "answer": 0,
+          "explanation": "Ana veri işlemlerde tekrar tekrar kullanılan, nadiren değişen kayıttır. Teklif, sipariş ve fatura ise hareket (işlem) verisidir."
+        },
+        {
+          "id": "q03",
+          "tag": "Kavram",
+          "q": "Ege Dağıtım'da key user Can Öztürk'ün görevi hangisi değildir?",
+          "options": [
+            "Müşterilerin kredi limitini belirlemek",
+            "Ana veri bakımı yapmak",
+            "Kullanıcılara destek ve eğitim vermek",
+            "UAT senaryolarını yürütmek"
+          ],
+          "answer": 0,
+          "explanation": "Kredi limiti finansın (muhasebe) yetkisindedir. Görevler ayrılığı gereği ana veriyi açan kişi kredi kararını vermez."
+        },
+        {
+          "id": "q04",
+          "tag": "Kavram",
+          "q": "UAT'nin (kullanıcı kabul testi) amacı nedir?",
+          "options": [
+            "İş biriminin, canlıya geçmeden önce sistemin gerçek süreçleri doğru yürüttüğünü kendi senaryolarıyla doğrulaması",
+            "Yazılımcıların kodu birim testlerle kontrol etmesi",
+            "Sistemin aynı anda kaç kullanıcıyı kaldırabildiğinin ölçülmesi",
+            "Canlıya geçtikten sonra hataların toplanması"
+          ],
+          "answer": 0,
+          "explanation": "UAT'yi iş birimi yürütür ve \"bu sistem işimizi doğru yapıyor mu?\" sorusunu yanıtlar. Performans ve birim testleri ayrı test türleridir."
+        },
+        {
+          "id": "q05",
+          "tag": "Kavram",
+          "q": "Satış müdürü satış hunisine bakarak öncelikle ne görür?",
+          "options": [
+            "Fırsatların aşamalara göre dağılımını ve buna dayanan satış tahminini",
+            "Müşterilerin açık bakiyelerini",
+            "Depolardaki stok miktarlarını",
+            "Kesilmiş faturaların listesini"
+          ],
+          "answer": 0,
+          "explanation": "Huni, fırsatların nitelendirme, teklif, pazarlık gibi aşamalardaki dağılımını gösterir. Açık bakiye ve stok başka raporlardadır."
+        },
+        {
+          "id": "q06",
+          "tag": "Hesap",
+          "q": "Toz çamaşır deterjanı (liste 650 ₺), A segmentindeki bir bayiye 20 adet teklif ediliyor. Net birim fiyat nedir?",
+          "options": [
+            "538,20 ₺",
+            "533,00 ₺",
+            "598,00 ₺",
+            "585,00 ₺"
+          ],
+          "answer": 0,
+          "explanation": "PR00 650 → K007 %8: 650 − 52 = 598 → ZKMP %10 (20 ≥ 10 ve bayi kanalı): 598 − 59,80 = 538,20 ₺. İskontolar toplanmaz, sırayla uygulanır; 533 ₺ toplanmış %18 hatasıdır."
+        },
+        {
+          "id": "q07",
+          "tag": "Hesap",
+          "q": "Ayçiçek yağı (liste 1.800 ₺) B segmentindeki bir müşteriye teklif ediliyor. Net birim fiyat nedir?",
+          "options": [
+            "1.710 ₺",
+            "1.656 ₺",
+            "1.764 ₺",
+            "1.800 ₺"
+          ],
+          "answer": 0,
+          "explanation": "B segmenti %5 iskonto alır: 1.800 × 0,95 = 1.710 ₺. 1.656 ₺ A (%8), 1.764 ₺ C (%2) segmentinin sonucudur. Ayçiçek yağı kampanyada değildir."
+        },
+        {
+          "id": "q08",
+          "tag": "Hesap",
+          "q": "A segmentindeki bir müşteriye kampanyalı bir üründe minimum miktarın üzerinde teklif verildi. Toplam iskonto oranı yaklaşık kaçtır?",
+          "options": [
+            "%17,2",
+            "%18",
+            "%10",
+            "%8"
+          ],
+          "answer": 0,
+          "explanation": "1 − (0,92 × 0,90) = 0,172. Önce %8 segment, sonra kalan tutar üzerinden %10 kampanya uygulanır. Bu oran %12 eşiğini aştığı için müdür onayı gerekir."
+        },
+        {
+          "id": "q09",
+          "tag": "Hesap",
+          "q": "Çamaşır suyu (liste 450 ₺) C segmentindeki bir bayiye 8 koli teklif ediliyor. Net birim fiyat nedir?",
+          "options": [
+            "441,00 ₺",
+            "396,90 ₺",
+            "405,00 ₺",
+            "450,00 ₺"
+          ],
+          "answer": 0,
+          "explanation": "C segmenti %2: 450 × 0,98 = 441 ₺. Ürün kampanyada olsa da 8 koli minimum 10 birimin altında kaldığı için ZKMP uygulanmaz."
+        },
+        {
+          "id": "q10",
+          "tag": "Hesap",
+          "q": "Net tutarı 10.000 ₺ olan bir gıda kalemi için KDV dahil tutar nedir?",
+          "options": [
+            "10.100 ₺",
+            "12.000 ₺",
+            "11.000 ₺",
+            "10.000 ₺"
+          ],
+          "answer": 0,
+          "explanation": "Ege Dağıtım'da gıda ürünlerinde KDV %1'dir: 10.000 + 100 = 10.100 ₺. Temizlik ürünlerinde oran %20 olurdu."
+        },
+        {
+          "id": "q11",
+          "tag": "Kural",
+          "q": "Toplam iskontosu %11, net tutarı 62.000 ₺ olan bir teklif için hangisi doğrudur?",
+          "options": [
+            "Müdür onayı gerekir, çünkü net tutar 50.000 ₺ eşiğini aşıyor.",
+            "Onay gerekmez, çünkü iskonto %12'nin altında.",
+            "Yalnızca kredi onayı gerekir.",
+            "Teklif kaydedilemez."
+          ],
+          "answer": 0,
+          "explanation": "Onay kuralı \"veya\" ile bağlıdır: iskonto %12'yi VEYA net tutar 50.000 ₺'yi aşarsa onay gerekir. Koşullardan birinin sağlanması yeterlidir."
+        },
+        {
+          "id": "q12",
+          "tag": "Kural",
+          "q": "Uşak Kardeşler bloke durumda ve yeni sipariş istiyor. Satış temsilcisi ne yapmalı?",
+          "options": [
+            "Teklif kaydetmemeli; müşteriyi muhasebeye yönlendirip blokajın kaldırılması için gereken tahsilatı konuşmalı.",
+            "Teklifi kaydedip müdür onayına göndermeli.",
+            "Müşteriyi C segmentinden A segmentine almalı.",
+            "Siparişi başka bir müşteri numarası üzerinden girmeli."
+          ],
+          "answer": 0,
+          "explanation": "Bloke müşteriye teklif ve sipariş oluşturulamaz. Blokajı yalnızca muhasebe kaldırabilir; başka hesap üzerinden işlem yapmak ciddi bir kontrol ihlalidir."
+        },
+        {
+          "id": "q13",
+          "tag": "Kural",
+          "q": "Kış Temizlik Kampanyası hangi müşteride uygulanamaz?",
+          "options": [
+            "TemizSepet E-Ticaret (kanal 30)",
+            "Çeşme Kıyı Otel (kanal 20)",
+            "Karşıyaka Gıda (kanal 10)",
+            "Aydın Efe Toptan (kanal 10)"
+          ],
+          "answer": 0,
+          "explanation": "Kampanya yalnızca Bayi (10) ve Kurumsal (20) kanallarında geçerlidir. E-ticaret (30) kanalındaki müşterilere ZKMP uygulanmaz."
+        },
+        {
+          "id": "q14",
+          "tag": "Kural",
+          "q": "Kampanyalı ürün içeren bir teklifin geçerlilik tarihi kampanya bitişinden sonraya verilirse risk nedir?",
+          "options": [
+            "Müşteri kampanya bittikten sonra da kampanya fiyatını talep edebilir.",
+            "Teklif otomatik olarak iptal olur.",
+            "KDV oranı değişir.",
+            "Müşterinin kredi limiti düşer."
+          ],
+          "answer": 0,
+          "explanation": "Teklif geçerlilik süresi boyunca bağlayıcıdır. Kampanya bitmiş olsa bile teklifteki fiyattan sipariş vermek müşterinin hakkı olur."
+        },
+        {
+          "id": "q15",
+          "tag": "Kural",
+          "q": "Manisa Yıldız Dağıtım'ın kredi kullanımı %108. Talebine teklif hazırlarken temsilcinin doğru davranışı hangisidir?",
+          "options": [
+            "Muhasebe ile görüşüp tahsilat, peşin ödeme veya teminat seçeneklerini müşteriye sunmak",
+            "Kredi limitini kendisi 900.000 ₺'ye yükseltmek",
+            "Talebi hiç kaydetmeden reddetmek",
+            "Teklifi kaydedip durumu muhasebeye bildirmemek"
+          ],
+          "answer": 0,
+          "explanation": "Limit aşımı teklifi engellemez ama siparişte kredi kontrolüne takılır. Limit değişikliği temsilcinin yetkisinde değildir; doğru yol muhasebeyle birlikte riski yöneten seçenekler sunmaktır."
+        }
+      ]
+    }
+  }
+}

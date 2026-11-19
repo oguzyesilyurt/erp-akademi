@@ -1,0 +1,181 @@
+{
+  "version": 2,
+  "defaultUser": "U01",
+  "permissions": [
+    {
+      "id": "QUOTE_CREATE",
+      "label": "Teklif oluşturma",
+      "group": "Satış",
+      "description": "Yeni teklif oluşturur, taslak kaydeder ve onaya gönderir."
+    },
+    {
+      "id": "QUOTE_VIEW_OWN",
+      "label": "Kendi belgelerini görme",
+      "group": "Satış",
+      "description": "Yalnızca kendi oluşturduğu teklif ve siparişleri listeler."
+    },
+    {
+      "id": "QUOTE_VIEW_ALL",
+      "label": "Tüm belgeleri görme",
+      "group": "Satış",
+      "description": "Şirketteki bütün teklif, sipariş, teslimat ve faturaları geçmişleriyle görür."
+    },
+    {
+      "id": "QUOTE_APPROVE",
+      "label": "Müdür onayı",
+      "group": "Onay",
+      "description": "İskonto veya tutar eşiğini aşan teklifleri onaylar ya da reddeder."
+    },
+    {
+      "id": "ORDER_CREATE",
+      "label": "Sipariş oluşturma",
+      "group": "Sipariş ve ERP",
+      "description": "Onaylanmış tekliften satış siparişi oluşturur ve ERP aktarımını başlatır."
+    },
+    {
+      "id": "INTERFACE_REPROCESS",
+      "label": "Aktarımı yeniden işleme",
+      "group": "Sipariş ve ERP",
+      "description": "Hatalı aktarım mesajını düzeltme sonrası yeniden işler, siparişin teslimat deposunu düzeltir."
+    },
+    {
+      "id": "DELIVERY_CREATE",
+      "label": "Teslimat oluşturma",
+      "group": "Sipariş ve ERP",
+      "description": "ERP siparişi için depodan teslimat oluşturur; stok düşer."
+    },
+    {
+      "id": "INVOICE_CREATE",
+      "label": "Fatura oluşturma",
+      "group": "Sipariş ve ERP",
+      "description": "Teslim edilen sipariş için fatura keser; tutar müşterinin açık bakiyesine eklenir."
+    },
+    {
+      "id": "CREDIT_RELEASE",
+      "label": "Kredi onayı / blok kaldırma",
+      "group": "Finans",
+      "description": "Kredi limitini aşan teklifleri onaylar, bloke müşterinin blokajını kaldırır."
+    },
+    {
+      "id": "PRICE_VIEW",
+      "label": "Fiyat görüntüleme",
+      "group": "Finans",
+      "description": "Liste fiyatı, iskonto koşulları ve kampanyaları görür."
+    },
+    {
+      "id": "MASTERDATA_VIEW",
+      "label": "Ana veri görüntüleme",
+      "group": "Ana veri",
+      "description": "Müşteri, ürün ve tedarikçi kayıtlarını görür."
+    },
+    {
+      "id": "MASTERDATA_EDIT",
+      "label": "Ana veri düzenleme",
+      "group": "Ana veri",
+      "description": "Müşteri segmenti, ödeme koşulu ve teslimat deposu gibi alanları değiştirir."
+    }
+  ],
+  "roles": [
+    {
+      "id": "sales-rep",
+      "name": "Satış Temsilcisi",
+      "users": [
+        "U01"
+      ],
+      "summary": "Teklif ve sipariş oluşturur, kendi belgelerini görür.",
+      "permissions": [
+        "QUOTE_CREATE",
+        "QUOTE_VIEW_OWN",
+        "PRICE_VIEW",
+        "MASTERDATA_VIEW",
+        "ORDER_CREATE"
+      ]
+    },
+    {
+      "id": "sales-manager",
+      "name": "Satış Müdürü",
+      "users": [
+        "U02"
+      ],
+      "summary": "Tüm teklifleri görür, iskonto ve tutar onayı verir.",
+      "permissions": [
+        "QUOTE_VIEW_ALL",
+        "QUOTE_APPROVE",
+        "PRICE_VIEW",
+        "MASTERDATA_VIEW"
+      ]
+    },
+    {
+      "id": "accounting",
+      "name": "Muhasebe",
+      "users": [
+        "U03"
+      ],
+      "summary": "Kredi onayı verir, blok kaldırır, fatura keser; teklif oluşturamaz.",
+      "permissions": [
+        "QUOTE_VIEW_ALL",
+        "CREDIT_RELEASE",
+        "PRICE_VIEW",
+        "MASTERDATA_VIEW",
+        "INVOICE_CREATE"
+      ]
+    },
+    {
+      "id": "key-user",
+      "name": "Key User",
+      "users": [
+        "U04"
+      ],
+      "summary": "Her şeyi görür, ana veriyi düzenler, aktarımı yeniden işler; onay veremez.",
+      "permissions": [
+        "QUOTE_VIEW_ALL",
+        "PRICE_VIEW",
+        "MASTERDATA_VIEW",
+        "MASTERDATA_EDIT",
+        "INTERFACE_REPROCESS"
+      ]
+    },
+    {
+      "id": "warehouse",
+      "name": "Depo Sorumlusu",
+      "users": [
+        "U05"
+      ],
+      "summary": "ERP siparişlerinden teslimat oluşturur; fatura kesemez.",
+      "permissions": [
+        "QUOTE_VIEW_ALL",
+        "MASTERDATA_VIEW",
+        "DELIVERY_CREATE"
+      ]
+    }
+  ],
+  "sod": {
+    "title": "Neden yetki ayrımı?",
+    "paragraphs": [
+      "Görevler ayrılığı (Segregation of Duties, SoD), kritik bir işlemi baştan sona tek bir kişinin yapamamasıdır. Bir işi başlatan ile onu onaylayan farklı kişiler olduğunda hatalar ve suistimaller erken yakalanır.",
+      "Ege Dağıtım'da teklifi oluşturan temsilci kendi iskontosunu onaylayamaz, kredi riskine satış değil finans karar verir, ana veriyi düzenleyen key user ise hiçbir belgeyi onaylayamaz. Bu yüzden simülasyonda bazı düğmeler rolüne göre kilitli görünür; bu bir hata değil, kontrolün kendisidir."
+    ],
+    "conflicts": [
+      {
+        "a": "Teklif oluşturma",
+        "b": "Müdür onayı",
+        "why": "Temsilci kendi verdiği iskontoyu onaylarsa eşik kontrolü anlamsızlaşır."
+      },
+      {
+        "a": "Teklif oluşturma",
+        "b": "Kredi onayı",
+        "why": "Satış hedefi olan kişi kendi müşterisinin kredi riskini objektif değerlendiremez."
+      },
+      {
+        "a": "Ana veri düzenleme",
+        "b": "Onay yetkileri",
+        "why": "Segmenti veya ödeme koşulunu değiştirebilen kişi, onayladığı belgenin sonucunu da değiştirebilir."
+      },
+      {
+        "a": "Teslimat oluşturma",
+        "b": "Fatura oluşturma",
+        "why": "Malı depodan çıkaran kişi faturayı da keserse, sevk edilmeyen mal faturalanabilir ya da sevk edilen mal faturasız kalabilir."
+      }
+    ]
+  }
+}
