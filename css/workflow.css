@@ -188,3 +188,66 @@
 .j-lit { color: var(--tone-danger); font-weight: 700; }
 
 .order-form { margin: 12px 0 4px; }
+
+/* ---------- senaryo rol kutusu ---------- */
+.role-step {
+  display: flex; align-items: center; gap: 10px 12px; flex-wrap: wrap; margin: 0 0 10px; padding: 10px 12px; border-radius: 12px; font-size: .88rem;
+  color: var(--text-2); background: color-mix(in srgb, var(--tone-info) 8%, var(--surface)); border: 1px solid color-mix(in srgb, var(--tone-info) 28%, var(--border));
+}
+.role-step > .ico { color: var(--tone-info); flex: none; }
+.role-step > span { flex: 1 1 240px; }
+.role-step.is-ok { background: color-mix(in srgb, var(--tone-success) 8%, var(--surface)); border-color: color-mix(in srgb, var(--tone-success) 30%, var(--border)); }
+.role-step.is-ok > .ico { color: var(--tone-success); }
+.login-user.is-dim { opacity: .55; }
+
+/* ---------- kullanıcı yönetimi ---------- */
+.nav-lock { display: inline-flex; color: var(--text-3); }
+.nav-lock .ico { width: 14px; height: 14px; }
+.head-actions { display: flex; gap: 8px; align-items: center; }
+.sap-note { margin: 0 0 16px; }
+.sap-note code { font: 600 .82em ui-monospace, SFMono-Regular, Consolas, monospace; padding: 1px 5px; border-radius: 5px; background: var(--surface-2); border: 1px solid var(--border); }
+.user-cell { display: flex; align-items: center; gap: 10px; }
+.table tbody tr.is-inactive td { opacity: .55; }
+.sod-flag { display: inline-flex; align-items: center; gap: 3px; font-size: .72rem; font-weight: 700; color: var(--tone-warning); }
+.sod-flag .ico { width: 13px; height: 13px; }
+.nowrap { white-space: nowrap; }
+
+.role-admin-grid { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+.role-admin { display: grid; gap: 6px; align-content: start; text-align: left; padding: 14px 16px; box-shadow: none; transition: border-color .15s var(--ease), box-shadow .15s var(--ease); }
+.role-admin:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+.ra-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ra-meta { display: grid; gap: 4px; font-size: .8rem; color: var(--text-3); }
+.ra-meta span { display: inline-flex; gap: 6px; align-items: flex-start; }
+.ra-meta .ico { width: 14px; height: 14px; flex: none; margin-top: 2px; }
+
+.dept-card { padding: 14px 16px; box-shadow: none; }
+.dept-list { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 8px; }
+.dept-list li { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.dept-list .input { flex: 1 1 200px; }
+.dept-list .cell-sub { min-width: 80px; }
+.dept-add { display: flex; gap: 10px; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--border); }
+.dept-add .input { flex: 1 1 220px; }
+
+.iam-log { margin-top: 8px; }
+.log-table td { font-size: .85rem; vertical-align: top; }
+.log-table tbody tr { cursor: default; }
+.log-table tbody tr:hover { background: none; }
+.log-just { display: flex; gap: 4px; align-items: flex-start; margin-top: 4px; font-size: .8rem; color: var(--tone-warning); }
+.log-just .ico { width: 14px; height: 14px; flex: none; margin-top: 2px; }
+
+.iam-form { display: grid; gap: 14px; padding-top: 16px; }
+.iam-form .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 480px) { .iam-form .form-grid { grid-template-columns: 1fr; } }
+.role-pick, .perm-pick { border: 0; margin: 0; padding: 0; display: grid; gap: 6px; min-width: 0; }
+.role-pick legend, .perm-pick legend { padding: 0; margin-bottom: 6px; }
+.perm-group { display: grid; gap: 6px; }
+.perm-group .tree-label { margin: 8px 0 2px; }
+.role-opt { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); cursor: pointer; transition: border-color .15s var(--ease), background-color .15s var(--ease); }
+.role-opt:hover { border-color: color-mix(in srgb, var(--primary) 45%, var(--border)); }
+.role-opt:has(input:checked) { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 6%, var(--surface)); }
+.role-opt input { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--primary); flex: none; }
+.role-opt > span { display: grid; gap: 2px; min-width: 0; }
+.role-opt .code { font-size: .7rem; }
+.status-opt { background: var(--surface-2); }
+.block-box { margin-top: 0; }
+.block-box .btn { margin-top: 10px; }

@@ -50,7 +50,7 @@ Fiori, tarayıcıda ve mobilde çalışan, role göre düzenlenmiş uygulamalard
 
 ## Ege Dağıtım'dan örnek
 
-Ege Dağıtım'da satış temsilcisi Selin Kaya güne Fiori Launchpad'den teklif listesine bakarak başlar. Muhasebe uzmanı Ayşe Yılmaz ise müşteri açık kalemlerini izler. İkisi de aynı müşteri kaydını (ör. 100001 Karşıyaka Gıda) görür. Selin'in kestiği fatura, Ayşe'nin ekranında anında açık bakiye olarak belirir.
+Ege Dağıtım'da satış temsilcisi Denel Kaya güne Fiori Launchpad'den teklif listesine bakarak başlar. Muhasebe uzmanı Gökhan Yılmaz ise müşteri açık kalemlerini izler. İkisi de aynı müşteri kaydını (ör. 100001 Karşıyaka Gıda) görür. Denel'in kestiği fatura, Gökhan'ın ekranında anında açık bakiye olarak belirir.
 
 ## İlgili işlem kodları ve Fiori uygulamaları
 

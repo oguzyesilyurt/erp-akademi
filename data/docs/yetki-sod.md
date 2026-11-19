@@ -71,5 +71,12 @@ Bornova Market'in kampanyalı teklifinde temsilci kaydetti, müdür iskontoyu, m
 - **SU53'e bakmadan rol değiştirmek:** Hangi yetki nesnesinin eksik olduğunu bilmeden rol genişletmek SoD riskini artırır.
 - **Rol tasarımını kişiye göre yapmak:** Roller göreve göre tasarlanmalı; kişi değiştiğinde rol değişmemeli.
 
+## Uygulamadaki karşılığı
+
+ERP Akademi'deki [Kullanıcı Yönetimi](#/users) sayfası, `SU01` (kullanıcı) ve `PFCG` (rol) işlemlerinin basitleştirilmiş bir karşılığıdır. Burada da kaydetmeden önce iki kontrol yapılır:
+
+- **SoD çakışması:** Örneğin `QUOTE_CREATE` + `QUOTE_APPROVE` veya `DELIVERY_CREATE` + `INVOICE_CREATE` aynı kullanıcıda birleşirse uyarı verilir; ancak gerekçe yazılırsa kaydedilir ve gerekçe günlüğe düşer.
+- **Son yetki sahibi:** Bir yetkiye sahip son aktif kullanıcıdan (ör. son onaycı) yetki kaldırılamaz; önce o yetkiyle yeni kullanıcı oluşturulması istenir.
+
 > [!DENE]
-> [Yetki Matrisi'ni aç](#/roles), ardından [Kampanyalı teklifi uçtan uca onaylat](#/track/b2b-crm/scenarios/uctan-uca-onay) senaryosunda rolleri değiştirerek kilitli düğmeleri gözlemle.
+> [Yetki Matrisi'ni aç](#/roles), ardından [Kampanyalı teklifi uçtan uca onaylat](#/track/b2b-crm/scenarios/uctan-uca-onay) senaryosunda rolleri değiştirerek kilitli düğmeleri gözlemle. Key User rolüyle [Kullanıcı Yönetimi](#/users) sayfasında bir temsilciye müdür rolü eklemeyi dene ve SoD uyarısını gör.

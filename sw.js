@@ -1,7 +1,7 @@
 // ERP Akademi service worker: uygulama kabuğunu ve veriyi önbelleğe alır.
 // Herhangi bir dosya değiştiğinde CACHE_VERSION artırılmalı; etkinleşme sırasında
 // "erp-akademi-" önekli eski önbellekler silinir.
-const CACHE_VERSION = 'v8';
+const CACHE_VERSION = 'v9';
 const CACHE_PREFIX = 'erp-akademi-';
 const CACHE = `${CACHE_PREFIX}${CACHE_VERSION}`;
 
@@ -33,6 +33,7 @@ const SHELL = [
   './js/interface-page.js',
   './js/markdown.js',
   './js/docs.js',
+  './js/users-page.js',
   './icons/icon.svg',
   './icons/icon-maskable.svg',
   './data/tracks.json',

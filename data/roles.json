@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "defaultUser": "U01",
   "permissions": [
     {
@@ -73,6 +73,12 @@
       "label": "Ana veri düzenleme",
       "group": "Ana veri",
       "description": "Müşteri segmenti, ödeme koşulu ve teslimat deposu gibi alanları değiştirir."
+    },
+    {
+      "id": "USER_ADMIN",
+      "label": "Kullanıcı ve rol yönetimi",
+      "group": "Yönetim",
+      "description": "Kullanıcı oluşturur, düzenler, pasifleştirir; rol ve yetki atamalarını yönetir."
     }
   ],
   "roles": [
@@ -126,13 +132,14 @@
       "users": [
         "U04"
       ],
-      "summary": "Her şeyi görür, ana veriyi düzenler, aktarımı yeniden işler; onay veremez.",
+      "summary": "Her şeyi görür, ana veriyi ve kullanıcıları yönetir, aktarımı yeniden işler; onay veremez.",
       "permissions": [
         "QUOTE_VIEW_ALL",
         "PRICE_VIEW",
         "MASTERDATA_VIEW",
         "MASTERDATA_EDIT",
-        "INTERFACE_REPROCESS"
+        "INTERFACE_REPROCESS",
+        "USER_ADMIN"
       ]
     },
     {
@@ -146,6 +153,17 @@
         "QUOTE_VIEW_ALL",
         "MASTERDATA_VIEW",
         "DELIVERY_CREATE"
+      ]
+    },
+    {
+      "id": "sys-admin",
+      "name": "Sistem Yöneticisi",
+      "users": [],
+      "summary": "Kullanıcı ve rolleri yönetir; iş belgelerinde işlem yapmaz.",
+      "permissions": [
+        "USER_ADMIN",
+        "QUOTE_VIEW_ALL",
+        "MASTERDATA_VIEW"
       ]
     }
   ],
@@ -175,7 +193,113 @@
         "a": "Teslimat oluşturma",
         "b": "Fatura oluşturma",
         "why": "Malı depodan çıkaran kişi faturayı da keserse, sevk edilmeyen mal faturalanabilir ya da sevk edilen mal faturasız kalabilir."
+      },
+      {
+        "a": "Kullanıcı yönetimi",
+        "b": "Onay yetkileri",
+        "why": "Kullanıcıları yöneten kişi kendine onay yetkisi verip kendi işini onaylayabilir."
       }
     ]
-  }
+  },
+  "sodRules": [
+    {
+      "a": "QUOTE_CREATE",
+      "b": "QUOTE_APPROVE",
+      "why": "Teklifi oluşturan kişi kendi iskontosunu onaylayabilir."
+    },
+    {
+      "a": "QUOTE_CREATE",
+      "b": "CREDIT_RELEASE",
+      "why": "Satış hedefi olan kişi kendi müşterisinin kredi riskini onaylayabilir."
+    },
+    {
+      "a": "ORDER_CREATE",
+      "b": "CREDIT_RELEASE",
+      "why": "Siparişi giren kişi kredi blokajını kendisi kaldırabilir."
+    },
+    {
+      "a": "DELIVERY_CREATE",
+      "b": "INVOICE_CREATE",
+      "why": "Malı çıkaran kişi faturayı da keserse sevk ve fatura birbirini kontrol etmez."
+    },
+    {
+      "a": "MASTERDATA_EDIT",
+      "b": "QUOTE_APPROVE",
+      "why": "Ana veriyi değiştiren kişi onayladığı belgenin sonucunu da değiştirebilir."
+    },
+    {
+      "a": "MASTERDATA_EDIT",
+      "b": "CREDIT_RELEASE",
+      "why": "Müşteri ana verisini ve kredi kararını aynı kişi yönetirse risk gizlenebilir."
+    },
+    {
+      "a": "USER_ADMIN",
+      "b": "QUOTE_APPROVE",
+      "why": "Kullanıcı yöneticisi kendine onay yetkisi verip kendi işini onaylayabilir."
+    },
+    {
+      "a": "USER_ADMIN",
+      "b": "CREDIT_RELEASE",
+      "why": "Kullanıcı yöneticisi kendine kredi yetkisi verip riski kapatabilir."
+    }
+  ],
+  "templates": [
+    {
+      "name": "Satış Müdürü",
+      "description": "Tüm teklifleri görür, iskonto ve tutar onayı verir.",
+      "permissions": [
+        "QUOTE_VIEW_ALL",
+        "QUOTE_APPROVE",
+        "PRICE_VIEW",
+        "MASTERDATA_VIEW"
+      ]
+    },
+    {
+      "name": "Teknik Lider",
+      "description": "Ana veriyi ve arayüz hatalarını yönetir; iş belgesi onaylamaz.",
+      "permissions": [
+        "QUOTE_VIEW_ALL",
+        "PRICE_VIEW",
+        "MASTERDATA_VIEW",
+        "MASTERDATA_EDIT",
+        "INTERFACE_REPROCESS"
+      ]
+    },
+    {
+      "name": "Pazarlama Uzmanı",
+      "description": "Fiyat, kampanya ve teklifleri izler; işlem yapmaz.",
+      "permissions": [
+        "QUOTE_VIEW_ALL",
+        "PRICE_VIEW",
+        "MASTERDATA_VIEW"
+      ]
+    },
+    {
+      "name": "Depo Sorumlusu",
+      "description": "ERP siparişlerinden teslimat oluşturur.",
+      "permissions": [
+        "QUOTE_VIEW_ALL",
+        "MASTERDATA_VIEW",
+        "DELIVERY_CREATE"
+      ]
+    },
+    {
+      "name": "Sistem Yöneticisi",
+      "description": "Kullanıcı ve rolleri yönetir.",
+      "permissions": [
+        "USER_ADMIN",
+        "QUOTE_VIEW_ALL",
+        "MASTERDATA_VIEW"
+      ]
+    }
+  ],
+  "departments": [
+    "Satış",
+    "Pazarlama",
+    "Finans",
+    "Lojistik",
+    "Satın Alma",
+    "Bilgi Teknolojileri",
+    "Yönetim"
+  ]
 }

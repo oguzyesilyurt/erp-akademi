@@ -1,6 +1,6 @@
 {
   "id": "b2b-crm",
-  "version": 4,
+  "version": 5,
   "sections": {
     "intro": {
       "title": "B2B CRM'e giriş",
@@ -135,7 +135,7 @@
           "term": "Lead (potansiyel müşteri)",
           "en": "Lead",
           "definition": "Henüz nitelendirilmemiş satış ilgisi. Bir firmanın ürünlerinle ilgilendiğini gösteren ilk işarettir; gerçek bir satış ihtimali olup olmadığı henüz bilinmez.",
-          "example": "Ekim 2026'daki bölge bayi toplantısında kartvizit bırakan \"Ödemiş Yöresel Gıda\", Selin Kaya tarafından lead olarak kaydedildi.",
+          "example": "Ekim 2026'daki bölge bayi toplantısında kartvizit bırakan \"Ödemiş Yöresel Gıda\", Denel Kaya tarafından lead olarak kaydedildi.",
           "glossary": "lead"
         },
         {
@@ -151,7 +151,7 @@
           "term": "Satış hunisi",
           "en": "Sales funnel / pipeline",
           "definition": "Fırsatların aşamalara göre dağılımı. Üstte çok sayıda erken aşama fırsat, altta az sayıda kapanmaya yakın fırsat bulunur. Satış tahmini bu huniden yapılır.",
-          "example": "Satış müdürü Murat Demir her pazartesi huniyi inceler: \"Nitelendirme\" aşamasında 12, \"Teklif\" aşamasında 5, \"Pazarlık\" aşamasında 2 fırsat var.",
+          "example": "Satış müdürü Ayçelen Demir her pazartesi huniyi inceler: \"Nitelendirme\" aşamasında 12, \"Teklif\" aşamasında 5, \"Pazarlık\" aşamasında 2 fırsat var.",
           "glossary": "satis-hunisi"
         },
         {
@@ -219,7 +219,7 @@
           "term": "Onay akışı",
           "en": "Approval workflow",
           "definition": "Belirli kurallar aşıldığında belgenin bir yöneticiye onaya gitmesi. Onaylanmadan belge müşteriye gönderilemez veya siparişe dönüştürülemez.",
-          "example": "Ege Dağıtım'da teklifte toplam iskonto %12'yi veya net tutar 50.000 ₺'yi geçerse teklif satış müdürü Murat Demir'in onayına düşer.",
+          "example": "Ege Dağıtım'da teklifte toplam iskonto %12'yi veya net tutar 50.000 ₺'yi geçerse teklif satış müdürü Ayçelen Demir'in onayına düşer.",
           "glossary": "onay-akisi"
         },
         {
@@ -239,7 +239,7 @@
           "term": "Key user",
           "en": "Key user",
           "definition": "İş biriminden seçilen, sistemi en iyi bilen kullanıcı. Kullanıcılara destek olur, ana veriyi bakımını yapar, yeni geliştirmeleri test eder ve IT ile iş birimi arasında köprü kurar.",
-          "example": "Can Öztürk, Ege Dağıtım'ın SD/MM key user'ıdır. Yeni bayi açılış taleplerini o işler ve UAT senaryolarını o yürütür.",
+          "example": "Oğuz Öztürk, Ege Dağıtım'ın SD/MM key user'ıdır. Yeni bayi açılış taleplerini o işler ve UAT senaryolarını o yürütür.",
           "glossary": "key-user"
         },
         {
@@ -247,7 +247,7 @@
           "term": "UAT (kullanıcı kabul testi)",
           "en": "User Acceptance Testing",
           "definition": "Canlıya geçmeden önce iş biriminin, sistemin gerçek iş süreçlerini doğru yürüttüğünü kendi senaryolarıyla doğruladığı test aşaması.",
-          "example": "Yeni onay kuralı canlıya alınmadan önce Can Öztürk, \"%12 iskontolu teklif müdür onayına düşmeli\" senaryosunu test sisteminde çalıştırdı ve sonucu kayıt altına aldı.",
+          "example": "Yeni onay kuralı canlıya alınmadan önce Oğuz Öztürk, \"%12 iskontolu teklif müdür onayına düşmeli\" senaryosunu test sisteminde çalıştırdı ve sonucu kayıt altına aldı.",
           "glossary": "uat"
         }
       ]
@@ -292,7 +292,7 @@
           "title": "Yeni bayi fırsatı",
           "level": "Başlangıç",
           "duration": "15 dk",
-          "role": "U01",
+          "role": "sales-rep",
           "customer": "A-0001",
           "summary": "Bölge toplantısında tanışılan aday bayiyi lead'den ilk teklife kadar götür.",
           "goal": "Ödemiş Yöresel Gıda'yı nitelendirip fırsat aç, ilgili kişileri bağla ve peşin koşulla ilk deneme teklifini hazırla.",
@@ -329,9 +329,10 @@
             },
             {
               "title": "Ana veri açılışını başlat",
-              "what": "Müşteri teklifi kabul ederse key user Can Öztürk'e müşteri açılış talebi gönder: vergi levhası, imza sirküleri, ticaret sicil gazetesi ve teminat bilgisi. Muhasebe (Ayşe Yılmaz) kredi limitini belirler.",
+              "what": "Müşteri teklifi kabul ederse key user'a ({{user:key-user}}) müşteri açılış talebi gönder: vergi levhası, imza sirküleri, ticaret sicil gazetesi ve teminat bilgisi. Muhasebe ({{user:accounting}}) kredi limitini belirler.",
               "why": "ERP'de müşteri ana verisi açılmadan teklif satış siparişine dönüştürülemez; fatura ve tahsilat müşteri numarası üzerinden yürür.",
-              "caution": "Ana veriyi temsilci kendisi açmaz. Görevler ayrılığı (segregation of duties) gereği müşteri ve kredi limiti bakımı farklı rollerdedir."
+              "caution": "Ana veriyi temsilci kendisi açmaz. Görevler ayrılığı (segregation of duties) gereği müşteri ve kredi limiti bakımı farklı rollerdedir.",
+              "role": "key-user"
             }
           ],
           "outcome": "Fırsat hunide görünür, aday bayiye 50.000 ₺'nin altında, onaysız gönderilebilen bir deneme teklifi hazırdır ve ana veri talebi başlatılmıştır.",
@@ -363,7 +364,7 @@
           "title": "Kampanyalı teklif",
           "level": "Orta",
           "duration": "15 dk",
-          "role": "U01",
+          "role": "sales-rep",
           "customer": "100007",
           "summary": "Kurumsal otel müşterisine Kış Temizlik Kampanyası ile teklif ver ve onay eşiğini yönet.",
           "goal": "Çeşme Kıyı Otel için kampanya koşullarını doğru uygulayan bir teklif hazırla, fiyat adımlarını yorumla ve müdür onayına gönder.",
@@ -400,9 +401,10 @@
             },
             {
               "title": "Onaya gönder",
-              "what": "Teklifi kaydet. Durum \"Müdür onayı gerekli\" olur. Satış müdürü Murat Demir'e gerekçeyi ilet: kampanya kapsamı, sezon yoğunluğu, müşterinin A segmenti oluşu.",
+              "what": "Teklifi kaydet. Durum \"Müdür onayı gerekli\" olur. Satış müdürüne ({{user:sales-manager}}) gerekçeyi ilet: kampanya kapsamı, sezon yoğunluğu, müşterinin A segmenti oluşu.",
               "why": "Onay akışı, şirketin karlılığını korur ve büyük iskontoların bilinçli verilmesini sağlar.",
-              "caution": "Onay gelmeden teklifi müşteriye gönderme. Onaysız fiyat sözü vermek şirket politikasının ihlalidir."
+              "caution": "Onay gelmeden teklifi müşteriye gönderme. Onaysız fiyat sözü vermek şirket politikasının ihlalidir.",
+              "role": "sales-manager"
             }
           ],
           "outcome": "Kampanya koşullarını doğru uygulayan, geçerliliği kampanya süresi içinde kalan ve müdür onayına sunulmuş bir teklif.",
@@ -431,7 +433,7 @@
           "title": "Limit aşımındaki müşteriye teklif",
           "level": "İleri",
           "duration": "20 dk",
-          "role": "U01",
+          "role": "sales-rep",
           "customer": "100003",
           "summary": "Kredi limitini aşmış bayiden gelen talebi muhasebe ile koordineli yönet.",
           "goal": "Manisa Yıldız Dağıtım'ın talebine teklif hazırlarken kredi riskini görünür kıl, stok sorununu çöz ve doğru kişileri sürece dahil et.",
@@ -450,9 +452,10 @@
             },
             {
               "title": "Muhasebe ile görüş",
-              "what": "Muhasebe Uzmanı Ayşe Yılmaz'a durumu ilet; müşterinin tahsilat planını ve teminat seçeneklerini sor.",
+              "what": "Muhasebe rolündeki kullanıcıya ({{user:accounting}}) durumu ilet; müşterinin tahsilat planını ve teminat seçeneklerini sor.",
               "why": "Kredi kararı satışın değil finansın yetkisindedir. Erken iletişim, sipariş aşamasında sürpriz blokajı önler.",
-              "caution": "Limit artışını müşteriye vaat etme. Satış temsilcisinin limit değiştirme yetkisi yoktur."
+              "caution": "Limit artışını müşteriye vaat etme. Satış temsilcisinin limit değiştirme yetkisi yoktur.",
+              "role": "accounting"
             },
             {
               "title": "Çözüm seçeneklerini belirle",
@@ -499,52 +502,59 @@
           "title": "Kampanyalı teklifi uçtan uca onaylat",
           "level": "İleri",
           "duration": "20 dk",
-          "role": "U01",
+          "role": "sales-rep",
           "customer": "100002",
           "summary": "Bornova Market'e büyük bir kampanyalı teklif hazırla; müdür ve muhasebe onayından geçir.",
           "goal": "Üç farklı rolle oturum açarak teklifi oluştur, müdür onayını ve kredi onayını al; zaman çizelgesinde kimin ne yaptığını izle.",
           "steps": [
             {
-              "title": "Oturumu Satış Temsilcisi yap",
-              "what": "Üst bardaki \"Oturum\" alanına tıkla ve Selin Kaya'yı (Satış Temsilcisi) seç.",
+              "title": "Satış Temsilcisi rolüne geç",
+              "what": "Üst bardaki \"Oturum\" alanından Satış Temsilcisi rolündeki bir kullanıcıyı seç.",
               "why": "Teklif oluşturma yetkisi (QUOTE_CREATE) yalnızca satış temsilcisinde var. Müdür veya muhasebe rolüyle kaydet düğmesi kilitli görünür.",
-              "caution": "Kilitli düğme bir hata değil, görevler ayrılığıdır. Üzerine geldiğinde hangi yetkinin gerektiğini görürsün."
+              "caution": "Kilitli düğme bir hata değil, görevler ayrılığıdır. Üzerine geldiğinde hangi yetkinin gerektiğini görürsün.",
+              "role": "sales-rep"
             },
             {
               "title": "Teklifi oluştur ve onaya gönder",
               "what": "\"Simülasyonda dene\" ile Bornova Market'i ve 3 temizlik kalemini yükle. Fiyat özetinde ZKMP satırlarını, %17,2 toplam iskontoyu, müdür onayı ve kredi onayı ihtiyacını gör. \"Kaydet ve onaya gönder\"e bas.",
               "why": "Teklif iki kuralı birden aşıyor: iskonto ve net tutar eşiği (müdür), açık bakiye + teklif tutarının kredi limitini geçmesi (muhasebe). Durum \"Onay bekliyor\" olur.",
-              "caution": "Teklif detayındaki zaman çizelgesinde \"Oluşturdu\" ve \"Onaya gönderdi\" kayıtlarının seni gösterdiğini kontrol et."
+              "caution": "Teklif detayındaki zaman çizelgesinde \"Oluşturdu\" ve \"Onaya gönderdi\" kayıtlarının seni gösterdiğini kontrol et.",
+              "role": "sales-rep"
             },
             {
-              "title": "Rolü Satış Müdürü'ne çevir",
-              "what": "Oturumu Murat Demir (Satış Müdürü) olarak değiştir. Kenar çubuğundaki Onay Kutusu'nda rozetin 1 olduğunu gör ve teklifi aç.",
+              "title": "Satış Müdürü rolüne geç",
+              "what": "Oturumu Satış Müdürü rolündeki bir kullanıcıya çevir. Kenar çubuğundaki Onay Kutusu'nda rozetin 1 olduğunu gör ve teklifi aç.",
               "why": "Onay adımları sıralıdır: önce müdür onayı, ardından kredi onayı. Muhasebe, müdür onaylamadan bu teklifi kutusunda görmez.",
-              "caution": "Müdür teklifi düzenleyemez; yalnızca onaylar veya gerekçeyle reddeder. Fiyat değişikliği gerekiyorsa reddedip temsilciden revize ister."
+              "caution": "Müdür teklifi düzenleyemez; yalnızca onaylar veya gerekçeyle reddeder. Fiyat değişikliği gerekiyorsa reddedip temsilciden revize ister.",
+              "role": "sales-manager"
             },
             {
               "title": "Müdür onayını ver",
               "what": "Gerekçeleri incele: toplam iskonto %17,2, net 286.488 ₺. Kampanya kapsamında olduğunu ve müşterinin A segmentinde olduğunu doğrula, \"Onayla\"ya bas.",
               "why": "Onay, şirketin karlılık kontrolüdür. Kampanya iskontosu da toplam iskontoya dahil olduğu için kampanyalı büyük teklifler bu adımdan geçer.",
-              "caution": "Reddetmek istersen gerekçe zorunludur; gerekçe zaman çizelgesine yazılır ve temsilci teklifi buna göre revize eder."
+              "caution": "Reddetmek istersen gerekçe zorunludur; gerekçe zaman çizelgesine yazılır ve temsilci teklifi buna göre revize eder.",
+              "role": "sales-manager"
             },
             {
-              "title": "Rolü Muhasebe'ye çevir",
-              "what": "Oturumu Ayşe Yılmaz (Muhasebe) olarak değiştir. Onay Kutusu'nda aynı teklif bu kez \"Kredi onayı\" adımıyla görünür.",
+              "title": "Muhasebe rolüne geç",
+              "what": "Oturumu Muhasebe rolündeki bir kullanıcıya çevir. Onay Kutusu'nda aynı teklif bu kez \"Kredi onayı\" adımıyla görünür.",
               "why": "Kredi riskine satış değil finans karar verir. Muhasebe teklif oluşturamaz ve iskontoyu onaylayamaz; yalnızca kredi kararını verir.",
-              "caution": "Muhasebe rolüyle simülasyona gidersen kaydet düğmesinin kilitli olduğunu göreceksin."
+              "caution": "Muhasebe rolüyle simülasyona gidersen kaydet düğmesinin kilitli olduğunu göreceksin.",
+              "role": "accounting"
             },
             {
               "title": "Kredi onayını ver",
               "what": "Hesabı incele: açık bakiye 2.180.000 ₺ + teklif (KDV dahil) 343.785,60 ₺ = 2.523.785,60 ₺; limit 2.500.000 ₺, vadesi geçmiş 145.000 ₺. Vadesi geçmiş tutarın ay sonu tahsil edileceği notunu yazıp onayla.",
               "why": "Aşım küçük (yaklaşık %1) ve müşteri A segmentinde düzenli çalışıyor; muhasebe riski not alarak kabul edebilir.",
-              "caution": "Onay notu denetimde kanıttır. Neden onaylandığını kısa ve somut yaz."
+              "caution": "Onay notu denetimde kanıttır. Neden onaylandığını kısa ve somut yaz.",
+              "role": "accounting"
             },
             {
-              "title": "Sonucu Key User ile doğrula",
-              "what": "Oturumu Can Öztürk (Key User) yap. Simülasyonda teklif listesini aç: durum \"Onaylandı\", zaman çizelgesinde 4 kayıt (oluşturma, gönderme, müdür onayı, kredi onayı).",
+              "title": "Sonucu Key User rolüyle doğrula",
+              "what": "Oturumu Key User rolündeki bir kullanıcıya çevir. Simülasyonda teklif listesini aç: durum \"Onaylandı\", zaman çizelgesinde 4 kayıt (oluşturma, gönderme, müdür onayı, kredi onayı).",
               "why": "Key user her şeyi görür ve süreci denetleyebilir, ancak hiçbir onay veremez. Onay düğmeleri bu rolde kilitlidir.",
-              "caution": "Yetki matrisini (Yetkiler sayfası) açıp her adımda kullanılan yetkiyi rollerle eşleştir."
+              "caution": "Yetki matrisini (Yetkiler sayfası) açıp her adımda kullanılan yetkiyi rollerle eşleştir.",
+              "role": "key-user"
             }
           ],
           "outcome": "Teklif üç rolün ardışık işlemleriyle onaylandı; kim, ne zaman, ne yaptı zaman çizelgesinde kayıtlı.",
@@ -573,22 +583,24 @@
           "title": "Yeni bayinin ilk siparişi",
           "level": "İleri",
           "duration": "25 dk",
-          "role": "U01",
+          "role": "sales-rep",
           "customer": "A-0001",
           "summary": "Aday bayinin deneme teklifini siparişe dönüştür; aktarım hatasını çöz, teslimat ve faturayı tamamla.",
           "goal": "Ödemiş Yöresel Gıda'nın ilk siparişini CRM'den ERP'ye taşı: aktarım hatasını gör, key user ile müşteriyi ERP'de aç, mesajı yeniden işle, depodan teslim et ve faturala.",
           "steps": [
             {
               "title": "Deneme teklifini oluştur (Satış Temsilcisi)",
-              "what": "Oturumu Selin Kaya yap. \"Simülasyonda dene\" ile Ödemiş Yöresel Gıda'yı ve 4 kalemi yükle, \"Teklifi kaydet\"e bas. Net 48.118 ₺ eşiklerin altında olduğu için teklif onaya gitmeden \"Onaylandı\" olur.",
+              "what": "Satış Temsilcisi rolüne geç. \"Simülasyonda dene\" ile Ödemiş Yöresel Gıda'yı ve 4 kalemi yükle, \"Teklifi kaydet\"e bas. Net 48.118 ₺ eşiklerin altında olduğu için teklif onaya gitmeden \"Onaylandı\" olur.",
               "why": "Siparişe yalnızca onaylanmış teklif dönüştürülebilir. Aday müşteri peşin çalıştığı için kredi onayı da gerekmez.",
-              "caution": "Teklif CRM'de aday müşteri (A-0001) üzerine kaydedilebilir; bu, müşterinin ERP'de var olduğu anlamına gelmez."
+              "caution": "Teklif CRM'de aday müşteri (A-0001) üzerine kaydedilebilir; bu, müşterinin ERP'de var olduğu anlamına gelmez.",
+              "role": "sales-rep"
             },
             {
               "title": "Teklifi siparişe dönüştür",
               "what": "\"Tekliflerim\" sekmesinde teklifi aç ve \"Siparişe dönüştür\"e bas. Müşteri sipariş no ODM-2026-001, istenen teslim tarihi 26.11.2026, teslimat deposu 1100 Kemalpaşa. \"Siparişi kaydet\" ile 10000001 numaralı sipariş oluşur.",
               "why": "Sipariş, teklif referansını taşır; müşteri sipariş no faturada ve yazışmalarda eşleştirme için kullanılır. Kayıtla birlikte ERP'ye bir aktarım mesajı gönderilir.",
-              "caution": "İstenen teslim tarihi bugünden önce olamaz. Teslimat deposunu stoğu olan depo olarak seç; aksi halde aktarım ikinci bir hata verir."
+              "caution": "İstenen teslim tarihi bugünden önce olamaz. Teslimat deposunu stoğu olan depo olarak seç; aksi halde aktarım ikinci bir hata verir.",
+              "role": "sales-rep"
             },
             {
               "title": "Aktarım hatasını incele",
@@ -598,27 +610,31 @@
             },
             {
               "title": "Müşteriyi ERP'de aç (Key User)",
-              "what": "Oturumu Can Öztürk (Key User) yap. Mesajdaki çözüm bağlantısıyla müşteri kaydını aç ve \"ERP'de müşteri aç\"a bas. Müşteri 100009 numarasını alır, ödeme koşulu Z000 (peşin), kredi limiti 0 olur.",
+              "what": "Key User rolüne geç. Mesajdaki çözüm bağlantısıyla müşteri kaydını aç ve \"ERP'de müşteri aç\"a bas. Müşteri 100009 numarasını alır, ödeme koşulu Z000 (peşin), kredi limiti 0 olur.",
               "why": "Ana veri bakımı key user'ın görevidir. Yeni müşteri kredi limiti muhasebe tarafından ayrıca belirlenene kadar peşin çalışır.",
-              "caution": "Gerçek hayatta bu adımdan önce vergi levhası, imza sirküleri ve ticaret sicil kayıtları kontrol edilir."
+              "caution": "Gerçek hayatta bu adımdan önce vergi levhası, imza sirküleri ve ticaret sicil kayıtları kontrol edilir.",
+              "role": "key-user"
             },
             {
               "title": "Mesajı yeniden işle",
-              "what": "Aktarım Monitörü'nde hatalı mesajı aç ve \"Yeniden işle\"ye bas. Mesaj \"Başarılı\" olur; deneme geçmişinde ilk denemenin sistem tarafından, ikincisinin Can Öztürk tarafından yapıldığı görünür.",
+              "what": "Aktarım Monitörü'nde hatalı mesajı aç ve \"Yeniden işle\"ye bas. Mesaj \"Başarılı\" olur; deneme geçmişinde ilk denemenin sistem tarafından, ikincisinin key user ({{user:key-user}}) tarafından yapıldığı görünür.",
               "why": "Yeniden işleme, mesajı güncel ana veriyle tekrar doğrular. Sipariş ERP'ye 100009 müşteri numarasıyla aktarılır.",
-              "caution": "Ana veriyi düzeltmeden yeniden işlemek aynı hatayı tekrar üretir ve deneme sayısını gereksiz artırır."
+              "caution": "Ana veriyi düzeltmeden yeniden işlemek aynı hatayı tekrar üretir ve deneme sayısını gereksiz artırır.",
+              "role": "key-user"
             },
             {
               "title": "Teslimat oluştur (Depo Sorumlusu)",
-              "what": "Oturumu Hasan Çınar (Depo Sorumlusu) yap. Siparişi aç (Simülasyon > Siparişler veya belge akışı) ve \"Teslimat oluştur\"a bas. 80000001 numaralı teslimat oluşur, Kemalpaşa stokları düşer (ör. ayçiçek yağı 1.840 → 1.830 koli).",
+              "what": "Depo Sorumlusu rolüne geç. Siparişi aç (Simülasyon > Siparişler veya belge akışı) ve \"Teslimat oluştur\"a bas. 80000001 numaralı teslimat oluşur, Kemalpaşa stokları düşer (ör. ayçiçek yağı 1.840 → 1.830 koli).",
               "why": "Mal çıkışı stoku azaltır ve faturalamanın ön koşuludur. Teslimat yalnızca ERP'ye aktarılmış siparişten yapılabilir.",
-              "caution": "Depo sorumlusu fatura kesemez; teslimat ve fatura farklı rollerdedir (görevler ayrılığı)."
+              "caution": "Depo sorumlusu fatura kesemez; teslimat ve fatura farklı rollerdedir (görevler ayrılığı).",
+              "role": "warehouse"
             },
             {
               "title": "Fatura oluştur (Muhasebe)",
-              "what": "Oturumu Ayşe Yılmaz (Muhasebe) yap. Siparişte \"Fatura oluştur\"a bas. 90000001 numaralı fatura 50.014,30 ₺ (KDV dahil) tutarıyla kesilir; müşterinin açık bakiyesi 0'dan 50.014,30 ₺'ye çıkar, vade peşin olduğu için fatura tarihidir.",
+              "what": "Muhasebe rolüne geç. Siparişte \"Fatura oluştur\"a bas. 90000001 numaralı fatura 50.014,30 ₺ (KDV dahil) tutarıyla kesilir; müşterinin açık bakiyesi 0'dan 50.014,30 ₺'ye çıkar, vade peşin olduğu için fatura tarihidir.",
               "why": "Fatura alacağı doğurur; tahsilat bu bakiye üzerinden izlenir.",
-              "caution": "Peşin müşteride tahsilat sevkiyat öncesinde de istenebilir; bu simülasyonda fatura sonrası bakiye olarak izlenir."
+              "caution": "Peşin müşteride tahsilat sevkiyat öncesinde de istenebilir; bu simülasyonda fatura sonrası bakiye olarak izlenir.",
+              "role": "accounting"
             },
             {
               "title": "Belge akışını incele",
@@ -656,7 +672,7 @@
     "tests": {
       "type": "bug-hunt",
       "title": "Hata Avı",
-      "intro": "Selin Kaya'nın son bir haftada kaydettiği 8 teklif müşteriye gönderilmeden önce son kontrolden geçiyor. Her teklifte bilerek bırakılmış tek bir hata var. Teklifi incele, ana veriyle karşılaştır ve hata raporunu yaz.",
+      "intro": "Satış temsilcisinin son bir haftada kaydettiği 8 teklif müşteriye gönderilmeden önce son kontrolden geçiyor. Her teklifte bilerek bırakılmış tek bir hata var. Teklifi incele, ana veriyle karşılaştır ve hata raporunu yaz.",
       "guide": {
         "title": "İyi hata raporu nasıl yazılır?",
         "points": [
@@ -1119,7 +1135,7 @@
         {
           "id": "q03",
           "tag": "Kavram",
-          "q": "Ege Dağıtım'da key user Can Öztürk'ün görevi hangisi değildir?",
+          "q": "Ege Dağıtım'da key user Oğuz Öztürk'ün görevi hangisi değildir?",
           "options": [
             "Müşterilerin kredi limitini belirlemek",
             "Ana veri bakımı yapmak",

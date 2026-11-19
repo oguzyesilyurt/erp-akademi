@@ -5,7 +5,7 @@ import {
   esc, money, num, date, datetime, pct, norm, round2, emptyState, progressBar, badge,
   kv, dsec, alertBox, openDrawer, drawerHead, toast,
 } from './ui.js';
-import { can, currentUser, userLabel, actionBtn } from './auth.js';
+import { can, currentUser, userLabel, actionBtn, userById as iamUserById, usersOf as iamUsers, rolesOfUser, permsOfUser, permOf } from './auth.js';
 
 export const COMPANY_TABS = [
   { id: 'org',       label: 'Organizasyon', icon: 'building' },
@@ -140,7 +140,8 @@ export const channelName = (code) => D.organization.distributionChannels.find((c
 export const divisionName = (code) => D.organization.divisions.find((c) => c.code === code)?.name || code;
 export const termOf = (code) => D.organization.paymentTerms.find((t) => t.code === code);
 export const termName = (code) => termOf(code)?.name || code;
-export const userOf = (id) => D.organization.users.find((u) => u.id === id);
+// Kullanıcılar Kullanıcı Yönetimi'nden (IAM) gelir; Hata Avı gibi orijinal veri modunda company.json kullanılır
+export const userOf = (id) => (baseMode ? null : iamUserById(id)) || D.organization.users.find((u) => u.id === id);
 export const unitName = (u) => D.units?.[u] || u;
 export const productOf = (code) => D.products.find((p) => p.code === code);
 export const supplierOf = (id) => D.suppliers.find((s) => s.id === id);
@@ -510,14 +511,15 @@ function orgBody() {
 
     <section class="card org-card span-2">
       <h3 class="card-title">Kullanıcılar ve roller</h3>
-      <div class="users">${o.users
+      <div class="users">${(iamUsers().length ? iamUsers() : o.users)
         .map(
           (u) => `<button class="user-card" type="button" data-open="user" data-id="${esc(u.id)}">
-            <span class="avatar lg">${esc(u.name.split(' ').map((w) => w[0]).join(''))}</span>
-            <span><span class="cell-main">${esc(u.name)}</span><span class="cell-sub">${esc(u.role)} · ${esc(u.username)}</span></span>
+            <span class="avatar lg">${esc(u.name.split(' ').map((w) => w[0]).slice(0, 2).join(''))}</span>
+            <span><span class="cell-main">${esc(u.name)}</span><span class="cell-sub">${esc(rolesOfUser(u.id).map((r) => r.name).join(', ') || u.role || '')} · ${esc(u.username)}</span></span>
           </button>`
         )
         .join('')}</div>
+      <p class="cell-sub mt-sm">Kullanıcı ve rol değişiklikleri <a class="link" href="#/users">Kullanıcı Yönetimi</a> sayfasından yapılır.</p>
     </section>
   </div>`;
 }
@@ -693,20 +695,21 @@ const DETAILS = {
     const u = userOf(id);
     if (!u) return null;
     return (
-      drawerHead(`Kullanıcı · ${u.username}`, u.name, badge(u.role, 'info') + badge(u.department, 'neutral')) +
+      drawerHead(`Kullanıcı · ${u.username}`, u.name, rolesOfUser(u.id).map((r) => badge(r.name, 'info')).join('') + badge(u.department || '—', 'neutral') + (u.active === false ? badge('Pasif', 'danger') : '')) +
       `<div class="drawer-body">
         ${dsec(
           'Bilgiler',
           kv([
             ['Kullanıcı adı', `<span class="code">${esc(u.username)}</span>`],
-            ['Departman', esc(u.department)],
-            ['E-posta', `<a class="link" href="mailto:${esc(u.email)}">${esc(u.email)}</a>`],
-            ['Telefon', esc(u.phone)],
+            ['Unvan', esc(u.title || u.role || '—')],
+            ['Departman', esc(u.department || '—')],
+            u.email ? ['E-posta', `<a class="link" href="mailto:${esc(u.email)}">${esc(u.email)}</a>`] : null,
+            u.phone ? ['Telefon', esc(u.phone)] : null,
             ['Onay limiti', u.approvalLimit ? money(u.approvalLimit) : '<span class="muted">Yok</span>'],
           ])
         )}
-        ${dsec('Sorumluluklar', `<ul class="bullets">${u.responsibilities.map((r) => `<li>${esc(r)}</li>`).join('')}</ul>`)}
-        ${dsec('Yetkiler', `<div class="chips">${u.permissions.map((p) => `<span class="chip static">${esc(p)}</span>`).join('')}</div>`)}
+        ${u.responsibilities?.length ? dsec('Sorumluluklar', `<ul class="bullets">${u.responsibilities.map((r) => `<li>${esc(r)}</li>`).join('')}</ul>`) : ''}
+        ${dsec('Yetkiler', `<div class="chips">${[...permsOfUser(u.id)].map((p) => `<span class="chip static" title="${esc(p)}">${esc(permOf(p)?.label || p)}</span>`).join('') || '<span class="muted">Yetki yok</span>'}</div>`)}
       </div>`
     );
   },

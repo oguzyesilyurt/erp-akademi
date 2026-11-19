@@ -1,7 +1,7 @@
 // Yetki Matrisi (#/roles): rol × yetki tablosu, salt okunur + görevler ayrılığı açıklaması
 import { icon } from './icons.js';
 import { esc, badge, emptyState } from './ui.js';
-import { loadRoles, rolesData, currentRole, userById, initials, openLogin } from './auth.js';
+import { loadRoles, rolesData, currentUser, userById, initials, openLogin, can } from './auth.js';
 
 export async function viewRoles(setView) {
   try {
@@ -12,14 +12,15 @@ export async function viewRoles(setView) {
     return;
   }
   const R = rolesData();
-  const me = currentRole();
+  const mine = new Set(currentUser()?.roles || []);
+  const me = { has: (r) => mine.has(r.id) };
 
   const head = R.roles
     .map((r) => {
-      const u = userById(r.users[0]);
-      return `<th class="role-col${r.id === me?.id ? ' is-me' : ''}" scope="col">
-        <span class="role-head"><span class="avatar">${esc(initials(u?.name))}</span><span><span class="cell-main">${esc(r.name)}</span><span class="cell-sub">${esc(u?.name || '')}</span></span></span>
-        ${r.id === me?.id ? badge('Oturumdaki rol', 'info') : ''}
+      const names = r.users.map((id) => userById(id)?.name).filter(Boolean);
+      return `<th class="role-col${me.has(r) ? ' is-me' : ''}" scope="col">
+        <span class="role-head"><span class="avatar">${esc(names.length ? initials(names[0]) : '–')}</span><span><span class="cell-main">${esc(r.name)}</span><span class="cell-sub">${esc(names.join(', ') || 'üye yok')}</span></span></span>
+        ${me.has(r) ? badge('Oturumdaki rol', 'info') : ''}
       </th>`;
     })
     .join('');
@@ -32,7 +33,7 @@ export async function viewRoles(setView) {
       const cells = R.roles
         .map((r) => {
           const has = r.permissions.includes(p.id);
-          return `<td class="role-col${r.id === me?.id ? ' is-me' : ''}">${has ? `<span class="mark ok" title="${esc(r.name)}: var">${icon('check')}</span><span class="sr-only">Var</span>` : `<span class="no-perm" aria-label="Yok">—</span>`}</td>`;
+          return `<td class="role-col${me.has(r) ? ' is-me' : ''}">${has ? `<span class="mark ok" title="${esc(r.name)}: var">${icon('check')}</span><span class="sr-only">Var</span>` : `<span class="no-perm" aria-label="Yok">—</span>`}</td>`;
         })
         .join('');
       return `${g}<tr>
@@ -49,7 +50,7 @@ export async function viewRoles(setView) {
         <div>
           <p class="eyebrow">Yönetim</p>
           <h1>Yetki Matrisi</h1>
-          <p class="lead">Ege Dağıtım'daki dört rolün hangi işlemleri yapabildiği. Bu tablo salt okunurdur; rolünü değiştirmek için oturum değiştir.</p>
+          <p class="lead">Ege Dağıtım'daki dört rolün hangi işlemleri yapabildiği. Bu tablo salt okunurdur; rolleri ve atamaları <a class="link" href="#/users">Kullanıcı Yönetimi</a> sayfasından düzenleyebilirsin (USER_ADMIN).</p>
         </div>
         <button class="btn btn-ghost" type="button" data-login>${icon('user')}<span>Oturumu değiştir</span></button>
       </header>
@@ -62,7 +63,7 @@ export async function viewRoles(setView) {
       </div>
 
       <div class="role-cards">${R.roles
-        .map((r) => `<div class="card role-card${r.id === me?.id ? ' is-me' : ''}"><strong>${esc(r.name)}</strong><span class="cell-sub">${esc(r.summary)}</span><span class="cell-sub">${r.permissions.length} yetki</span></div>`)
+        .map((r) => `<div class="card role-card${me.has(r) ? ' is-me' : ''}"><strong>${esc(r.name)}</strong><span class="cell-sub">${esc(r.summary)}</span><span class="cell-sub">${r.permissions.length} yetki</span></div>`)
         .join('')}</div>
 
       ${s ? `<section class="sod card">

@@ -42,7 +42,7 @@ Hatalı mesajın çözüm sırası:
 
 ## Ege Dağıtım'dan örnek
 
-Sipariş 10000001, CRM'den ERP'ye `ORDERS` mesajı (50000001) olarak gitti. Mesaj içeriğinde `soldTo` alanı boştu çünkü Ödemiş Yöresel Gıda ERP'de tanımlı değildi. Monitör mesajı "Hatalı" gösterdi. Key user Can Öztürk müşteriyi ERP'de 100009 numarasıyla açtı ve mesajı yeniden işledi; ikinci deneme başarılı oldu.
+Sipariş 10000001, CRM'den ERP'ye `ORDERS` mesajı (50000001) olarak gitti. Mesaj içeriğinde `soldTo` alanı boştu çünkü Ödemiş Yöresel Gıda ERP'de tanımlı değildi. Monitör mesajı "Hatalı" gösterdi. Key user Oğuz Öztürk müşteriyi ERP'de 100009 numarasıyla açtı ve mesajı yeniden işledi; ikinci deneme başarılı oldu.
 
 Sipariş 10000002'de ise Manisa deposunda zeytinyağı stoğu yoktu. Key user siparişin teslimat deposunu Kemalpaşa olarak düzeltip yeniden işledi.
 

@@ -4,7 +4,7 @@ import { icon } from './icons.js';
 import { href, stripQuery } from './router.js';
 import { progress, quotes } from './store.js';
 import { create as createQuote, visible, openQuote, statusBadge, activeStep, get as getQuote } from './quotes.js';
-import { can, actionBtn, lockReason, currentRole, userLabel, openLogin } from './auth.js';
+import { can, actionBtn, lockReason, currentRole, userLabel, openLogin, approverFor } from './auth.js';
 import { visibleOrders, orderBadges, openDoc } from './erp.js';
 import {
   esc, money2 as money, num, date, pct1, round2, badge, progressBar, kv, dsec, alertBox,
@@ -133,7 +133,7 @@ function compute() {
   const mReasons = [];
   if (totals.discountPct > R.maxDiscountPct + 1e-9) mReasons.push(`Toplam iskonto ${pct1(totals.discountPct)}, eşik %${R.maxDiscountPct}`);
   if (totals.net > R.maxNet) mReasons.push(`Net tutar ${money(totals.net)}, eşik ${money(R.maxNet)}`);
-  if (mReasons.length) approvals.push({ key: 'manager', label: 'Müdür onayı gerekli', approver: approverOf('Satış Müdürü'), reasons: mReasons });
+  if (mReasons.length) approvals.push({ key: 'manager', label: 'Müdür onayı gerekli', approver: approverOf('QUOTE_APPROVE'), reasons: mReasons });
 
   if (cust && !cust.prospect && !isCash(cust) && !cust.blocked && totals.gross > 0) {
     const exposure = round2(cust.openBalance + totals.gross);
@@ -141,7 +141,7 @@ function compute() {
       approvals.push({
         key: 'credit',
         label: 'Kredi onayı gerekli',
-        approver: approverOf('Muhasebe Uzmanı'),
+        approver: approverOf('CREDIT_RELEASE'),
         reasons: [`Açık bakiye + teklif (KDV dahil) = ${money(exposure)}, kredi limiti ${money(cust.creditLimit)}`],
       });
     }
@@ -150,9 +150,9 @@ function compute() {
   return { cust, cs, lines, totals, errors, approvals, canSave: errors.length === 0 };
 }
 
-function approverOf(role) {
-  const u = company().organization.users.find((x) => x.role === role);
-  return u ? `${u.name} (${u.role})` : role;
+// Onaylayan: rol adına değil yetkiye göre bulunur (kullanıcı yönetiminden etkilenir)
+function approverOf(perm) {
+  return approverFor(perm);
 }
 
 function warehouseName(code) {

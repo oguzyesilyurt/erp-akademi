@@ -4,11 +4,12 @@ import { icon } from './icons.js';
 import { esc, emptyState, progressBar, toast, badge } from './ui.js';
 import { viewCompany } from './company.js';
 import { renderSection } from './track-content.js';
-import { loadRoles, currentUser, currentRole, initials, openLogin } from './auth.js';
+import { loadRoles, currentUser, currentRole, currentRoleNames, initials, openLogin, can } from './auth.js';
 import { viewInbox, inboxCount } from './inbox.js';
 import { viewRoles } from './roles-page.js';
 import { viewInterface } from './interface-page.js';
 import { viewDocs } from './docs.js';
+import { viewUsers } from './users-page.js';
 import { errorCount, processPending, openDocRef } from './erp.js';
 
 // Yol sayfası sekmeleri (tüm yollar için sabit şablon)
@@ -114,6 +115,7 @@ function renderNav(route) {
   const isRoles = route.name === 'roles';
   const isIface = route.name === 'interface';
   const isDocs = route.name === 'docs';
+  const isUsers = route.name === 'users';
   const inboxN = inboxCount();
   const nBadge = inboxN ? `<span class="nav-badge" aria-label="${inboxN} bekleyen onay">${inboxN}</span>` : '';
   const errN = errorCount();
@@ -130,6 +132,8 @@ function renderNav(route) {
       <span class="nav-icon">${icon('link')}</span><span class="nav-label">Aktarım Monitörü</span>${eBadge}</a>
     <a class="nav-item ${isRoles ? 'is-active' : ''}" href="#/roles">
       <span class="nav-icon">${icon('shield')}</span><span class="nav-label">Yetki Matrisi</span></a>
+    <a class="nav-item ${isUsers ? 'is-active' : ''}" href="#/users">
+      <span class="nav-icon">${icon('users')}</span><span class="nav-label">Kullanıcı Yönetimi</span>${can('USER_ADMIN') ? '' : `<span class="nav-lock" title="Gerekli yetki: USER_ADMIN">${icon('lock')}</span>`}</a>
     <a class="nav-item ${isDocs ? 'is-active' : ''}" href="#/docs">
       <span class="nav-icon">${icon('book')}</span><span class="nav-label">Dokümantasyon</span></a>
     ${resume}
@@ -168,9 +172,9 @@ function renderTopbar() {
   if (!chip || !u) return;
   chip.innerHTML = `<span class="avatar">${esc(initials(u.name))}</span>
     <span class="session-text"><span class="session-label">Oturum</span><span class="session-name">${esc(u.name)}</span></span>
-    <span class="session-role">${esc(r?.name || u.role)}</span>
+    <span class="session-role">${esc(currentRoleNames().join(' + ') || 'Rol yok')}</span>
     ${icon('back', 'chev down')}`;
-  chip.title = `Oturum: ${u.name} (${r?.name || u.role}) · değiştirmek için tıkla`;
+  chip.title = `Oturum: ${u.name} (${currentRoleNames().join(', ') || 'rol yok'}) · değiştirmek için tıkla`;
 }
 
 // ---------- görünümler ----------
@@ -361,6 +365,7 @@ async function route(r) {
   else if (r.name === 'roles') await viewRoles(setView);
   else if (r.name === 'interface') await viewInterface(setView);
   else if (r.name === 'docs') await viewDocs(r, setView);
+  else if (r.name === 'users') await viewUsers(setView);
   else viewNotFound();
   if (currentRoute !== r) return; // bu sırada başka bir rotaya geçildi
   renderNav(r);

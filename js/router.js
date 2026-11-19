@@ -7,6 +7,7 @@
 //   #/roles                       -> { name: 'roles' }   (Yetki Matrisi)
 //   #/interface                   -> { name: 'interface' } (Aktarım Monitörü)
 //   #/docs[/<slug>|/glossary]     -> { name: 'docs', slug }   (Dokümantasyon)
+//   #/users                       -> { name: 'users' }  (Kullanıcı Yönetimi, USER_ADMIN)
 // Her rotada "?a=b" sorgu parametreleri route.query içinde gelir.
 
 export function parse(hash = location.hash) {
@@ -24,6 +25,7 @@ export function parse(hash = location.hash) {
   if (parts[0] === 'roles') return { name: 'roles', query };
   if (parts[0] === 'interface') return { name: 'interface', query };
   if (parts[0] === 'docs') return { name: 'docs', slug: parts[1] || null, query };
+  if (parts[0] === 'users') return { name: 'users', query };
   return { name: 'notfound', path, query };
 }
 

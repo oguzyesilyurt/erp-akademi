@@ -28,6 +28,7 @@ js/erp.js             Sipariş → aktarım mesajı → teslimat → fatura ve b
 js/interface-page.js  Aktarım Monitörü (#/interface)
 js/markdown.js        Güvenli, küçük Markdown oluşturucu
 js/docs.js            Dokümantasyon merkezi, arama, sözlük (#/docs)
+js/users-page.js      Kullanıcı Yönetimi: kullanıcı, rol, departman, günlük (#/users)
 data/docs/            Makaleler (.md), index.json, glossary.json
 data/roles.json       Roller, yetkiler ve görevler ayrılığı açıklaması
 data/company.json     Ortak sahte şirket verisi (Ege Dağıtım A.Ş.)
@@ -88,6 +89,20 @@ Desteklenen Markdown: `##`/`###` başlıklar, listeler (iç içe), tablolar, `ko
 ```
 
 Arama bağlantısı paylaşmak için: `#/docs?q=kredi`.
+
+## Kullanıcılar ve roller
+
+Varsayılan kullanıcılar `data/company.json`, roller, yetkiler, rol şablonları ve SoD kuralları `data/roles.json` içindedir:
+
+| Kullanıcı | Kod | Rol |
+|---|---|---|
+| Denel Kaya | DKAYA | Satış Temsilcisi |
+| Ayçelen Demir | ADEMIR | Satış Müdürü |
+| Gökhan Yılmaz | GYILMAZ | Muhasebe |
+| Oğuz Öztürk | OOZTURK | Key User (kullanıcı yönetimi dahil) |
+| Mehmet Çınar | MCINAR | Depo Sorumlusu |
+
+`USER_ADMIN` yetkisine sahip kullanıcılar `#/users` sayfasından kullanıcı, rol ve departmanları yönetebilir. Değişiklikler tarayıcıda saklanır; "Varsayılana dön" ile sıfırlanır. Senaryolar kişiye değil role bağlıdır; adımlarda o roldeki güncel kullanıcı gösterilir. Gerçek SAP'de bu işler `SU01` (kullanıcı) ve `PFCG` (rol) ile yapılır.
 
 ## Derin bağlantılar
 

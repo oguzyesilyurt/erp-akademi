@@ -3,17 +3,18 @@
 import { icon } from './icons.js';
 import { href } from './router.js';
 import { esc, norm, badge, emptyState } from './ui.js';
-import { loadCompany, partnerOf, userOf, openDetail } from './company.js';
+import { loadCompany, partnerOf, openDetail } from './company.js';
 import { renderQuoteSim } from './sim-quote.js';
 import { renderBugHunt } from './bug-hunt.js';
 import { renderQuiz } from './quiz.js';
+import { roleById, roleUsersText, currentUser, currentRoleNames, openLogin, loadRoles } from './auth.js';
 
 export async function renderSection(ctx) {
   const { section, content } = ctx;
   if (section === 'intro') return renderIntro(content);
   if (section === 'concepts') return renderConcepts(content);
   if (section === 'scenarios') {
-    await loadCompany();
+    await Promise.all([loadCompany(), loadRoles()]);
     return ctx.route.sub ? renderScenario(ctx) : renderScenarioList(ctx);
   }
   if (section === 'simulation') {
@@ -160,24 +161,30 @@ function renderScenario(ctx) {
   if (!s) return { html: back + emptyState('route', 'Senaryo bulunamadı', 'Bu senaryo kaldırılmış veya adı değişmiş olabilir.') };
 
   const cust = partnerOf(s.customer);
-  const role = userOf(s.role);
+  const role = roleById(s.role);
   const tryBtn = `<a class="btn btn-primary" href="${simHref(ctx, s)}">${icon('monitor')}<span>Simülasyonda dene</span></a>`;
+  const T = (txt) => esc(fillRoles(txt));
+  let prevRole = null;
 
   const steps = s.steps
-    .map(
-      (st, i) => `
+    .map((st, i) => {
+      // Rol değişimi gereken adımda (veya ilk rollü adımda) rol kutusu göster
+      const box = st.role && st.role !== prevRole ? roleBox(st.role) : '';
+      if (st.role) prevRole = st.role;
+      return `
       <li class="step">
         <span class="step-num">${i + 1}</span>
         <div class="step-body">
-          <h4>${esc(st.title)}</h4>
+          <h4>${T(st.title)}</h4>
+          ${box}
           <div class="step-grid">
-            <div class="step-part what"><span class="step-label">${icon('play')} Ne yapılır</span><p>${esc(st.what)}</p></div>
-            <div class="step-part why"><span class="step-label">${icon('help')} Neden</span><p>${esc(st.why)}</p></div>
-            ${st.caution ? `<div class="step-part caution"><span class="step-label">${icon('alert')} Dikkat</span><p>${esc(st.caution)}</p></div>` : ''}
+            <div class="step-part what"><span class="step-label">${icon('play')} Ne yapılır</span><p>${T(st.what)}</p></div>
+            <div class="step-part why"><span class="step-label">${icon('help')} Neden</span><p>${T(st.why)}</p></div>
+            ${st.caution ? `<div class="step-part caution"><span class="step-label">${icon('alert')} Dikkat</span><p>${T(st.caution)}</p></div>` : ''}
           </div>
         </div>
-      </li>`
-    )
+      </li>`;
+    })
     .join('');
 
   return {
@@ -186,22 +193,49 @@ function renderScenario(ctx) {
       <header class="scenario-head">
         <div class="badges">${badge(s.level, LEVEL_TONE[s.level] || 'neutral')}${s.duration ? badge(s.duration, 'neutral') : ''}${badge(`${s.steps.length} adım`, 'neutral')}</div>
         <h2>${esc(s.title)}</h2>
-        <p class="lead">${esc(s.goal || s.summary)}</p>
+        <p class="lead">${T(s.goal || s.summary)}</p>
         <dl class="scenario-meta">
           ${cust ? `<div><dt>Müşteri</dt><dd><button class="link" type="button" data-open="customer" data-id="${esc(cust.id)}">${esc(cust.name)}</button></dd></div>` : ''}
-          ${role ? `<div><dt>Rolün</dt><dd>${esc(role.name)} · ${esc(role.role)}</dd></div>` : ''}
+          ${role ? `<div><dt>Başlangıç rolü</dt><dd>${esc(role.name)} <span class="cell-sub inline">şu an: ${esc(roleUsersText(role.id))}</span></dd></div>` : ''}
+          <div><dt>Oturumun</dt><dd>${esc(currentUser()?.name || '—')} <span class="cell-sub inline">${esc(currentRoleNames().join(', '))}</span></dd></div>
         </dl>
         <div class="scenario-actions">${tryBtn}</div>
       </header>
       <ol class="steps">${steps}</ol>
-      ${s.outcome ? `<aside class="callout callout-success">${icon('check')}<div><strong>Beklenen sonuç</strong><p>${esc(s.outcome)}</p></div></aside>` : ''}
+      ${s.outcome ? `<aside class="callout callout-success">${icon('check')}<div><strong>Beklenen sonuç</strong><p>${T(s.outcome)}</p></div></aside>` : ''}
       <div class="scenario-actions end">${tryBtn}</div>
     </div>`,
     bind(root) {
       root.addEventListener('click', (e) => {
+        const sw = e.target.closest('[data-switch-role]');
+        if (sw) return openLogin({ role: sw.dataset.switchRole });
         const o = e.target.closest('[data-open]');
         if (o) openDetail(o.dataset.open, o.dataset.id);
       });
     },
   };
+}
+
+// {{user:<rolId>}} → o roldeki aktif kullanıcı(lar)ın adı; {{role:<rolId>}} → rol adı
+function fillRoles(txt) {
+  return String(txt ?? '')
+    .replace(/\{\{user:([\w-]+)\}\}/g, (_, id) => roleUsersText(id))
+    .replace(/\{\{role:([\w-]+)\}\}/g, (_, id) => roleById(id)?.name || id);
+}
+
+// "Satış müdürü rolündeki bir kullanıcıya geç (şu an: Ayçelen Demir)"
+function roleBox(roleId) {
+  const r = roleById(roleId);
+  if (!r) return '';
+  const me = currentUser();
+  const inRole = !!me && me.roles?.includes(roleId);
+  const who = roleUsersText(roleId);
+  const name = r.name.toLocaleLowerCase('tr-TR');
+  return `<div class="role-step ${inRole ? 'is-ok' : ''}">
+    ${icon(inRole ? 'check' : 'user')}
+    <span>${inRole
+      ? `Bu adım <strong>${esc(r.name)}</strong> rolüyle yapılır. Oturumun uygun: <strong>${esc(me.name)}</strong>.`
+      : `<strong>${esc(name.charAt(0).toLocaleUpperCase('tr-TR') + name.slice(1))}</strong> rolündeki bir kullanıcıya geç (şu an: ${esc(who)}).`}</span>
+    ${inRole ? '' : `<button class="btn btn-ghost" type="button" data-switch-role="${esc(roleId)}">${icon('user')}<span>Rolü değiştir</span></button>`}
+  </div>`;
 }
